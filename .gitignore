@@ -1,0 +1,5 @@
+/target/
+/log/
+*.log
+/.idea/
+/.git/

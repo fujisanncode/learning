@@ -1,0 +1,66 @@
+package com.example.sqllearning;
+
+import com.example.sqllearning.algorithm.GeneratorArray;
+import com.example.sqllearning.algorithm.sort.BucketSort;
+import com.example.sqllearning.controller.plan.PlanController;
+import com.example.sqllearning.repository.PlanRepository;
+import com.example.sqllearning.utils.sort.BubbleSort;
+import com.example.sqllearning.utils.sort.MergerSort;
+import com.example.sqllearning.utils.sort.QuickSort;
+import com.example.sqllearning.vo.plan.Plan;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Spy;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.util.StopWatch;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.mockito.Mockito.when;
+
+/**
+ * @description: 测试mockito
+ * @author: hulei
+ * @create: 2020-06-12 00:40:56
+ */
+@Slf4j
+@RunWith(MockitoJUnitRunner.class) // 不指定mockito的测试环境，不能通过mockito注入
+public class TestMockito {
+    @InjectMocks // 返回真实对象
+    private PlanController planController;
+
+    @Mock // 不打桩，返回null
+    private PlanRepository planRepository;
+
+    @Spy // 不打桩，返回真实对象
+    private PlanRepository planRepositorySpy;
+
+    @Test
+    public void testPlan() {
+        // 模拟findAll接口返回数据
+        when(planRepository.findAll()).thenReturn(new ArrayList() {
+            {
+                add(Plan.builder().title("mockito title").Content("mockito content").build());
+            }
+        });
+        Iterable<Plan> iterable = planController.findAllPlans();
+        List<Plan> returnList = new ArrayList();
+        iterable.forEach(plan -> returnList.add(plan));
+        Assert.assertEquals(1, returnList.size());
+    }
+
+    @Test
+    public void testSph() {
+        Iterable<Plan> iterable = planRepositorySpy.findAll();
+        List<Plan> returnList = new ArrayList();
+        iterable.forEach(plan -> returnList.add(plan));
+        Assert.assertEquals(1, returnList.size());
+    }
+
+}

