@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.example.sqllearning.dao.RegionLv1Mapper">
-  <resultMap id="BaseResultMap" type="com.example.sqllearning.vo.mybatis.RegionLv1">
+<mapper namespace="ink.fujisann.learning.dao.RegionLv1Mapper">
+  <resultMap id="BaseResultMap" type="ink.fujisann.learning.vo.mybatis.RegionLv1">
     <id column="id" property="id" jdbcType="INTEGER"/>
     <result column="code" property="code" jdbcType="VARCHAR"/>
     <result column="name" property="name" jdbcType="VARCHAR"/>
@@ -19,7 +19,7 @@
     from region_lv1_t
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectByRegion" resultMap="BaseResultMap" parameterType="com.example.sqllearning.vo.mybatis.RegionLv1">
+  <select id="selectByRegion" resultMap="BaseResultMap" parameterType="ink.fujisann.learning.vo.mybatis.RegionLv1">
     select
     <include refid="Base_Column_List"/>
     from region_lv1_t
@@ -33,7 +33,7 @@
     from region_lv1_t
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.example.sqllearning.vo.mybatis.RegionLv1">
+  <insert id="insert" parameterType="ink.fujisann.learning.vo.mybatis.RegionLv1">
     insert into region_lv1_t (id, code, name,
                               remark, updator, update_time,
                               relation_id)
@@ -41,7 +41,7 @@
             #{remark,jdbcType=VARCHAR}, #{updator,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP},
             #{relationId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.example.sqllearning.vo.mybatis.RegionLv1">
+  <insert id="insertSelective" parameterType="ink.fujisann.learning.vo.mybatis.RegionLv1">
     insert into region_lv1_t
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -90,7 +90,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.sqllearning.vo.mybatis.RegionLv1">
+  <update id="updateByPrimaryKeySelective" parameterType="ink.fujisann.learning.vo.mybatis.RegionLv1">
     update region_lv1_t
     <set>
       <if test="code != null">
@@ -114,7 +114,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.sqllearning.vo.mybatis.RegionLv1">
+  <update id="updateByPrimaryKey" parameterType="ink.fujisann.learning.vo.mybatis.RegionLv1">
     update region_lv1_t
     set code        = #{code,jdbcType=VARCHAR},
         name        = #{name,jdbcType=VARCHAR},
