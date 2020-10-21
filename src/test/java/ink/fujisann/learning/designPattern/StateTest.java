@@ -1,7 +1,7 @@
 package ink.fujisann.learning.designPattern;
 
 import ink.fujisann.learning.LearningApplication;
-import ink.fujisann.learning.designPattern.state.GumballMachine;
+import ink.fujisann.learning.base.designPattern.state.GumballMachine;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

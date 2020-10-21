@@ -1,10 +1,10 @@
 package ink.fujisann.learning.dataStructure;
 
-import ink.fujisann.learning.algorithm.GeneratorArray;
-import ink.fujisann.learning.algorithm.SortProxy;
-import ink.fujisann.learning.algorithm.sort.BucketSort;
-import ink.fujisann.learning.algorithm.sort.Sort;
-import ink.fujisann.learning.algorithm.sort.SortFactory;
+import ink.fujisann.learning.base.algorithm.GeneratorArray;
+import ink.fujisann.learning.base.algorithm.SortProxy;
+import ink.fujisann.learning.base.algorithm.sort.BucketSort;
+import ink.fujisann.learning.base.algorithm.sort.Sort;
+import ink.fujisann.learning.base.algorithm.sort.SortFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.cglib.proxy.Enhancer;

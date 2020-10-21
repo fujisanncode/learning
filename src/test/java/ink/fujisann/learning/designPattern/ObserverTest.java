@@ -1,11 +1,11 @@
 package ink.fujisann.learning.designPattern;
 
 import ink.fujisann.learning.LearningApplication;
-import ink.fujisann.learning.designPattern.observer.weather.display.CurrentConditionDisplay;
-import ink.fujisann.learning.designPattern.observer.weather.display.CurrentConditionDisplay2;
-import ink.fujisann.learning.designPattern.observer.weather.display.StatisticsDisplay;
-import ink.fujisann.learning.designPattern.observer.weather.weatherData.WeatherData;
-import ink.fujisann.learning.designPattern.observer.weather.weatherData.WeatherData2;
+import ink.fujisann.learning.base.designPattern.observer.weather.display.CurrentConditionDisplay;
+import ink.fujisann.learning.base.designPattern.observer.weather.display.CurrentConditionDisplay2;
+import ink.fujisann.learning.base.designPattern.observer.weather.display.StatisticsDisplay;
+import ink.fujisann.learning.base.designPattern.observer.weather.weatherData.WeatherData;
+import ink.fujisann.learning.base.designPattern.observer.weather.weatherData.WeatherData2;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

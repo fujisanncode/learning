@@ -1,11 +1,12 @@
 package ink.fujisann.learning.dataStructure;
 
-import ink.fujisann.learning.algorithm.GeneratorArray;
-import ink.fujisann.learning.algorithm.sort.BucketSort;
-import ink.fujisann.learning.algorithm.tree.TreeNode;
-import ink.fujisann.learning.algorithm.tree.TreeOperation;
-import ink.fujisann.learning.algorithm.tree.TreeUtil;
-import ink.fujisann.learning.utils.sort.*;
+
+import ink.fujisann.learning.base.algorithm.GeneratorArray;
+import ink.fujisann.learning.base.algorithm.sort.BucketSort;
+import ink.fujisann.learning.base.algorithm.tree.TreeNode;
+import ink.fujisann.learning.base.algorithm.tree.TreeOperation;
+import ink.fujisann.learning.base.algorithm.tree.TreeUtil;
+import ink.fujisann.learning.base.utils.sort.*;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Before;

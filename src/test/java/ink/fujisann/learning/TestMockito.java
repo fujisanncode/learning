@@ -1,8 +1,8 @@
 package ink.fujisann.learning;
 
-import ink.fujisann.learning.controller.plan.PlanController;
-import ink.fujisann.learning.repository.PlanRepository;
-import ink.fujisann.learning.vo.plan.Plan;
+import ink.fujisann.learning.code.controller.plan.PlanController;
+import ink.fujisann.learning.code.repository.PlanRepository;
+import ink.fujisann.learning.code.vo.plan.Plan;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;

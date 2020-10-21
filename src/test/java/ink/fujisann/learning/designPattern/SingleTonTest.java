@@ -1,7 +1,7 @@
 package ink.fujisann.learning.designPattern;
 
 import ink.fujisann.learning.LearningApplication;
-import ink.fujisann.learning.designPattern.singleton.SimpleSingleton;
+import ink.fujisann.learning.base.designPattern.singleton.SimpleSingleton;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

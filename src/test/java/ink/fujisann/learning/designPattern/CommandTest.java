@@ -1,20 +1,16 @@
 package ink.fujisann.learning.designPattern;
 
 import ink.fujisann.learning.LearningApplication;
-import ink.fujisann.learning.designPattern.command.MacroCommand.MacroCommand;
-import ink.fujisann.learning.designPattern.command.concreteCommand.execute.Command;
-import ink.fujisann.learning.designPattern.command.concreteCommand.execute.DoorOffCommand;
-import ink.fujisann.learning.designPattern.command.concreteCommand.execute.DoorOnCommand;
-import ink.fujisann.learning.designPattern.command.concreteCommand.execute.LightOffCommand;
-import ink.fujisann.learning.designPattern.command.concreteCommand.execute.LightOnCommand;
-import ink.fujisann.learning.designPattern.command.concreteCommand.undo.CommandWithUndo;
-import ink.fujisann.learning.designPattern.command.concreteCommand.undo.HighFanCommand;
-import ink.fujisann.learning.designPattern.command.concreteCommand.undo.OffFanCommand;
-import ink.fujisann.learning.designPattern.command.invoke.SimpleControl;
-import ink.fujisann.learning.designPattern.command.invoke.SimpleControlWithUndo;
-import ink.fujisann.learning.designPattern.command.receiver.Door;
-import ink.fujisann.learning.designPattern.command.receiver.Fan;
-import ink.fujisann.learning.designPattern.command.receiver.Light;
+import ink.fujisann.learning.base.designPattern.command.MacroCommand.MacroCommand;
+import ink.fujisann.learning.base.designPattern.command.concreteCommand.execute.*;
+import ink.fujisann.learning.base.designPattern.command.concreteCommand.undo.CommandWithUndo;
+import ink.fujisann.learning.base.designPattern.command.concreteCommand.undo.HighFanCommand;
+import ink.fujisann.learning.base.designPattern.command.concreteCommand.undo.OffFanCommand;
+import ink.fujisann.learning.base.designPattern.command.invoke.SimpleControl;
+import ink.fujisann.learning.base.designPattern.command.invoke.SimpleControlWithUndo;
+import ink.fujisann.learning.base.designPattern.command.receiver.Door;
+import ink.fujisann.learning.base.designPattern.command.receiver.Fan;
+import ink.fujisann.learning.base.designPattern.command.receiver.Light;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

@@ -1,9 +1,9 @@
 package ink.fujisann.learning.designPattern;
 
 import ink.fujisann.learning.LearningApplication;
-import ink.fujisann.learning.designPattern.decorator.Beverage;
-import ink.fujisann.learning.designPattern.decorator.Espresso;
-import ink.fujisann.learning.designPattern.decorator.Mocha;
+import ink.fujisann.learning.base.designPattern.decorator.Beverage;
+import ink.fujisann.learning.base.designPattern.decorator.Espresso;
+import ink.fujisann.learning.base.designPattern.decorator.Mocha;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;

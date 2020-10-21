@@ -1,8 +1,8 @@
 package ink.fujisann.learning.designPattern;
 
 import ink.fujisann.learning.LearningApplication;
-import ink.fujisann.learning.designPattern.strategy.MallardDuck;
-import ink.fujisann.learning.designPattern.strategy.behavior.fly.FlyNoWay;
+import ink.fujisann.learning.base.designPattern.strategy.MallardDuck;
+import ink.fujisann.learning.base.designPattern.strategy.behavior.fly.FlyNoWay;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

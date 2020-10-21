@@ -1,21 +1,16 @@
 package ink.fujisann.learning.designPattern;
 
 import ink.fujisann.learning.LearningApplication;
-import ink.fujisann.learning.vo.test.Book;
-import ink.fujisann.learning.vo.test.Chapter;
-import ink.fujisann.learning.vo.test.Paragraph;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import ink.fujisann.learning.code.vo.test.Book;
+import ink.fujisann.learning.code.vo.test.Chapter;
+import ink.fujisann.learning.code.vo.test.Paragraph;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.*;
 
 @SpringBootTest (classes = LearningApplication.class)
 @Slf4j

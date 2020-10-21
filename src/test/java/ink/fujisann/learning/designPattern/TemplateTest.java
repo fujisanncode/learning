@@ -1,14 +1,15 @@
 package ink.fujisann.learning.designPattern;
 
 import ink.fujisann.learning.LearningApplication;
-import ink.fujisann.learning.designPattern.template.Person;
-import ink.fujisann.learning.designPattern.template.Tea;
-import java.util.Arrays;
+import ink.fujisann.learning.base.designPattern.template.Person;
+import ink.fujisann.learning.base.designPattern.template.Tea;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.Arrays;
 
 // 指定测试环境和指定启动类
 @RunWith (SpringRunner.class)

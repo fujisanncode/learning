@@ -67,7 +67,7 @@
     <!--</logger>-->
     <!--<logger level="info" name="org.springframework"></logger>-->
     <!--&lt;!&ndash;记录sql日志 dao层 debug级别&ndash;&gt;-->
-    <!--<logger level="debug" name="com.example.sqllearning.dao" additivity="false">-->
+    <!--<logger level="debug" name="ink.fujisann.learning.code.dao" additivity="false">-->
     <!--  <appender-ref ref="debugLog"/>-->
     <!--</logger>-->
     <root level="debug">

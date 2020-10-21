@@ -33,7 +33,7 @@
       <property name="forceBigDecimals" value="false"/>
     </javaTypeResolver>
     <!-- 生成模型的包名和位置-->
-    <javaModelGenerator targetPackage="com.example.sqllearning.vo" targetProject="src/main/java">
+    <javaModelGenerator targetPackage="ink.fujisann.learning.code.vo" targetProject="src/main/java">
       <property name="enableSubPackages" value="true"/>
       <property name="trimStrings" value="true"/>
     </javaModelGenerator>
@@ -42,7 +42,7 @@
       <property name="enableSubPackages" value="true"/>
     </sqlMapGenerator>
     <!-- 生成DAO的包名和位置-->
-    <javaClientGenerator type="XMLMAPPER" targetPackage="com.example.sqllearning.dao" targetProject="src/main/java">
+    <javaClientGenerator type="XMLMAPPER" targetPackage="ink.fujisann.learning.code.dao" targetProject="src/main/java">
       <property name="enableSubPackages" value="true"/>
     </javaClientGenerator>
     <!-- 要生成的表 tableName是数据库中的表名或视图名 domainObjectName是实体类名 指定不生成哪些方法-->

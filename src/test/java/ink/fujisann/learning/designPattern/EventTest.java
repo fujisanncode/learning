@@ -1,7 +1,7 @@
 package ink.fujisann.learning.designPattern;
 
 import ink.fujisann.learning.LearningApplication;
-import ink.fujisann.learning.designPattern.observer.listener.UserRegisterService;
+import ink.fujisann.learning.base.designPattern.observer.listener.UserRegisterService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

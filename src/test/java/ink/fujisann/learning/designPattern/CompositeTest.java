@@ -1,10 +1,10 @@
 package ink.fujisann.learning.designPattern;
 
 import ink.fujisann.learning.LearningApplication;
-import ink.fujisann.learning.designPattern.composite.Menu;
-import ink.fujisann.learning.designPattern.composite.MenuComponent;
-import ink.fujisann.learning.designPattern.composite.MenuItem;
-import ink.fujisann.learning.designPattern.composite.Waitress;
+import ink.fujisann.learning.base.designPattern.composite.Menu;
+import ink.fujisann.learning.base.designPattern.composite.MenuComponent;
+import ink.fujisann.learning.base.designPattern.composite.MenuItem;
+import ink.fujisann.learning.base.designPattern.composite.Waitress;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,7 +1,7 @@
 package ink.fujisann.learning;
 
-import ink.fujisann.learning.configure.shiro.property.ShiroProperty;
-import ink.fujisann.learning.netty.server.NettyServer;
+import ink.fujisann.learning.base.configure.shiro.property.ShiroProperty;
+import ink.fujisann.learning.base.netty.server.NettyServer;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.CommandLineRunner;
@@ -13,8 +13,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Slf4j
-@MapperScan("com.example.sqllearning.dao") // dao层不需要注解 dao通过下面的注解自动注入容器
-@SpringBootApplication(scanBasePackages = "com.example")
+@MapperScan("ink.fujisann.learning.code.dao") // dao层不需要注解 dao通过下面的注解自动注入容器
+@SpringBootApplication(scanBasePackages = "ink.fujisann")
 @EnableAsync // 开启异步
 @EnableConfigurationProperties(value = {ShiroProperty.class})
 @EnableScheduling // 开启定时任务

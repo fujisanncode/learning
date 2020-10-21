@@ -1,15 +1,13 @@
 package ink.fujisann.learning.netty;
 
+import ink.fujisann.learning.LearningApplication;
+import ink.fujisann.learning.base.netty.client.NettyClient;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import ink.fujisann.learning.LearningApplication;
-import ink.fujisann.learning.netty.client.NettyClient;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * @description: 测试netty
