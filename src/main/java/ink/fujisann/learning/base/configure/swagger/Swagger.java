@@ -1,5 +1,6 @@
 package ink.fujisann.learning.base.configure.swagger;
 
+import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ParameterBuilder;
@@ -13,8 +14,17 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * swagger配置类 <br/>
+ * 开启swagger2 <br/>
+ * 开启knife界面(代替swagger-ui的界面) <br/>
+ *
+ * @author hulei
+ * @date 2020/10/22
+ */
 @Configuration
 @EnableSwagger2
+@EnableKnife4j
 public class Swagger {
 
   @Bean
