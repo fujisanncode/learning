@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.swing.filechooser.FileSystemView;
 import java.io.File;
 
 /**
@@ -42,8 +43,11 @@ public class ShelfController {
     public void uploadBook(MultipartFile file){
         String filename = file.getOriginalFilename();
         if(System.getProperty("").toLowerCase().contains("windows")) {
-            new File("C:\\")
-            if()
+            String desktop = FileSystemView.getFileSystemView().getHomeDirectory().getAbsolutePath();
+            File pdfFolder = new File(desktop + "\\pdf");
+            if(!pdfFolder.exists()) {
+                pdfFolder.mkdir();
+            }
         }
         log.info(filename);
     }
