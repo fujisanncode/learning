@@ -1,6 +1,6 @@
-package ink.fujisann.learning.code.vo.plan;
+package ink.fujisann.learning.code.pojo.plan;
 
-import ink.fujisann.learning.code.vo.BaseInfo;
+import ink.fujisann.learning.code.pojo.BaseInfo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
@@ -11,9 +11,10 @@ import javax.persistence.*;
 import java.util.Date;
 
 /**
- * @description: 计划以及完成情况
- * @author: hulei
- * @create: 2020-05-27 19:14:34
+ * 计划以及完成情况
+ *
+ * @author hulei
+ * @upate 2020-05-27 19:14:34
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

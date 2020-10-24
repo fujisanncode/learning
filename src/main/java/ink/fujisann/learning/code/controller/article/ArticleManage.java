@@ -1,29 +1,20 @@
 package ink.fujisann.learning.code.controller.article;
 
-import ink.fujisann.learning.code.dao.ArticleTMapper;
-import ink.fujisann.learning.base.exception.BusinessException.ExceptionBuilder;
-import ink.fujisann.learning.base.exception.BusinessExceptionEnum;
-import ink.fujisann.learning.code.service.ITransactionalService;
-import ink.fujisann.learning.code.vo.mybatis.ArticleT;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import ink.fujisann.learning.base.exception.BusinessException.Builder;
+import ink.fujisann.learning.base.exception.BusinessExceptionEnum;
+import ink.fujisann.learning.code.dao.ArticleTMapper;
+import ink.fujisann.learning.code.pojo.mybatis.ArticleT;
+import ink.fujisann.learning.code.service.ITransactionalService;
+import io.swagger.annotations.*;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
@@ -82,10 +73,10 @@ public class ArticleManage {
         articleTNew.setArticleTag1(article.getArticleTag2());
         articleTMapper.updateByPrimaryKey(articleTNew);
         if (!rt) {
-            throw new ExceptionBuilder()
-                .setCode(BusinessExceptionEnum.EXCEPTION_SQL.getCode())
-                .setMsg(BusinessExceptionEnum.EXCEPTION_SQL.getMsg())
-                .build();
+            throw new Builder()
+                    .code(BusinessExceptionEnum.EXCEPTION_SQL.getCode())
+                    .msg(BusinessExceptionEnum.EXCEPTION_SQL.getMsg())
+                    .build();
         }
         return rt;
     }

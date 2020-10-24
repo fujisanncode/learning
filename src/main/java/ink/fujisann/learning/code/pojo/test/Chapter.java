@@ -1,7 +1,8 @@
-package ink.fujisann.learning.code.vo.test;
+package ink.fujisann.learning.code.pojo.test;
+
+import lombok.Data;
 
 import java.util.List;
-import lombok.Data;
 
 @Data
 public class Chapter {

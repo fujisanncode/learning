@@ -1,7 +1,8 @@
-package ink.fujisann.learning.code.vo.mybatis;
+package ink.fujisann.learning.code.pojo.mybatis;
+
+import lombok.Data;
 
 import java.util.Date;
-import lombok.Data;
 
 @Data
 public class RegionLv1 {

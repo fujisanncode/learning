@@ -1,23 +1,15 @@
 package ink.fujisann.learning.code.controller.upload;
 
-import ink.fujisann.learning.code.controller.person.PersonManage;
-import ink.fujisann.learning.code.controller.user.UserManage;
-import ink.fujisann.learning.code.dao.PersonMapper;
 import ink.fujisann.learning.base.utils.common.CommonUtil;
 import ink.fujisann.learning.base.utils.ftp.FtpClientImpl;
 import ink.fujisann.learning.base.utils.office.ParseExcelUtil;
 import ink.fujisann.learning.base.utils.smb.SmbUtil;
-import ink.fujisann.learning.code.vo.mybatis.Person;
+import ink.fujisann.learning.code.controller.person.PersonManage;
+import ink.fujisann.learning.code.controller.user.UserManage;
+import ink.fujisann.learning.code.dao.PersonMapper;
+import ink.fujisann.learning.code.pojo.mybatis.Person;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import jcifs.smb.SmbFile;
 import jcifs.smb.SmbFileInputStream;
 import lombok.extern.slf4j.Slf4j;
@@ -29,16 +21,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StopWatch;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+
 @RestController
-@RequestMapping ("/multi")
-@Api (value = "multi", tags = "文件服务")
+@RequestMapping("/multi")
+@Api(value = "multi", tags = "文件服务")
 @Slf4j
 public class MultiFileManage {
 

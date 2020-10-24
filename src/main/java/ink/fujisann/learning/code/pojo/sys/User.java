@@ -1,26 +1,22 @@
-package ink.fujisann.learning.code.vo.sys;
+package ink.fujisann.learning.code.pojo.sys;
 
-import ink.fujisann.learning.code.vo.BaseInfo;
+import ink.fujisann.learning.code.pojo.BaseInfo;
 import io.swagger.annotations.ApiModelProperty;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import javax.persistence.*;
+
 /**
  * 系统登录用户，和角色多对多
  */
 @Entity //此注解会在数据库生成表（字段为驼峰，数据库为下划线）
-@Table (name = "sys_user_t")
+@Table(name = "sys_user_t")
 @DynamicInsert //insert的sql中，忽略null字段，否则会将对象中的null写入数据库；入库数据库字段需要空，设置为空字符串
 @DynamicUpdate
-@org.hibernate.annotations.Table (appliesTo = "sys_user_t", comment = "系统用户表") //表注释，appliesTo不能使用大写表名
+@org.hibernate.annotations.Table(appliesTo = "sys_user_t", comment = "系统用户表") //表注释，appliesTo不能使用大写表名
 @Data
 @EqualsAndHashCode (callSuper = true) //@data生成的equals方法，不含父类的字段；如果需要父类的字段比较，必须此属性
 public class User extends BaseInfo {

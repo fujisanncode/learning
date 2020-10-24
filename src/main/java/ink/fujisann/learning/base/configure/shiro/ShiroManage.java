@@ -3,8 +3,8 @@ package ink.fujisann.learning.base.configure.shiro;
 import ink.fujisann.learning.base.exception.BusinessException;
 import ink.fujisann.learning.base.utils.common.LambdaUtil;
 import ink.fujisann.learning.base.utils.common.ScanAnnotation;
+import ink.fujisann.learning.code.pojo.sys.*;
 import ink.fujisann.learning.code.repository.*;
-import ink.fujisann.learning.code.vo.sys.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,6 @@ import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +22,6 @@ import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -92,14 +90,14 @@ public class ShiroManage {
             // 客户端再次和server交互，通过cookie将sessionId交给server判断当前会话客户端是否已经登录
             return subject.getSession().getId();
         } catch (AuthenticationException e) {
-            throw new BusinessException.ExceptionBuilder().setStatus(HttpStatus.UNAUTHORIZED.value())
-                .setCode("401").setMsg("账号/密码错误").build();
+            throw new BusinessException.Builder()
+                    .code("401").msg("账号/密码错误").build();
         } catch (AuthorizationException e) {
-            throw new BusinessException.ExceptionBuilder().setStatus(HttpStatus.FORBIDDEN.value())
-                .setCode("403").setMsg("权限错误").build();
+            throw new BusinessException.Builder()
+                    .code("403").msg("权限错误").build();
         } catch (Exception e) {
-            throw new BusinessException.ExceptionBuilder().setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                .setCode("500").setMsg("服务器错误").build();
+            throw new BusinessException.Builder()
+                    .code("500").msg("服务器错误").build();
         }
     }
 
@@ -124,36 +122,38 @@ public class ShiroManage {
     @RequestMapping ("/noLogin")
     @ApiOperation (value = "noLogin", notes = "未登录统一返回")
     public void noLogin() {
-        throw new BusinessException.ExceptionBuilder().setStatus(HttpStatus.UNAUTHORIZED.value())
-            .setCode("401").setMsg("跳转到未登录接口").build();
+        throw new BusinessException.Builder()
+                .code("401").msg("跳转到未登录接口").build();
     }
 
     // 调用接口没有权限时，统一用此接口按照401的状态码返回页面，否则没有权限的接口会按照shiro默认返回
     @RequestMapping ("/unAuth")// 不指定get或者post，保证不同的http请求方式都能跳转
     @ApiOperation (value = "unAuth", notes = "未授权统一返回")
     public void unAuth() {
-        throw new BusinessException.ExceptionBuilder().setStatus(HttpStatus.FORBIDDEN.value())
-            .setCode("403").setMsg("跳转到未授权接口").build();
+        throw new BusinessException.Builder()
+                .code("403").msg("跳转到未授权接口").build();
     }
 
     /**
-     * @description 测试前后台cookie交互
      * @return java.lang.String
+     * @description 测试前后台cookie交互
      * @author hulei
      * @date 2020-03-11 21:38:15
      */
-    @GetMapping ("/index")
-    @ApiOperation (value = "login page", notes = "登录页面")
-    @RequiresPermissions ("/shiro-manage/index")
+    @GetMapping("/index")
+    @ApiOperation(value = "login page", notes = "登录页面")
+    @RequiresPermissions("/shiro-manage/index")
     public String index() {
-        return String.valueOf(new Date().getTime());
+        return String.valueOf(System.currentTimeMillis());
     }
 
-    // 清空用户、角色、接口权限表
-    @GetMapping ("/trunkTable")
-    @RequiresPermissions ("/shiro-manage/trunkTable")
-    @ApiOperation (value = "trunkTable", notes = "删除5张表全部数据")
-    @Transactional
+    /**
+     * 清空用户、角色、接口权限表
+     */
+    @GetMapping("/trunkTable")
+    @RequiresPermissions("/shiro-manage/trunkTable")
+    @ApiOperation(value = "trunkTable", notes = "删除5张表全部数据")
+    @Transactional(rollbackFor = Exception.class)
     public void trunkTable() {
         // 先删除关联表，然后删除单表
         rolePermissionRepository.deleteAll();

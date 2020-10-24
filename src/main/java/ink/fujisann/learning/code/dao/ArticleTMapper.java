@@ -1,8 +1,9 @@
 package ink.fujisann.learning.code.dao;
 
-import ink.fujisann.learning.code.vo.mybatis.ArticleT;
-import java.util.List;
+import ink.fujisann.learning.code.pojo.mybatis.ArticleT;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public interface ArticleTMapper {

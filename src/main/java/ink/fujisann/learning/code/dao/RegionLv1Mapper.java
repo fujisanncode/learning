@@ -1,6 +1,6 @@
 package ink.fujisann.learning.code.dao;
 
-import ink.fujisann.learning.code.vo.mybatis.RegionLv1;
+import ink.fujisann.learning.code.pojo.mybatis.RegionLv1;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 

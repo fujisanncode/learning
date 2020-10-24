@@ -3,11 +3,11 @@ package ink.fujisann.learning.code.controller.data;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import ink.fujisann.learning.base.exception.BusinessException.ExceptionBuilder;
-import ink.fujisann.learning.code.repository.GeoRepository;
-import ink.fujisann.learning.base.utils.common.ApiUrl;
-import ink.fujisann.learning.code.vo.data.Geo;
 import com.google.common.collect.Iterables;
+import ink.fujisann.learning.base.exception.BusinessException.Builder;
+import ink.fujisann.learning.base.utils.common.ApiUrl;
+import ink.fujisann.learning.code.pojo.data.Geo;
+import ink.fujisann.learning.code.repository.GeoRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -200,7 +200,7 @@ public class MapController {
     String content = findAreaContentByUrl(url, provinceParentCode, "00"); // 从指定网址获取html文件
     if (StringUtils.isEmpty(content)) {
       log.info("获取省份页面失败，退出");
-      throw new ExceptionBuilder().setCode("000").setMsg("获取省份页面失败，稍后请重试").build();
+      throw new Builder().code("000").msg("获取省份页面失败，稍后请重试").build();
     }
     Document document = Jsoup.parse(content); // 解析html字符串
     Elements elements = document.select("tr.provincetr a"); // class选择器

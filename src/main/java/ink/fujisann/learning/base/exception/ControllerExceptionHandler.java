@@ -1,8 +1,5 @@
 package ink.fujisann.learning.base.exception;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -11,6 +8,10 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @program: sqlleaning
@@ -23,9 +24,16 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Slf4j
 public class ControllerExceptionHandler {
 
-    // 捕捉顶级异常 以500的状态码返回 (系统自动抛出的异常)
-    @ResponseStatus (HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler (Exception.class)
+
+    /**
+     * 捕捉顶级异常 以500的状态码返回 (系统自动抛出的异常)<br/>
+     * 不设置{@code @ResponseStatus}则接口响应为200, 通过此注解可以指定接口响应的状态码
+     *
+     * @param e 捕捉到的异常
+     * @return 响应数据
+     */
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(Exception.class)
     public Map<String, String> handleException(Exception e) {
         Map<String, String> rtMap = new LinkedHashMap<>();
         rtMap.put("code", BusinessExceptionEnum.EXCEPTION_ERROR.getCode());
@@ -34,13 +42,15 @@ public class ControllerExceptionHandler {
         return rtMap;
     }
 
-    // 捕捉业务异常 以200的状态码返回  (手动抛出的业务异常)
-    // @responseStatus 指定reason 则请求不会按照拦截方法返回； 仅指定value或者code,则仅设置返回码
-    // @ResponseStatus (value = HttpStatus.OK)
-    @ExceptionHandler (BusinessException.class)
+    /**
+     * 接口按照异常中定义的code、msg进行返回
+     *
+     * @param e        捕捉到的异常
+     * @param response 响应
+     * @return 响应数据
+     */
+    @ExceptionHandler(BusinessException.class)
     public Map<String, String> handleBusinessException(BusinessException e, HttpServletResponse response) {
-        // 按照自定义的结构返回 @ResponseBody
-        response.setStatus(e.getStatus());
         Map<String, String> rtResponse = new LinkedHashMap<>();
         rtResponse.put("code", e.getCode());
         rtResponse.put("msg", e.getMsg());
@@ -49,11 +59,10 @@ public class ControllerExceptionHandler {
     }
 
     /**
-     * @description 捕捉shiro的未授权异常
-     * @param response 接口响应
-     * @return java.util.Map<java.lang.String, java.lang.String>
-     * @author hulei
-     * @date 2020-03-11 21:53:55
+     * 捕捉shiro的未授权异常
+     *
+     * @param response 响应
+     * @return 接口响应
      */
     @ExceptionHandler (UnauthorizedException.class)
     public Map<String, String> handleUnauthorizedException(HttpServletResponse response) {
@@ -65,11 +74,10 @@ public class ControllerExceptionHandler {
     }
 
     /**
-     * @description 捕捉shiro的未登录异常
-     * @param response 接口响应
-     * @return java.util.Map<java.lang.String, java.lang.String>
-     * @author hulei
-     * @date 2020-03-11 21:53:18
+     * 捕捉shiro的未登录异常
+     *
+     * @param response 响应
+     * @return 接口响应
      */
     @ExceptionHandler (UnauthenticatedException.class)
     public Map<String, String> handleUnauthenticatedException(HttpServletResponse response) {

@@ -1,6 +1,6 @@
 package ink.fujisann.learning.code.repository;
 
-import ink.fujisann.learning.code.vo.sys.User;
+import ink.fujisann.learning.code.pojo.sys.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
 

@@ -1,4 +1,4 @@
-package ink.fujisann.learning.code.vo.mybatis;
+package ink.fujisann.learning.code.pojo.mybatis;
 
 import java.util.Date;
 

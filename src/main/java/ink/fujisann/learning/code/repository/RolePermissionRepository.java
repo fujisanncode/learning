@@ -1,6 +1,6 @@
 package ink.fujisann.learning.code.repository;
 
-import ink.fujisann.learning.code.vo.sys.RolePermission;
+import ink.fujisann.learning.code.pojo.sys.RolePermission;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
 

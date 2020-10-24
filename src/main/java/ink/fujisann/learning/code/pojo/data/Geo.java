@@ -1,6 +1,6 @@
-package ink.fujisann.learning.code.vo.data;
+package ink.fujisann.learning.code.pojo.data;
 
-import ink.fujisann.learning.code.vo.BaseInfo;
+import ink.fujisann.learning.code.pojo.BaseInfo;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;

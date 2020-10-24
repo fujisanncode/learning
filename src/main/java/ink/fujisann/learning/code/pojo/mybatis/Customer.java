@@ -1,7 +1,8 @@
-package ink.fujisann.learning.code.vo.mybatis;
+package ink.fujisann.learning.code.pojo.mybatis;
+
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import org.springframework.stereotype.Component;
 
 @Component
 public class Customer {

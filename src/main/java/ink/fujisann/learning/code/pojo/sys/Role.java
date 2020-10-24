@@ -1,26 +1,22 @@
-package ink.fujisann.learning.code.vo.sys;
+package ink.fujisann.learning.code.pojo.sys;
 
-import ink.fujisann.learning.code.vo.BaseInfo;
+import ink.fujisann.learning.code.pojo.BaseInfo;
 import io.swagger.annotations.ApiModelProperty;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import javax.persistence.*;
+
 /**
  * 系统用户的角色表，和用户多对多，和权限点多对多
  */
 @Entity// 如果数据库不存在表,数据库会重新生成;否则改动表结构,数据库中表不会进行更新
-@Table (name = "sys_role_t")
+@Table(name = "sys_role_t")
 @DynamicInsert //insert的sql中，忽略null字段，否则会将对象中的null写入数据库；入库数据库字段需要空，设置为空字符串
 @DynamicUpdate
-@org.hibernate.annotations.Table (appliesTo = "sys_role_t", comment = "系统角色表")// appliesTo不能使用大写表名
+@org.hibernate.annotations.Table(appliesTo = "sys_role_t", comment = "系统角色表")// appliesTo不能使用大写表名
 @Data
 @EqualsAndHashCode (callSuper = true)
 public class Role extends BaseInfo {

@@ -1,27 +1,20 @@
 package ink.fujisann.learning.code.controller.teacher;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import ink.fujisann.learning.code.dao.TeacherTMapper;
-import ink.fujisann.learning.base.exception.BusinessException.ExceptionBuilder;
-import ink.fujisann.learning.base.exception.BusinessExceptionEnum;
-import ink.fujisann.learning.code.vo.mybatis.StuTeaT;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-
+import ink.fujisann.learning.base.exception.BusinessException.Builder;
+import ink.fujisann.learning.base.exception.BusinessExceptionEnum;
+import ink.fujisann.learning.code.dao.TeacherTMapper;
+import ink.fujisann.learning.code.pojo.mybatis.StuTeaT;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @Api(description = "查询教师表的相关接口", tags = {"teacher-manage"})
@@ -63,8 +56,8 @@ public class TeacherManage {
             case EXCEPTION0:
                 throw new RuntimeException("runtime exception");
             case EXCEPTION1:
-                throw new ExceptionBuilder().setCode(BusinessExceptionEnum.EXCEPTION_PARA.getCode())
-                    .setMsg(BusinessExceptionEnum.EXCEPTION_PARA.getMsg()).build();
+                throw new Builder().code(BusinessExceptionEnum.EXCEPTION_PARA.getCode())
+                        .msg(BusinessExceptionEnum.EXCEPTION_PARA.getMsg()).build();
             default:
                 return flag;
         }

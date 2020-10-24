@@ -1,11 +1,11 @@
 package ink.fujisann.learning.base.configure.shiro;
 
+import ink.fujisann.learning.code.pojo.sys.Permission;
+import ink.fujisann.learning.code.pojo.sys.Role;
+import ink.fujisann.learning.code.pojo.sys.User;
 import ink.fujisann.learning.code.repository.PermissionRepository;
 import ink.fujisann.learning.code.repository.RoleRepository;
 import ink.fujisann.learning.code.repository.UserRepository;
-import ink.fujisann.learning.code.vo.sys.Permission;
-import ink.fujisann.learning.code.vo.sys.Role;
-import ink.fujisann.learning.code.vo.sys.User;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;

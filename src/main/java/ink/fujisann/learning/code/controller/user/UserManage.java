@@ -1,19 +1,16 @@
 package ink.fujisann.learning.code.controller.user;
 
-import ink.fujisann.learning.code.dao.UserMapper;
 import ink.fujisann.learning.base.utils.MessageUtil;
 import ink.fujisann.learning.base.utils.common.DateUtil;
-import ink.fujisann.learning.code.vo.mybatis.Customer;
+import ink.fujisann.learning.code.dao.UserMapper;
+import ink.fujisann.learning.code.pojo.mybatis.Customer;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import java.util.ArrayList;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 @Slf4j
 @RestController

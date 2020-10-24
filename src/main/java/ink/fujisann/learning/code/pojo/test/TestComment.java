@@ -1,4 +1,4 @@
-package ink.fujisann.learning.code.vo.test;
+package ink.fujisann.learning.code.pojo.test;
 
 /**
  * @program: sqlleaning

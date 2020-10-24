@@ -1,6 +1,6 @@
 package ink.fujisann.learning.code.dao;
 
-import ink.fujisann.learning.code.vo.mybatis.Person;
+import ink.fujisann.learning.code.pojo.mybatis.Person;
 import org.springframework.stereotype.Component;
 
 @Component

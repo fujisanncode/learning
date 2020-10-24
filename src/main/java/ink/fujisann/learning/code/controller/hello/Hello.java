@@ -1,12 +1,12 @@
 package ink.fujisann.learning.code.controller.hello;
 
 import ink.fujisann.learning.base.designPattern.observer.springlistener.UserRegisterService;
-import ink.fujisann.learning.code.dao.RegionLv1Mapper;
-import ink.fujisann.learning.code.repository.GeoRepository;
 import ink.fujisann.learning.base.utils.common.SpringContextHolder;
-import ink.fujisann.learning.code.vo.Page;
-import ink.fujisann.learning.code.vo.mybatis.RegionLv1;
-import ink.fujisann.learning.code.vo.plan.Plan;
+import ink.fujisann.learning.code.dao.RegionLv1Mapper;
+import ink.fujisann.learning.code.pojo.Page;
+import ink.fujisann.learning.code.pojo.mybatis.RegionLv1;
+import ink.fujisann.learning.code.pojo.plan.Plan;
+import ink.fujisann.learning.code.repository.GeoRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;

@@ -1,7 +1,7 @@
 package ink.fujisann.learning.code.controller.plan;
 
+import ink.fujisann.learning.code.pojo.plan.Plan;
 import ink.fujisann.learning.code.repository.PlanRepository;
-import ink.fujisann.learning.code.vo.plan.Plan;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
