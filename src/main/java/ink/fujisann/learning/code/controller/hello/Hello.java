@@ -3,7 +3,7 @@ package ink.fujisann.learning.code.controller.hello;
 import ink.fujisann.learning.base.designPattern.observer.springlistener.UserRegisterService;
 import ink.fujisann.learning.base.utils.common.SpringContextHolder;
 import ink.fujisann.learning.code.dao.RegionLv1Mapper;
-import ink.fujisann.learning.code.pojo.Page;
+import ink.fujisann.learning.code.pojo.PageReq;
 import ink.fujisann.learning.code.pojo.mybatis.RegionLv1;
 import ink.fujisann.learning.code.pojo.plan.Plan;
 import ink.fujisann.learning.code.repository.GeoRepository;
@@ -101,7 +101,7 @@ public class Hello {
 
   @PostMapping("/say-hello")
   @ApiOperation("say-hello")
-  public String sayHello(@RequestBody Plan plan, Page page) throws Exception {
+  public String sayHello(@RequestBody Plan plan, PageReq page) throws Exception {
     readProperties();
     log.info("hello world");
     userRegisterService.register();

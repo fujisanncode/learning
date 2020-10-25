@@ -11,7 +11,7 @@ import lombok.Data;
  */
 @Data
 @ApiModel(description = "分页")
-public class Page {
+public class PageReq {
   @ApiModelProperty("当前页")
   private int pageNum;
 

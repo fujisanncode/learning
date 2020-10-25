@@ -2,16 +2,16 @@ package ink.fujisann.learning.code.controller.reader;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
+import ink.fujisann.learning.code.pojo.PageReq;
 import ink.fujisann.learning.code.pojo.shelf.Book;
+import ink.fujisann.learning.code.pojo.shelf.Web;
 import ink.fujisann.learning.code.service.ShelfService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -49,4 +49,19 @@ public class ShelfController {
     List<Book> listBook() {
         return shelfService.listBook();
     }
+
+    @ApiOperationSupport(order = 3)
+    @ApiOperation("新增网站")
+    @PostMapping("/addWeb")
+    public void addWeb(@RequestBody Web web) {
+        shelfService.addWeb(web);
+    }
+
+    @ApiOperationSupport(order = 4)
+    @ApiOperation("分页查询网站列表")
+    @GetMapping("/pageWeb")
+    public Page<Web> pageWeb(@ModelAttribute PageReq pageReq) {
+        return shelfService.pageWeb(pageReq);
+    }
+
 }

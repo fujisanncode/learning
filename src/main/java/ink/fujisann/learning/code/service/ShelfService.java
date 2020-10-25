@@ -1,6 +1,9 @@
 package ink.fujisann.learning.code.service;
 
+import ink.fujisann.learning.code.pojo.PageReq;
 import ink.fujisann.learning.code.pojo.shelf.Book;
+import ink.fujisann.learning.code.pojo.shelf.Web;
+import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -25,4 +28,19 @@ public interface ShelfService {
      * @return 图书列表
      */
     List<Book> listBook();
+
+    /**
+     * 新增网站
+     *
+     * @param web 新增请求体
+     */
+    void addWeb(Web web);
+
+    /**
+     * 分页查询网站列表
+     *
+     * @param pageReq 分页参数
+     * @return 网站分页
+     */
+    Page<Web> pageWeb(PageReq pageReq);
 }

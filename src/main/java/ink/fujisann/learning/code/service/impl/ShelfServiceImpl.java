@@ -2,12 +2,18 @@ package ink.fujisann.learning.code.service.impl;
 
 import ink.fujisann.learning.base.exception.BusinessException;
 import ink.fujisann.learning.base.utils.common.SystemUtil;
+import ink.fujisann.learning.code.pojo.PageReq;
 import ink.fujisann.learning.code.pojo.shelf.Book;
+import ink.fujisann.learning.code.pojo.shelf.Web;
 import ink.fujisann.learning.code.repository.BookRepository;
+import ink.fujisann.learning.code.repository.WebRepository;
 import ink.fujisann.learning.code.service.ShelfService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.SystemUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -95,6 +101,24 @@ public class ShelfServiceImpl implements ShelfService {
     @Override
     public List<Book> listBook() {
         return bookRepository.findBooksByUserId(ADMIN_USER_ID);
+    }
+
+    private WebRepository webRepository;
+
+    @Autowired
+    public void setWebRepository(WebRepository webRepository) {
+        this.webRepository = webRepository;
+    }
+
+    @Override
+    public void addWeb(Web web) {
+        webRepository.save(web);
+    }
+
+    @Override
+    public Page<Web> pageWeb(PageReq pageReq) {
+        Pageable pageable = PageRequest.of(pageReq.getPageNum() - 1, pageReq.getPageSize());
+        return webRepository.findAll(pageable);
     }
 }
 
