@@ -25,7 +25,7 @@ import javax.persistence.*;
 public class Geo extends BaseInfo {
   @Id
   @Column(columnDefinition = "varchar(32) not null comment '主键id'")
-  @GenericGenerator(name = "geoId", strategy = "uuid")
+  @GenericGenerator(name = "geoId", strategy = "org.hibernate.id.UUIDGenerator")
   @GeneratedValue(generator = "geoId")
   private String id;
 

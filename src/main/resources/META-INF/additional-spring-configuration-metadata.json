@@ -1,0 +1,58 @@
+{
+  "properties": [
+    {
+      "name": "ftp.host",
+      "type": "java.lang.String",
+      "description": "Description for ftp.host."
+    },
+    {
+      "name": "ftp.port",
+      "type": "java.lang.String",
+      "description": "Description for ftp.port."
+    },
+    {
+      "name": "ftp.filepath",
+      "type": "java.lang.String",
+      "description": "Description for ftp.filepath."
+    },
+    {
+      "name": "ftp.web.host",
+      "type": "java.lang.String",
+      "description": "Description for ftp.web.host."
+    },
+    {
+      "name": "ftp.web.port",
+      "type": "java.lang.String",
+      "description": "Description for ftp.web.port."
+    },
+    {
+      "name": "smb.uri",
+      "type": "java.lang.String",
+      "description": "Description for smb.uri."
+    },
+    {
+      "name": "smb.ip",
+      "type": "java.lang.String",
+      "description": "Description for smb.ip."
+    },
+    {
+      "name": "local.redis.host",
+      "type": "java.lang.String",
+      "description": "Description for local.redis.host."
+    },
+    {
+      "name": "local.redis.port",
+      "type": "java.lang.String",
+      "description": "Description for local.redis.port."
+    },
+    {
+      "name": "netty.server.host",
+      "type": "java.lang.String",
+      "description": "Description for netty.server.host."
+    },
+    {
+      "name": "netty.server.port",
+      "type": "java.lang.String",
+      "description": "Description for netty.server.port."
+    }
+  ] }

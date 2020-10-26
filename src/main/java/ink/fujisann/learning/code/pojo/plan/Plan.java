@@ -28,7 +28,7 @@ import java.util.Date;
 public class Plan extends BaseInfo {
 
   @Id
-  @GenericGenerator(name = "plan_t_id", strategy = "uuid")
+  @GenericGenerator(name = "plan_t_id", strategy = "org.hibernate.id.UUIDGenerator")
   @GeneratedValue(generator = "plan_t_id")
   @ApiModelProperty(hidden = true)
   private String id;

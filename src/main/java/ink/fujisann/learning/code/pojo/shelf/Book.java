@@ -36,7 +36,7 @@ public class Book extends BaseInfo {
      * {@code @GeneratedValue} 指定主键生成策略，应用主键生成器
      */
     @ApiModelProperty(value = "图书主键", hidden = true)
-    @GenericGenerator(name = "book_t_id", strategy = "uuid")
+    @GenericGenerator(name = "book_t_id", strategy = "org.hibernate.id.UUIDGenerator")
     @GeneratedValue(generator = "book_t_id")
     @Id
     @Column(columnDefinition = "varchar(32) not null comment '主键'")
