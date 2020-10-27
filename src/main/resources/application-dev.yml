@@ -3,7 +3,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://39.101.206.66:7000/learning?useUnicode=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://146.56.227.20:3306/learning?useUnicode=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
     hikari:
       idle-timeout: 10000 #空闲连接释放时间，默认600s，必须小于mysql的空闲连接释放时间
       max-lifetime: 30000 #一个连接的生命时长，默认30分钟，必须比mysql设置的超时回收时间短
