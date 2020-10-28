@@ -39,7 +39,7 @@ public class Book extends BaseInfo {
     @GenericGenerator(name = "book_t_id", strategy = "org.hibernate.id.UUIDGenerator")
     @GeneratedValue(generator = "book_t_id")
     @Id
-    @Column(columnDefinition = "varchar(32) not null comment '主键'")
+    @Column(columnDefinition = "varchar(64) not null comment '主键'")
     private String bookId;
 
     @ApiModelProperty("图书名称")

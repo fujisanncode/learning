@@ -39,7 +39,7 @@ public class Web extends BaseInfo {
     @GenericGenerator(name = "web_t_id", strategy = "org.hibernate.id.UUIDGenerator")
     @GeneratedValue(generator = "web_t_id")
     @Id
-    @Column(columnDefinition = "varchar(32) not null comment '主键'")
+    @Column(columnDefinition = "varchar(64) not null comment '主键'")
     private String webId;
 
     @ApiModelProperty("网站名称")
