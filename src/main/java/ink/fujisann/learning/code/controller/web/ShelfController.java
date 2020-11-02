@@ -1,4 +1,4 @@
-package ink.fujisann.learning.code.controller.reader;
+package ink.fujisann.learning.code.controller.web;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSort;

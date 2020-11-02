@@ -1,4 +1,4 @@
-package ink.fujisann.learning.code.controller.httptest;
+package ink.fujisann.learning.code.controller.hello;
 
 import ink.fujisann.learning.base.utils.common.DateUtil;
 import io.swagger.annotations.Api;

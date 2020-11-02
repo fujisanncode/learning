@@ -1,4 +1,4 @@
-package ink.fujisann.learning.code.controller.plan;
+package ink.fujisann.learning.code.controller.web;
 
 import ink.fujisann.learning.code.pojo.plan.Plan;
 import ink.fujisann.learning.code.repository.PlanRepository;

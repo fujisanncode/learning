@@ -1,4 +1,4 @@
-package ink.fujisann.learning.code.controller.rabbit;
+package ink.fujisann.learning.code.controller.hello;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

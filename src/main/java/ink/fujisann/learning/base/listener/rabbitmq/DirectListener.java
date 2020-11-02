@@ -1,6 +1,6 @@
 package ink.fujisann.learning.base.listener.rabbitmq;
 
-import ink.fujisann.learning.code.controller.upload.MultiFileManage;
+import ink.fujisann.learning.code.controller.web.MultiFileManage;
 import java.util.Map;
 
 import lombok.extern.slf4j.Slf4j;

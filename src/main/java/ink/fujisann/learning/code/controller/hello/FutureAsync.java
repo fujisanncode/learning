@@ -1,4 +1,4 @@
-package ink.fujisann.learning.code.controller.rabbit;
+package ink.fujisann.learning.code.controller.hello;
 
 import java.util.concurrent.Future;
 import lombok.extern.slf4j.Slf4j;

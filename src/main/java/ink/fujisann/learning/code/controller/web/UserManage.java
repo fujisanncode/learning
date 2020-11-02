@@ -1,4 +1,4 @@
-package ink.fujisann.learning.code.controller.user;
+package ink.fujisann.learning.code.controller.web;
 
 import ink.fujisann.learning.base.utils.MessageUtil;
 import ink.fujisann.learning.base.utils.common.DateUtil;

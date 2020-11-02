@@ -1,4 +1,4 @@
-package ink.fujisann.learning.base.configure.shiro;
+package ink.fujisann.learning.code.controller.web;
 
 import ink.fujisann.learning.base.exception.BusinessException;
 import ink.fujisann.learning.base.utils.common.LambdaUtil;
@@ -24,16 +24,26 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * web页面权限管理
+ *
+ * @author hulei
+ * @date 2020/11/2
+ */
 @RestController
-@RequestMapping (value = ShiroManage.shiro)
-@Api (value = "001 shiro manage", tags = "001-shiro权限管理服务")
+@RequestMapping(value = ShiroController.SHIRO)
+@Api(tags = "web页面权限管理")
 @Slf4j
-public class ShiroManage {
+public class ShiroController {
 
-    public static final String shiro = "/shiro-manage";
-    // shiro的session超时时间
-    private static final long shiroTimeOut = 5 * 60 * 1000;
-    private UserRepository userRepository;
+    public static final String SHIRO = "/shiro-manage";
+
+    /**
+     * shiro的session超时时间
+     */
+    private static final long SHIRO_TIME_OUT = 5 * 60 * 1000;
+
+    private final UserRepository userRepository;
     private UserRoleRepository userRoleRepository;
     private RoleRepository roleRepository;
     private RolePermissionRepository rolePermissionRepository;
@@ -41,7 +51,7 @@ public class ShiroManage {
     private EntityManager entityManager;
 
     @Autowired
-    public ShiroManage(UserRepository userRepository) {
+    public ShiroController(UserRepository userRepository) {
         // 强制依赖注入,或者用set方法非强制注入
         this.userRepository = userRepository;
     }
@@ -72,18 +82,17 @@ public class ShiroManage {
     }
 
     /**
-     * @description 不拦截的请求，登录验证后返回sessionId，失败后返回非200的状态码
+     * 不拦截的请求，登录验证后返回sessionId，失败后返回非200的状态码
+     *
      * @param user 登录用户
      * @return java.io.Serializable
-     * @author hulei
-     * @date 2020-03-11 21:32:31
      */
-    @PostMapping ("/login")
-    @ApiOperation (value = "login", notes = "验证登录用户名和密码")
+    @PostMapping("/login")
+    @ApiOperation(value = "login", notes = "验证登录用户名和密码")
     public Serializable login(@RequestBody User user) {
         try {
             Subject subject = SecurityUtils.getSubject();
-            subject.getSession().setTimeout(shiroTimeOut);
+            subject.getSession().setTimeout(SHIRO_TIME_OUT);
             UsernamePasswordToken token = new UsernamePasswordToken(user.getName(), user.getPassword());
             subject.login(token);
             // 无论是否登录成功， server都会通过cookie返回sessionId给客户端
@@ -102,43 +111,42 @@ public class ShiroManage {
     }
 
     /**
-     * @description 登出，登出即清除server中session，同时server会清除cookie返回客户端，此接口不拦截
+     * 登出，登出即清除server中session，同时server会清除cookie返回客户端，此接口不拦截
+     *
      * @param session 当前会话
-     * @author hulei
-     * @date 2020-03-14 17:11:42
      */
-    @GetMapping ("/logout")
-    @ApiOperation (value = "logout", notes = "登出清除session")
+    @GetMapping("/logout")
+    @ApiOperation(value = "logout", notes = "登出清除session")
     public void logout(HttpSession session) {
         session.invalidate();
     }
 
     /**
-     * @description 调用未登录会跳转到这里，统一返回401，然后让异常处理器解析异常返回
-     *               不指定get或者post，保证不同的http请求方式都能跳转
-     * @author hulei
-     * @date 2020-03-11 22:22:23
+     * 调用未登录会跳转到这里，统一返回401，然后让异常处理器解析异常返回<br/>
+     * 不指定get或者post，保证不同的http请求方式都能跳转<br/>
      */
-    @RequestMapping ("/noLogin")
-    @ApiOperation (value = "noLogin", notes = "未登录统一返回")
+    @RequestMapping("/noLogin")
+    @ApiOperation(value = "noLogin", notes = "未登录统一返回")
     public void noLogin() {
         throw new BusinessException.Builder()
                 .code("401").msg("跳转到未登录接口").build();
     }
 
-    // 调用接口没有权限时，统一用此接口按照401的状态码返回页面，否则没有权限的接口会按照shiro默认返回
-    @RequestMapping ("/unAuth")// 不指定get或者post，保证不同的http请求方式都能跳转
-    @ApiOperation (value = "unAuth", notes = "未授权统一返回")
+    /**
+     * 调用接口没有权限时，统一用此接口按照401的状态码返回页面，否则没有权限的接口会按照shiro默认返回<br/>
+     * 不指定get或者post，保证不同的http请求方式都能跳转
+     */
+    @RequestMapping("/unAuth")
+    @ApiOperation(value = "unAuth", notes = "未授权统一返回")
     public void unAuth() {
         throw new BusinessException.Builder()
                 .code("403").msg("跳转到未授权接口").build();
     }
 
     /**
+     * 测试前后台cookie交互
+     *
      * @return java.lang.String
-     * @description 测试前后台cookie交互
-     * @author hulei
-     * @date 2020-03-11 21:38:15
      */
     @GetMapping("/index")
     @ApiOperation(value = "login page", notes = "登录页面")
@@ -170,44 +178,40 @@ public class ShiroManage {
     }
 
     /**
-     * @description 新增用户接口
+     * 新增用户接口
+     *
      * @param user 用户
-     * @author hulei
-     * @date 2020-03-15 21:30:08
      */
-    @PostMapping ("/addUserSingle")
-    @RequiresPermissions ("/shiro-manage/addUserSingle")
-    @ApiOperation (value = "addUserSingle", notes = "用户信息写入用户表")
+    @PostMapping("/addUserSingle")
+    @RequiresPermissions("/shiro-manage/addUserSingle")
+    @ApiOperation(value = "addUserSingle", notes = "用户信息写入用户表")
     public void addUserSingle(@RequestBody User user) {
         // 写用户表
         userRepository.save(user);
     }
 
     /**
-     * @description 创建新的角色
+     * 创建新的角色
+     *
      * @param role 角色
-     * @author hulei
-     * @date 2020-03-18 20:28:39
      */
-    @PostMapping ("/addRoleSingle")
-    @RequiresPermissions ("/shiro-manage/addRoleSingle")
-    @ApiOperation (value = "addRoleSingle", notes = "创建新的角色")
+    @PostMapping("/addRoleSingle")
+    @RequiresPermissions("/shiro-manage/addRoleSingle")
+    @ApiOperation(value = "addRoleSingle", notes = "创建新的角色")
     public void addRoleSingle(@RequestBody Role role) {
         // 写角色表
         roleRepository.save(role);
     }
 
     /**
-     * @description 扫描全部权限注解，写入数据库
-     * @author hulei
-     * @date 2020-03-17 01:05:19
+     * 扫描全部权限注解，写入数据库
      */
-    @GetMapping ("/addExistPermission")
-    @RequiresPermissions ("/shiro-manage/addExistPermission")
-    @ApiOperation (value = "addExistPermission", notes = "代码中权限点全部写入数据库")
-    @Transactional
+    @GetMapping("/addExistPermission")
+    @RequiresPermissions("/shiro-manage/addExistPermission")
+    @ApiOperation(value = "addExistPermission", notes = "代码中权限点全部写入数据库")
+    @Transactional(rollbackFor = Exception.class)
     public void addExistPermission() {
-        List<String> allPermission = ScanAnnotation.getValueByClass(ShiroManage.class);
+        List<String> allPermission = ScanAnnotation.getValueByClass(ShiroController.class);
         List<String> hasExistPermission = permissionRepository.findAllName();
         // 过滤满足验证条件的权限点
         allPermission.removeIf(hasExistPermission::contains);
@@ -215,10 +219,9 @@ public class ShiroManage {
     }
 
     /**
-     * @description 权限集合批量写表
+     * 权限集合批量写表
+     *
      * @param allInsertPermissionName 需要写表的权限集合
-     * @author hulei
-     * @date 2020-03-17 01:06:04
      */
     private void savePermissionBatch(List<String> allInsertPermissionName) {
         List<Permission> permissionList = new ArrayList<>();
@@ -237,15 +240,15 @@ public class ShiroManage {
     }
 
     /**
-     * @description 给特定用户增加角色
+     * 给特定用户增加角色<br/>
+     * 事务隔离，事务传播，回滚；全部使用默认值
+     *
      * @param userRole 用户角色关联对象
-     * @author hulei
-     * @date 2020-03-15 21:30:48
      */
-    @PostMapping ("/addRole")
-    @RequiresPermissions ("/shiro-manage/addRole")
-    @ApiOperation (value = "addRole", notes = "按照用户名给用户添加角色")
-    @Transactional// 事务隔离，事务传播，回滚；全部使用默认值
+    @PostMapping("/addRole")
+    @RequiresPermissions("/shiro-manage/addRole")
+    @ApiOperation(value = "addRole", notes = "按照用户名给用户添加角色")
+    @Transactional(rollbackFor = Exception.class)
     @Deprecated
     public void addRole(@RequestBody UserRole userRole) {
         // 写角色表
@@ -262,15 +265,14 @@ public class ShiroManage {
     }
 
     /**
-     * @description 给特定角色赋接口权限
+     * 给特定角色赋接口权限
+     *
      * @param rolePermission 角色权限关联对象
-     * @author hulei
-     * @date 2020-03-15 21:31:29
      */
-    @PostMapping ("/addPermission")
-    @RequiresPermissions ("/shiro-manage/addPermission")
-    @ApiOperation (value = "addPermission", notes = "给指定角色添加接口权限")
-    @Transactional
+    @PostMapping("/addPermission")
+    @RequiresPermissions("/shiro-manage/addPermission")
+    @ApiOperation(value = "addPermission", notes = "给指定角色添加接口权限")
+    @Transactional(rollbackFor = Exception.class)
     @Deprecated
     public void addPermission(@RequestBody RolePermission rolePermission) {
         // 写接口权限点
@@ -287,126 +289,114 @@ public class ShiroManage {
     }
 
     /**
-     * @description 给用户批量指定职责
-     * @param UserRole 用户职责对象
-     * @return java.lang.String
-     * @author hulei
-     * @date 2020-03-18 20:31:34
+     * 给用户批量指定职责
+     *
+     * @param userRole 用户职责对象
      */
-    @PostMapping ("/addUserRoleBatch")
-    @RequiresPermissions ("/shiro-manage/addUserRoleBatch")
-    @ApiOperation (value = "addUserRoleBatch", notes = "批量写入用户角色表")
-    public String addUserRoleBatch(@RequestBody Iterable<UserRole> UserRole) {
-        userRoleRepository.saveAll(UserRole);
-        return "success";
+    @PostMapping("/addUserRoleBatch")
+    @RequiresPermissions("/shiro-manage/addUserRoleBatch")
+    @ApiOperation(value = "addUserRoleBatch", notes = "批量写入用户角色表")
+    public void addUserRoleBatch(@RequestBody Iterable<UserRole> userRole) {
+        userRoleRepository.saveAll(userRole);
     }
 
     /**
-     * @description 批量写入角色权限表(给角色添加权限)
+     * 批量写入角色权限表(给角色添加权限)
+     *
      * @param rolePermission 角色权限关联对象
-     * @author hulei
-     * @date 2020-03-17 23:27:46
      */
-    @PostMapping ("/addRolePermissionBatch")
-    @RequiresPermissions ("/shiro-manage/addRolePermissionBatch")
-    @ApiOperation (value = "addRolePermissionBatch", notes = "批量写入角色权限表")
-    public String addRolePermissionBatch(@RequestBody Iterable<RolePermission> rolePermission) {
+    @PostMapping("/addRolePermissionBatch")
+    @RequiresPermissions("/shiro-manage/addRolePermissionBatch")
+    @ApiOperation(value = "addRolePermissionBatch", notes = "批量写入角色权限表")
+    public void addRolePermissionBatch(@RequestBody Iterable<RolePermission> rolePermission) {
         rolePermissionRepository.saveAll(rolePermission);
-        return "success";
     }
 
     /**
-     * @description 查询所有系统用户
+     * 查询所有系统用户
+     *
      * @return java.lang.Iterable<ink.fujisann.learning.code.vo.sys.User>
-     * @author hulei
-     * @date 2020-03-15 21:34:24
      */
-    @GetMapping ("/findAllUser")
-    @RequiresPermissions ("/shiro-manage/findAllUser")
-    @ApiOperation (value = "findAllUser", notes = "查询所有系统用户")
+    @GetMapping("/findAllUser")
+    @RequiresPermissions("/shiro-manage/findAllUser")
+    @ApiOperation(value = "findAllUser", notes = "查询所有系统用户")
     public Iterable<User> findAllUser() {
         return userRepository.findAll();
     }
 
     /**
-     * @description 查找所有的系统角色
+     * 查找所有的系统角色
+     *
      * @return java.lang.Iterable<ink.fujisann.learning.code.vo.sys.Role>
-     * @author hulei
-     * @date 2020-03-15 21:34:48
      */
-    @GetMapping ("/findAllRole")
-    @RequiresPermissions ("/shiro-manage/findAllRole")
-    @ApiOperation (value = "findAllRole", notes = "查找所有的系统角色")
+    @GetMapping("/findAllRole")
+    @RequiresPermissions("/shiro-manage/findAllRole")
+    @ApiOperation(value = "findAllRole", notes = "查找所有的系统角色")
     public Iterable<Role> findAllRole() {
         return roleRepository.findAll();
     }
 
     /**
-     * @description 查询所有接口权限点
+     * 查询所有接口权限点
+     *
      * @return java.lang.Iterable<ink.fujisann.learning.code.vo.sys.Permission>
-     * @author hulei
-     * @date 2020-03-15 21:35:09
      */
-    @GetMapping ("/findAllPermission")
-    @RequiresPermissions ("/shiro-manage/findAllPermission")
-    @ApiOperation (value = "findAllPermission", notes = "查找所有接口权限点")
+    @GetMapping("/findAllPermission")
+    @RequiresPermissions("/shiro-manage/findAllPermission")
+    @ApiOperation(value = "findAllPermission", notes = "查找所有接口权限点")
     public Iterable<Permission> findAllPermission() {
         return permissionRepository.findAll();
     }
 
     /**
-     * @description 通过用户名查询角色集合
+     * 通过用户名查询角色集合
+     *
      * @param userName 用户名
      * @return java.lang.Iterable<ink.fujisann.learning.code.vo.sys.Role>
-     * @author hulei
-     * @date 2020-03-17 21:48:49
      */
-    @GetMapping ("/findRoleByUser")
-    @RequiresPermissions ("/shiro-manage/findRoleByUser")
-    @ApiOperation (value = "findRoleByUser", notes = "通过用户名查找角色集合")
-    public Iterable<Role> findRoleByUser(@RequestParam (value = "userName") String userName) {
+    @GetMapping("/findRoleByUser")
+    @RequiresPermissions("/shiro-manage/findRoleByUser")
+    @ApiOperation(value = "findRoleByUser", notes = "通过用户名查找角色集合")
+    public Iterable<Role> findRoleByUser(@RequestParam(value = "userName") String userName) {
         return roleRepository.findRolesByUserName(userName);
     }
 
     /**
-     * @description 通过角色名称查找所有的权限点
+     * 通过角色名称查找所有的权限点
+     *
      * @param roleName 角色名称
      * @return java.lang.Iterable<ink.fujisann.learning.code.vo.sys.Permission>
-     * @author hulei
-     * @date 2020-03-17 22:48:52
      */
-    @GetMapping ("/findPermissionByRole")
-    @RequiresPermissions ("/shiro-manage/findPermissionByRole")
-    @ApiOperation (value = "findPermissionByRole", notes = "通过角色名查找权限点集合")
-    public Iterable<Permission> findPermissionByRole(@RequestParam (value = "roleName") String roleName) {
+    @GetMapping("/findPermissionByRole")
+    @RequiresPermissions("/shiro-manage/findPermissionByRole")
+    @ApiOperation(value = "findPermissionByRole", notes = "通过角色名查找权限点集合")
+    public Iterable<Permission> findPermissionByRole(@RequestParam(value = "roleName") String roleName) {
         return permissionRepository.findPermissionByRoleName(roleName);
     }
 
     /**
-     * @description 通过角色名查找未配置的权限点集合
+     * 通过角色名查找未配置的权限点集合
+     *
      * @param roleName 角色名称
      * @return java.lang.Iterable<ink.fujisann.learning.code.vo.sys.Permission>
-     * @author hulei
-     * @date 2020-03-17 23:50:19
      */
-    @GetMapping ("/findNonPermissionByRole")
-    @RequiresPermissions ("/shiro-manage/findNonPermissionByRole")
-    @ApiOperation (value = "findNonPermissionByRole", notes = "通过角色名查找未配置的权限点集合")
-    public Iterable<Permission> findNonPermissionByRole(@RequestParam (value = "roleName") String roleName) {
+    @GetMapping("/findNonPermissionByRole")
+    @RequiresPermissions("/shiro-manage/findNonPermissionByRole")
+    @ApiOperation(value = "findNonPermissionByRole", notes = "通过角色名查找未配置的权限点集合")
+    public Iterable<Permission> findNonPermissionByRole(@RequestParam(value = "roleName") String roleName) {
         return permissionRepository.findNonPermissionByRoleName(roleName);
     }
 
     /**
-     * @description 查找用户没有配置的角色
+     * 查找用户没有配置的角色
+     *
      * @param userName 用户名
      * @return java.lang.Iterable<ink.fujisann.learning.code.vo.sys.Role>
-     * @author hulei
-     * @date 2020-03-18 20:53:40
      */
-    @GetMapping ("/findNonRoleByUser")
-    @RequiresPermissions ("/shiro-manage/findNonRoleByUser")
-    @ApiOperation (value = "findNonRoleByUser", notes = "通过用户查找未配置的角色")
-    public Iterable<Role> findNonRoleByUser(@RequestParam (value = "userName") String userName) {
+    @GetMapping("/findNonRoleByUser")
+    @RequiresPermissions("/shiro-manage/findNonRoleByUser")
+    @ApiOperation(value = "findNonRoleByUser", notes = "通过用户查找未配置的角色")
+    public Iterable<Role> findNonRoleByUser(@RequestParam(value = "userName") String userName) {
         return roleRepository.findNonRoleByUserName(userName);
     }
 }

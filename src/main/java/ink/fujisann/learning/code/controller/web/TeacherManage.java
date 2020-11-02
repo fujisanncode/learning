@@ -1,4 +1,4 @@
-package ink.fujisann.learning.code.controller.teacher;
+package ink.fujisann.learning.code.controller.web;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;

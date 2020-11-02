@@ -1,9 +1,9 @@
-package ink.fujisann.learning.code.controller.rabbit;
+package ink.fujisann.learning.code.controller.hello;
 
 import ink.fujisann.learning.base.configure.rabbitmq.DirectExchangeConfig;
 import ink.fujisann.learning.base.configure.rabbitmq.FanoutExchangeConfig;
 import ink.fujisann.learning.base.configure.rabbitmq.TopicExchangeConfig;
-import ink.fujisann.learning.code.controller.upload.MultiFileManage;
+import ink.fujisann.learning.code.controller.web.MultiFileManage;
 import ink.fujisann.learning.base.utils.common.DateUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

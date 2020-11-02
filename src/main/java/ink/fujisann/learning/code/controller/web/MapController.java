@@ -1,4 +1,4 @@
-package ink.fujisann.learning.code.controller.data;
+package ink.fujisann.learning.code.controller.web;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;

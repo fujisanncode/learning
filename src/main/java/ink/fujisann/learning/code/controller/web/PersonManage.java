@@ -1,4 +1,4 @@
-package ink.fujisann.learning.code.controller.person;
+package ink.fujisann.learning.code.controller.web;
 
 import ink.fujisann.learning.code.dao.PersonMapper;
 import ink.fujisann.learning.code.pojo.mybatis.Person;

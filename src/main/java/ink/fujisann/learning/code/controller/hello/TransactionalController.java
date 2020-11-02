@@ -1,4 +1,4 @@
-package ink.fujisann.learning.code.controller.transactional;
+package ink.fujisann.learning.code.controller.hello;
 
 import ink.fujisann.learning.code.dao.RegionLv1Mapper;
 import io.swagger.annotations.Api;
