@@ -10,6 +10,7 @@ import ink.fujisann.learning.code.repository.GeoRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -107,6 +108,17 @@ public class Hello {
     userRegisterService.register();
     springRegisterService.register();
     return "hello world";
+  }
+
+  @ApiOperation("测试shiro过滤")
+  @GetMapping("/helloWithoutShiro")
+  public void helloWithoutShiro() {
+  }
+
+  @ApiOperation("测试shiro角色权限")
+  @GetMapping("/helloWithShiroRole")
+  @RequiresRoles(value = {"", ""})
+  public void helloWithShiroRole() {
   }
 
   @PostMapping("/insert-region")

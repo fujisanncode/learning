@@ -11,14 +11,17 @@ import javax.persistence.*;
 
 /**
  * 系统角色对应的权限点表，和角色多对多
+ *
+ * @author hulei
+ * @date 2020/11/2
  */
-@Entity// 如果数据库不存在表,数据库会重新生成;否则改动表结构,数据库中表不会进行更新
-@Table(name = "sys_permission_t")
-@DynamicInsert //insert的sql中，忽略null字段，否则会将对象中的null写入数据库；入库数据库字段需要空，设置为空字符串
+@Entity
+@Table(name = "sys_permission_t", uniqueConstraints = {@UniqueConstraint(name = "name_u", columnNames = "name")})
+@DynamicInsert
 @DynamicUpdate
-@org.hibernate.annotations.Table(appliesTo = "sys_permission_t", comment = "系统接口权限点")// appliesTo不能使用大写表名
+@org.hibernate.annotations.Table(appliesTo = "sys_permission_t", comment = "系统接口权限点")
 @Data
-@EqualsAndHashCode (callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 public class Permission extends BaseInfo {
 
     @Id

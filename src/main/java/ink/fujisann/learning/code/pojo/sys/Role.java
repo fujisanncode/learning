@@ -11,14 +11,17 @@ import javax.persistence.*;
 
 /**
  * 系统用户的角色表，和用户多对多，和权限点多对多
+ *
+ * @author hulei
+ * @date 2020/11/2
  */
-@Entity// 如果数据库不存在表,数据库会重新生成;否则改动表结构,数据库中表不会进行更新
-@Table(name = "sys_role_t")
-@DynamicInsert //insert的sql中，忽略null字段，否则会将对象中的null写入数据库；入库数据库字段需要空，设置为空字符串
+@Entity
+@Table(name = "sys_role_t", uniqueConstraints = {@UniqueConstraint(name = "name_u", columnNames = {"name"})})
+@DynamicInsert
 @DynamicUpdate
-@org.hibernate.annotations.Table(appliesTo = "sys_role_t", comment = "系统角色表")// appliesTo不能使用大写表名
+@org.hibernate.annotations.Table(appliesTo = "sys_role_t", comment = "系统角色表")
 @Data
-@EqualsAndHashCode (callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 public class Role extends BaseInfo {
 
     @Id

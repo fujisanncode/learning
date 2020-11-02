@@ -1,10 +1,15 @@
 package ink.fujisann.learning.code.controller.web;
 
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import com.github.xiaoymin.knife4j.annotations.ApiSort;
+import com.github.xiaoymin.knife4j.annotations.ApiSupport;
+import ink.fujisann.learning.base.configure.shiro.MyRealm;
 import ink.fujisann.learning.base.exception.BusinessException;
 import ink.fujisann.learning.base.utils.common.LambdaUtil;
 import ink.fujisann.learning.base.utils.common.ScanAnnotation;
 import ink.fujisann.learning.code.pojo.sys.*;
 import ink.fujisann.learning.code.repository.*;
+import ink.fujisann.learning.code.service.ShiroService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +38,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = ShiroController.SHIRO)
 @Api(tags = "web页面权限管理")
+@ApiSupport(order = 1)
 @Slf4j
 public class ShiroController {
 
@@ -82,17 +88,23 @@ public class ShiroController {
     }
 
     /**
-     * 不拦截的请求，登录验证后返回sessionId，失败后返回非200的状态码
+     * 此接口需要设置为shiro不拦截的请求<br/>
+     * 登录验证后返回sessionId<br/>
+     * 失败后返回非200的状态码<br/>
+     * 验证登录用户名和密码见 {@linkplain MyRealm}<br/>
      *
      * @param user 登录用户
-     * @return java.io.Serializable
+     * @return 为指定用户生成当前会话的唯一标志服：sessionId
      */
     @PostMapping("/login")
     @ApiOperation(value = "login", notes = "验证登录用户名和密码")
+    @ApiOperationSupport(order = 1)
     public Serializable login(@RequestBody User user) {
         try {
             Subject subject = SecurityUtils.getSubject();
+            // 本地会话超时时间
             subject.getSession().setTimeout(SHIRO_TIME_OUT);
+            // 根据用户名和密码生成token用于登录验证
             UsernamePasswordToken token = new UsernamePasswordToken(user.getName(), user.getPassword());
             subject.login(token);
             // 无论是否登录成功， server都会通过cookie返回sessionId给客户端
@@ -177,17 +189,23 @@ public class ShiroController {
         userRepository.save(user);
     }
 
+    private ShiroService shiroService;
+
+    @Autowired
+    public void setShiroService(ShiroService shiroService) {
+        this.shiroService = shiroService;
+    }
+
     /**
-     * 新增用户接口
+     * 创建新的用户
      *
      * @param user 用户
      */
     @PostMapping("/addUserSingle")
+    @ApiOperation(value = "创建新的用户")
     @RequiresPermissions("/shiro-manage/addUserSingle")
-    @ApiOperation(value = "addUserSingle", notes = "用户信息写入用户表")
     public void addUserSingle(@RequestBody User user) {
-        // 写用户表
-        userRepository.save(user);
+        shiroService.addUser(user);
     }
 
     /**
@@ -196,96 +214,20 @@ public class ShiroController {
      * @param role 角色
      */
     @PostMapping("/addRoleSingle")
-    @RequiresPermissions("/shiro-manage/addRoleSingle")
     @ApiOperation(value = "addRoleSingle", notes = "创建新的角色")
+    @RequiresPermissions("/shiro-manage/addRoleSingle")
     public void addRoleSingle(@RequestBody Role role) {
-        // 写角色表
-        roleRepository.save(role);
+        shiroService.addRole(role);
     }
 
     /**
      * 扫描全部权限注解，写入数据库
      */
     @GetMapping("/addExistPermission")
+    @ApiOperation(value = "扫描shiro的权限点注解并写入数据库")
     @RequiresPermissions("/shiro-manage/addExistPermission")
-    @ApiOperation(value = "addExistPermission", notes = "代码中权限点全部写入数据库")
-    @Transactional(rollbackFor = Exception.class)
     public void addExistPermission() {
-        List<String> allPermission = ScanAnnotation.getValueByClass(ShiroController.class);
-        List<String> hasExistPermission = permissionRepository.findAllName();
-        // 过滤满足验证条件的权限点
-        allPermission.removeIf(hasExistPermission::contains);
-        savePermissionBatch(allPermission);
-    }
-
-    /**
-     * 权限集合批量写表
-     *
-     * @param allInsertPermissionName 需要写表的权限集合
-     */
-    private void savePermissionBatch(List<String> allInsertPermissionName) {
-        List<Permission> permissionList = new ArrayList<>();
-        allInsertPermissionName.forEach(LambdaUtil.withIndex((permissionName, index) -> {
-            if (index == 100) {
-                permissionRepository.saveAll(permissionList);
-                permissionList.clear();
-            }
-            Permission permissionTemp = new Permission();
-            permissionTemp.setName(permissionName);
-            permissionList.add(permissionTemp);
-        }));
-        if (!permissionList.isEmpty()) {
-            permissionRepository.saveAll(permissionList);
-        }
-    }
-
-    /**
-     * 给特定用户增加角色<br/>
-     * 事务隔离，事务传播，回滚；全部使用默认值
-     *
-     * @param userRole 用户角色关联对象
-     */
-    @PostMapping("/addRole")
-    @RequiresPermissions("/shiro-manage/addRole")
-    @ApiOperation(value = "addRole", notes = "按照用户名给用户添加角色")
-    @Transactional(rollbackFor = Exception.class)
-    @Deprecated
-    public void addRole(@RequestBody UserRole userRole) {
-        // 写角色表
-        roleRepository.save(userRole.getRole());
-
-        // 根据用户名查询用户表主键id；写入角色表后，根据角色名称，查询角色id；组装查询到的用户id和角色id
-        User userOut = userRepository.findUserByName(userRole.getUser().getName());
-        Role roleOut = roleRepository.findRoleByName(userRole.getRole().getName());
-        userRole.setUser(userOut);
-        userRole.setRole(roleOut);
-
-        // 写用户-角色关联表
-        userRoleRepository.save(userRole);
-    }
-
-    /**
-     * 给特定角色赋接口权限
-     *
-     * @param rolePermission 角色权限关联对象
-     */
-    @PostMapping("/addPermission")
-    @RequiresPermissions("/shiro-manage/addPermission")
-    @ApiOperation(value = "addPermission", notes = "给指定角色添加接口权限")
-    @Transactional(rollbackFor = Exception.class)
-    @Deprecated
-    public void addPermission(@RequestBody RolePermission rolePermission) {
-        // 写接口权限点
-        permissionRepository.save(rolePermission.getPermission());
-
-        // 根据角色名查询角色表主键id；写入接口权限点表后，根据接口权限点名称，查询接口权限点id；组装查询到的角色id和接口权限点id
-        Role roleOut = roleRepository.findRoleByName(rolePermission.getRole().getName());
-        Permission permissionOut = permissionRepository.findPermissionByName(rolePermission.getPermission().getName());
-        rolePermission.setRole(roleOut);
-        rolePermission.setPermission(permissionOut);
-
-        // 写角色-接口权限点关联表
-        rolePermissionRepository.save(rolePermission);
+        shiroService.addExistPermission();
     }
 
     /**
@@ -294,10 +236,10 @@ public class ShiroController {
      * @param userRole 用户职责对象
      */
     @PostMapping("/addUserRoleBatch")
+    @ApiOperation(value = "角色批量绑定到用户")
     @RequiresPermissions("/shiro-manage/addUserRoleBatch")
-    @ApiOperation(value = "addUserRoleBatch", notes = "批量写入用户角色表")
     public void addUserRoleBatch(@RequestBody Iterable<UserRole> userRole) {
-        userRoleRepository.saveAll(userRole);
+        shiroService.bindUserRoleBatch(userRole);
     }
 
     /**
@@ -306,10 +248,10 @@ public class ShiroController {
      * @param rolePermission 角色权限关联对象
      */
     @PostMapping("/addRolePermissionBatch")
+    @ApiOperation(value = "权限点批量绑定到角色")
     @RequiresPermissions("/shiro-manage/addRolePermissionBatch")
-    @ApiOperation(value = "addRolePermissionBatch", notes = "批量写入角色权限表")
     public void addRolePermissionBatch(@RequestBody Iterable<RolePermission> rolePermission) {
-        rolePermissionRepository.saveAll(rolePermission);
+        shiroService.bindRolePermissionBatch(rolePermission);
     }
 
     /**

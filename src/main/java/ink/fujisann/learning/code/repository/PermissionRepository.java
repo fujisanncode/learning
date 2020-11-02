@@ -66,5 +66,5 @@ public interface PermissionRepository extends CrudRepository<Permission, Integer
      * @date 2020-03-17 22:46:45
      */
     Permission findPermissionByName(String name);
-
+    
 }

@@ -11,24 +11,26 @@ import javax.persistence.*;
 
 /**
  * 系统登录用户，和角色多对多
+ *
+ * @author hulei
+ * @date 2020/11/2
  */
-@Entity //此注解会在数据库生成表（字段为驼峰，数据库为下划线）
-@Table(name = "sys_user_t")
-@DynamicInsert //insert的sql中，忽略null字段，否则会将对象中的null写入数据库；入库数据库字段需要空，设置为空字符串
+@Entity
+@Table(name = "sys_user_t", uniqueConstraints = {@UniqueConstraint(name = "name_u", columnNames = {"name"})})
+@DynamicInsert
 @DynamicUpdate
-@org.hibernate.annotations.Table(appliesTo = "sys_user_t", comment = "系统用户表") //表注释，appliesTo不能使用大写表名
+@org.hibernate.annotations.Table(appliesTo = "sys_user_t", comment = "系统用户表")
 @Data
-@EqualsAndHashCode (callSuper = true) //@data生成的equals方法，不含父类的字段；如果需要父类的字段比较，必须此属性
+@EqualsAndHashCode(callSuper = true)
 public class User extends BaseInfo {
 
-    // 此注解指定主键（指定自增主键生成策略，对于mysql是自增策略）
     @Id
     @GeneratedValue (strategy = GenerationType.AUTO)
     @ApiModelProperty (hidden = true)
     private Integer id;
 
-    @Column (unique = true, columnDefinition = "varchar(50) not null comment '登录用户名称'")// 非空约束仅第一次建表生效
-    @ApiModelProperty (required = true)
+    @Column(unique = true, columnDefinition = "varchar(50) not null comment '登录用户名称'")
+    @ApiModelProperty(required = true)
     private String name;
 
     @Column (columnDefinition = "VARCHAR(50) DEFAULT '123' COMMENT '登录用户密码'")

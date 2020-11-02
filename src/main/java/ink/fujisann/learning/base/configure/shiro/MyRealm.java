@@ -20,7 +20,12 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
- * 调用数据库验证登录用户和角色
+ * 调用数据库<br/>
+ * 1、验证用户身份：{@linkplain MyRealm#doGetAuthorizationInfo(org.apache.shiro.subject.PrincipalCollection) authentication} <br/>
+ * 2、验证用户权限：{@linkplain MyRealm#doGetAuthenticationInfo(org.apache.shiro.authc.AuthenticationToken) authorization} <br/>
+ *
+ * @author hulei
+ * @date 2020/11/2
  */
 @Component
 public class MyRealm extends AuthorizingRealm {
@@ -44,14 +49,21 @@ public class MyRealm extends AuthorizingRealm {
         this.permissionRepository = permissionRepository;
     }
 
-    // 接口权限,@requiredPermission,@requiredRole
+    /**
+     * 接口权限<br/>
+     * 按用户名查询角色和权限<br/>
+     * 用于和接口上注解匹配{@code @requiredPermission}、{@code @requiredRole}
+     *
+     * @param principalCollection 用户主要信息（获取用户名）
+     * @return 授权对象
+     */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        // 获取登录用户名
+        // 按用户名从数据库查询角色和权限
         String name = (String) principalCollection.getPrimaryPrincipal();
         List<Role> roles = roleRepository.findRolesByUserName(name);
         List<Permission> permissions = permissionRepository.findPermissionsByUserName(name);
-        // 将登录用户的角色、权限信息保存并返回
+        // 组装为shiro的角色权限对象，用于和接口上的注解匹配
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         for (Role role : roles) {
             simpleAuthorizationInfo.addRole(role.getName());
@@ -62,14 +74,20 @@ public class MyRealm extends AuthorizingRealm {
         return simpleAuthorizationInfo;
     }
 
-    // 登录认证(/login),调用realm查询数据库判断登录信息
+    /**
+     * 此处查询数据库，验证用户名和密码<br/>
+     * 即调用/login方法会进入此处校验逻辑
+     *
+     * @param authenticationToken 登录接口装配的token
+     * @return 数据库查询的密码，和用户名一起组装为鉴权对象，用户和login中生成的鉴权对象比对
+     * @throws AuthenticationException shiro认证异常
+     */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        // post请求需要先验证token
         if (authenticationToken.getPrincipal() == null) {
             return null;
         }
-        // 从token中获取登录用户名
+        // 从数据库，根据用户名获取用户对象，用于生成shiro的验证对象(shiro框架用此对象和login接口中生成的对象进行匹配)
         String name = authenticationToken.getPrincipal().toString();
         User user = userRepository.findUserByName(name);
         if (user == null) {

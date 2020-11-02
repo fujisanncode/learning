@@ -12,18 +12,27 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+/**
+ * 启动类<br/>
+ * {@code @EnableAsync} 开启异步<br/>
+ * {@code @EnableScheduling} 开启定时任务<br/>
+ * {@code @MapperScan} dao层不需要注解 dao通过下面的注解自动注入容器<br/>
+ *
+ * @author hulei
+ * @date 2020/11/2
+ */
 @Slf4j
-@MapperScan("ink.fujisann.learning.code.dao") // dao层不需要注解 dao通过下面的注解自动注入容器
+@MapperScan("ink.fujisann.learning.code.dao")
 @SpringBootApplication(scanBasePackages = "ink.fujisann")
-@EnableAsync // 开启异步
+@EnableAsync
 @EnableConfigurationProperties(value = {ShiroProperty.class})
-@EnableScheduling // 开启定时任务
+@EnableScheduling
 public class LearningApplication implements CommandLineRunner {
 
   public static void main(String[] args) {
     // 启动webServer
     ApplicationContext applicationContext =
-        SpringApplication.run(LearningApplication.class, args);
+            SpringApplication.run(LearningApplication.class, args);
     // 配置nettyServer
     applicationContext.getBean(NettyServer.class).start();
     // new NettyServer().start(); // new 出来的对象中不能注入

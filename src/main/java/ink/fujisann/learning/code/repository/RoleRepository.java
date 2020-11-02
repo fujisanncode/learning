@@ -36,13 +36,21 @@ public interface RoleRepository extends CrudRepository<Role, Integer> {
     Role findRoleByName(String roleName);
 
     /**
-     * @description 通过用户名查找其为配置的角色
      * @param UserName 用户名
      * @return java.lang.Iterable<ink.fujisann.learning.code.vo.sys.Role>
+     * @description 通过用户名查找其为配置的角色
      * @author hulei
      * @date 2020-03-18 20:38:58
      */
-    @Query (value = "select r.* from sys_role_t r where not exists(select 1 from sys_user_t u,sys_user_role_t ur "
-        + "where u.id = ur.user_id and ur.role_id = r.id and u.name = ?1)", nativeQuery = true)
+    @Query(value = "select r.* from sys_role_t r where not exists(select 1 from sys_user_t u,sys_user_role_t ur "
+            + "where u.id = ur.user_id and ur.role_id = r.id and u.name = ?1)", nativeQuery = true)
     Iterable<Role> findNonRoleByUserName(String UserName);
+
+    /**
+     * 是否存在角色名称
+     *
+     * @param roleName 角色名称
+     * @return true 存在
+     */
+    Boolean existsRoleByName(String roleName);
 }

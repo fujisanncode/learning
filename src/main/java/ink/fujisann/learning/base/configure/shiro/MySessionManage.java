@@ -19,7 +19,7 @@ public class MySessionManage extends DefaultWebSessionManager {
 
     @Override
     protected Serializable getSessionId(ServletRequest request, ServletResponse response) {
-        // 如果请求头的token不为空，则为sessionId，取出;否则默认从cookie中取出sessionId
+        // 如果请求头token不为空，从token中获取sessionId，并设置到请求头的sessionId字段
         String id = WebUtils.toHttp(request).getHeader(token);
         if (!StringUtils.isEmpty(id)) {
             request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_SOURCE, statelessRequest);
@@ -27,7 +27,7 @@ public class MySessionManage extends DefaultWebSessionManager {
             request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_IS_VALID, Boolean.TRUE);
             return id;
         } else {
-            // shiro默认策略生成sessionId，放到cookie中，返回页面
+            // 否则按照shiro默认的策略从请求头的cookie字段中获取sessionId，并设置到请求头的sessionId字段中
             return super.getSessionId(request, response);
         }
     }
