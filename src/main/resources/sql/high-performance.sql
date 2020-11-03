@@ -162,7 +162,8 @@ SELECT gtbi.id FROM test_data_s.geo_t_bk_1116 gtbi WHERE gtbi.area_name = 'ä¸Šæµ
 
 EXPLAIN
 SELECT * FROM sys_user_t su
-LEFT JOIN sys_user_role_t sur on su.id = sur.user_idLEFT JOIN sys_role_t sr on sur.role_id = sr.id
+                  LEFT JOIN sys_user_role_t sur on su.id = sur.userId
+                  LEFT JOIN sys_role_t sr on sur.roleId = sr.id
  
 SHOW INDEX FROM	geo_t_bk_1116_i1;
 SHOW INDEX FROM	geo_t_bk_1116_i;

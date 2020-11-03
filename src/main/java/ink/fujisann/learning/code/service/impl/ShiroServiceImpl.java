@@ -47,8 +47,9 @@ public class ShiroServiceImpl implements ShiroService {
         List<Permission> existPermission = IterableUtils.toList(permissionRepository.findAll());
 
         // 如果A中权限点在B中存在，则排除掉不需要重复写入
-        allPermission.removeIf(a -> existPermission.stream().anyMatch(b -> b.getName().equals(a)));
-        savePermissionBatch(allPermission);
+        ArrayList<String> copy = new ArrayList<>(allPermission);
+        copy.removeIf(a -> existPermission.stream().anyMatch(b -> b.getName().equals(a)));
+        savePermissionBatch(copy);
 
         // 如果B中权限点在A中不存在，则将这些废弃的权限点从数据库中删除掉
         existPermission.removeIf(b -> allPermission.contains(b.getName()));
