@@ -39,16 +39,13 @@ import java.util.Map;
 @Configuration
 public class ShiroConfig {
 
-  @Value ("${local.redis.host}")
+  @Value("${spring.redis.host}")
   private String redisHost;
 
-  @Value ("${local.redis.port}")
+  @Value("${spring.redis.port}")
   private String redisPort;
 
-  @Value ("${local.redis.name}")
-  private String redisName;
-
-  @Value ("${local.redis.pass}")
+  @Value("${spring.redis.password}")
   private String redisPass;
 
   /**
@@ -104,7 +101,8 @@ public class ShiroConfig {
     // 指定校验的域
     securityManager.setRealm(customRealm());
     try (Jedis jedis = new Jedis(redisHost, Integer.parseInt(redisPort))) {
-      log.info("redis 连接测试 {}", jedis.get("hello"));
+      jedis.auth(redisPass);
+      System.out.println(jedis.get("hello"));
       // 如果配置本机安装了redis，使用redis作为缓存，和会话管理器
       securityManager.setCacheManager(myRedisCacheManager());
       securityManager.setSessionManager(myRedisSessionManager());
