@@ -1,12 +1,9 @@
 package ink.fujisann.learning.code.controller.web;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import ink.fujisann.learning.base.configure.shiro.MyRealm;
 import ink.fujisann.learning.base.exception.BusinessException;
-import ink.fujisann.learning.base.utils.common.LambdaUtil;
-import ink.fujisann.learning.base.utils.common.ScanAnnotation;
 import ink.fujisann.learning.code.pojo.sys.*;
 import ink.fujisann.learning.code.repository.*;
 import ink.fujisann.learning.code.service.ShiroService;
@@ -17,6 +14,8 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationException;
+import org.apache.shiro.authz.UnauthenticatedException;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +25,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * web页面权限管理
@@ -47,7 +44,7 @@ public class ShiroController {
     /**
      * shiro的session超时时间
      */
-    private static final long SHIRO_TIME_OUT = 5 * 60 * 1000;
+    private static final long SHIRO_TIME_OUT = 30 * 60 * 1000;
 
     private final UserRepository userRepository;
     private UserRoleRepository userRoleRepository;
@@ -102,23 +99,19 @@ public class ShiroController {
     public Serializable login(@RequestBody User user) {
         try {
             Subject subject = SecurityUtils.getSubject();
-            // 本地会话超时时间
+            // 设置session超时时间
             subject.getSession().setTimeout(SHIRO_TIME_OUT);
-            // 根据用户名和密码生成token用于登录验证
+            // 将请求中用户名、密码传入shiro中进行验证并生成sessionId
             UsernamePasswordToken token = new UsernamePasswordToken(user.getName(), user.getPassword());
             subject.login(token);
-            // 无论是否登录成功， server都会通过cookie返回sessionId给客户端
-            // 客户端再次和server交互，通过cookie将sessionId交给server判断当前会话客户端是否已经登录
-            return subject.getSession().getId();
+            // 登录成功，则响应头中通过set-cookie字段返回生成的sessionId
+            return "success";
         } catch (AuthenticationException e) {
-            throw new BusinessException.Builder()
-                    .code("401").msg("账号/密码错误").build();
+            throw new UnauthenticatedException();
         } catch (AuthorizationException e) {
-            throw new BusinessException.Builder()
-                    .code("403").msg("权限错误").build();
+            throw new UnauthorizedException();
         } catch (Exception e) {
-            throw new BusinessException.Builder()
-                    .code("500").msg("服务器错误").build();
+            throw new RuntimeException("登录接口异常");
         }
     }
 
