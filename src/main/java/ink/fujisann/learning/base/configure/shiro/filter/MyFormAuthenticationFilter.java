@@ -1,18 +1,11 @@
 package ink.fujisann.learning.base.configure.shiro.filter;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletResponse;
-
 import ink.fujisann.learning.base.configure.shiro.ShiroExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
-import org.springframework.http.HttpStatus;
+
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 
 /**
  * 未找到sessionId, 即未登录会跳转到默认的login.jsp接口<br/>
@@ -24,14 +17,6 @@ import org.springframework.http.HttpStatus;
 @Slf4j
 public class MyFormAuthenticationFilter extends FormAuthenticationFilter {
 
-    /**
-     * filter中不能注入
-     */
-    private final String noLoginUrl;
-
-    public MyFormAuthenticationFilter(String noLoginUrl) {
-        this.noLoginUrl = noLoginUrl;
-    }
 
     /**
      * 此处异常无法被全局异常捕获<br/r>

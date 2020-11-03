@@ -91,9 +91,4 @@ public class ReadUtil {
         sb.append(unicodeStr, count, length);
         return sb.toString();
     }
-
-    public static void main(String[] args) {
-        unicodeTransfer();
-        // System.out.println(unicode2String("#\\u6570\\u636E\\u5E93\\u914D\\u7F6E"));
-    }
 }

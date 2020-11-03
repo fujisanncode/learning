@@ -1,28 +1,38 @@
 package ink.fujisann.learning.base.configure.shiro;
 
-import java.io.Serializable;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import org.apache.shiro.web.servlet.ShiroHttpServletRequest;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.util.StringUtils;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import java.io.Serializable;
+
 /**
- * 自定义shiro的session管理器，请求时通过token携带session进行验证，登录后将session返回页面
+ * 重新默认的会话管理器<br/>
+ * 即如何从登陆后的客户端获取sessionId<br/>
+ * 默认从请求头的cookies字段中获取，现在修改为<br/>
+ * 先从请求的token字段中获取，如果获取不到从cookies字段中获取<br/>
+ *
+ * @author hulei
+ * @date 2020-11-03 23:19:22
  */
 public class MySessionManage extends DefaultWebSessionManager {
 
-    private static final String token = "token";
+    /**
+     * 请求头token字段的key
+     */
+    private static final String TOKEN = "token";
 
-    private static final String statelessRequest = "stateless request";
+    private static final String STATELESS_REQUEST = "stateless request";
 
     @Override
     protected Serializable getSessionId(ServletRequest request, ServletResponse response) {
         // 如果请求头token不为空，从token中获取sessionId，并设置到请求头的sessionId字段
-        String id = WebUtils.toHttp(request).getHeader(token);
+        String id = WebUtils.toHttp(request).getHeader(TOKEN);
         if (!StringUtils.isEmpty(id)) {
-            request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_SOURCE, statelessRequest);
+            request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_SOURCE, STATELESS_REQUEST);
             request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID, id);
             request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_IS_VALID, Boolean.TRUE);
             return id;

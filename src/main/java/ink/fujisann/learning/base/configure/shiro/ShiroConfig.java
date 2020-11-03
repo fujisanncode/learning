@@ -50,11 +50,12 @@ public class ShiroConfig {
 
   /**
    * ???
+   * {@code @ConditionalOnMissingBean} 修饰@Bean，如果bean存在多个实现会报错
    *
-   * @return org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator
+   * @return DefaultAdvisorAutoProxyCreator
    */
-  @Bean
   @ConditionalOnMissingBean
+  @Bean
   public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
     DefaultAdvisorAutoProxyCreator proxyCreator = new DefaultAdvisorAutoProxyCreator();
     proxyCreator.setProxyTargetClass(true);
@@ -63,8 +64,9 @@ public class ShiroConfig {
 
   /**
    * ???
-   * @param securityManager 容器中的安全管理器
-   * @return org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor
+   *
+   * @param securityManager 自定义的安全管理器
+   * @return AuthorizationAttributeSourceAdvisor
    */
   @Bean
   public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
@@ -74,8 +76,10 @@ public class ShiroConfig {
   }
 
   /**
-   * 注入自定义的校验域
-   * @return realm
+   * 重写数据域<br/>
+   * 即获取用户名、密码、角色、权限的sql<br/>
+   *
+   * @return 数据域
    */
   @Bean
   public Realm customRealm() {
@@ -83,51 +87,23 @@ public class ShiroConfig {
   }
 
   /**
-   * 注入自定义的sessionManage
+   * 重写默认的会话管理器
+   *
    * @return org.apache.shiro.session.mgt.SessionManager
    */
   @Bean
-  public SessionManager getMySessionManage() {
+  public DefaultWebSessionManager getMySessionManage() {
     return new MySessionManage();
   }
 
   /**
-   * 注入安全管理器
-   * @return org.apache.shiro.mgt.SecurityManager
-   */
-  @Bean
-  public SecurityManager defaultSecurityManager() {
-    DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-    // 指定校验的域
-    securityManager.setRealm(customRealm());
-    try (Jedis jedis = new Jedis(redisHost, Integer.parseInt(redisPort))) {
-      jedis.auth(redisPass);
-      System.out.println(jedis.get("hello"));
-      // 如果配置本机安装了redis，使用redis作为缓存，和会话管理器
-      securityManager.setCacheManager(myRedisCacheManager());
-      securityManager.setSessionManager(myRedisSessionManager());
-    } catch (Exception e) {
-      log.error("连接到redis失败", e);
-      // 指定sessionManage
-      securityManager.setSessionManager(getMySessionManage());
-    }
-
-    return securityManager;
-  }
-
-  /**
-   * 获取redisCache
-   * @return org.crazycake.shiro.RedisCacheManager
-   */
-  public RedisCacheManager myRedisCacheManager() {
-    RedisCacheManager redisCacheManager = new RedisCacheManager();
-    redisCacheManager.setRedisManager(myRedisManager());
-    return redisCacheManager;
-  }
-
-  /**
-   * 连接redis
-   * @return org.crazycake.shiro.RedisManager
+   * <pre>
+   * 配置redis数据源
+   * 1、配置为redisDao的数据源
+   * 2、配置为redisCache的数据源
+   * </pre>
+   *
+   * @return redis数据源
    */
   public RedisManager myRedisManager() {
     RedisManager redisManager = new RedisManager();
@@ -137,19 +113,12 @@ public class ShiroConfig {
   }
 
   /**
-   * 配置redis版本的sessionManager
-   * @return org.apache.shiro.session.mgt.SessionManager
-   */
-  public SessionManager myRedisSessionManager() {
-    DefaultSessionManager sessionManager = new DefaultWebSessionManager();
-    sessionManager.setSessionDAO(myRedisSessionDao());
-    sessionManager.setCacheManager(myRedisCacheManager());
-    return sessionManager;
-  }
-
-  /**
-   * 设置数据源为redis
-   * @return org.apache.shiro.session.mgt.eis.SessionDAO
+   * <pre>
+   * redis会话dao
+   * 1、需要设置redis数据源
+   * </pre>
+   *
+   * @return redis会话dao
    */
   public SessionDAO myRedisSessionDao() {
     RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
@@ -157,19 +126,91 @@ public class ShiroConfig {
     return redisSessionDAO;
   }
 
+
   /**
-   * shiro过滤器，被注入到filterChain中，接口请求时所有的filter被依次执行<br/>
-   * 1、指定安全管理器<br/>
-   * 2、指定自定义过滤器，重写默认过滤器的行为<br/>
-   * 2.1、authc表示登录过滤器，perms表示权限过滤器<br/>
-   * 2.2、登录过滤器中重新登录认证失败的行为，默认未跳转到/login.do，重写为抛出异常，页面捕捉异常发起重新登录<br/>
-   * 2.3、
-   * 3、指定特殊接口过滤链<br/>
-   * 3.1、authc为需要认证、perms为需要授权、anon为不需要认证和授权<br/>
-   * 3.2、authc，"/**"表示所有接口需要认证<br/>
-   * 3.2、perms，perms[/shiro-manage/findAllUser]需要指定权限点名称，也可以在接口上用@requirePermission注解实现<br/>
-   * 3.3、过滤链顺序执行，所以对于认证：一般先设置全部接口需要认证，然后指定认定接口不需要认证；
-   * 3.4、权限一般用注解指定，过滤链中设置的权限比注解设置的优先级高
+   * <pre>
+   * redis缓存管理器
+   * 1、作为session管理器缓存
+   * 2、作为安全管理器缓存
+   * </pre>
+   *
+   * @return redis缓存管理器
+   */
+  public RedisCacheManager myRedisCacheManager() {
+    RedisCacheManager redisCacheManager = new RedisCacheManager();
+    redisCacheManager.setRedisManager(myRedisManager());
+    return redisCacheManager;
+  }
+
+  /**
+   * <pre>
+   * redis版本的回话管理器
+   * 1、使用默认的会话管理器
+   * 2、需要配置redis缓存管理器
+   * 3、需要配置redis会话dao
+   * </pre>
+   *
+   * @return redis版本的回话管理器
+   */
+  public SessionManager myRedisSessionManager() {
+    DefaultSessionManager sessionManager = getMySessionManage();
+    sessionManager.setSessionDAO(myRedisSessionDao());
+    sessionManager.setCacheManager(myRedisCacheManager());
+    return sessionManager;
+  }
+
+
+  /**
+   * <pre>
+   * 注入安全管理器
+   * 1、配置数据域，即用户名、密码、角色、权限的来源
+   * 2、测试redis连通性，如果可以连接
+   * 2.1、使用redis作为缓存管理器
+   * 2.2、使用redis作为会话管理器
+   * 3、如果redis无法连通
+   * 3.1、使用默认的会话管理器
+   * </pre>
+   *
+   * @return org.apache.shiro.mgt.SecurityManager
+   */
+  @Bean
+  public SecurityManager defaultSecurityManager() {
+    DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+
+    // 指定数据域
+    securityManager.setRealm(customRealm());
+
+    // 测试redis连通性，如果redis可以连接，则使用redis作为各种缓存
+    try (Jedis jedis = new Jedis(redisHost, Integer.parseInt(redisPort))) {
+      // 测试redis连通性，如果连接不上，则抛出异常被捕获
+      jedis.auth(redisPass);
+      log.info("测试redis连接性 {}", jedis.get("hello"));
+      securityManager.setCacheManager(myRedisCacheManager());
+      securityManager.setSessionManager(myRedisSessionManager());
+    } catch (Exception e) {
+      // 如果redis无法连接，使用默认的session管理器，即不使用缓存
+      log.error("连接到redis失败：不使用缓存，仅使用默认的会话管理器", e);
+      securityManager.setSessionManager(getMySessionManage());
+    }
+
+    return securityManager;
+  }
+
+  /**
+   * <pre>
+   * shiro过滤器，被注入到filterChain中，接口请求时所有的filter被依次执行
+   * 1、指定安全管理器，参见{@link ShiroConfig#defaultSecurityManager()}
+   * 2、指定认证失败、授权失败的行为
+   * 2.1、authc表示登录过滤器，perms表示权限过滤器
+   * 2.2、认证过滤器默认行为：认证失败->跳转到登录接口；现重写认证失败，重写为返回401
+   * 2.3、重写授权过滤器：认证失败则返回403
+   * 3、指定需要被拦截的url、需要被放行的url
+   * 3.1、authc为需要认证、perms为需要授权、anon为不需要认证和授权
+   * 3.2、authc，"/**"表示所有接口需要认证
+   * 3.2、perms[/shiro-manage/findAllUser]需要指定权限点名称
+   * 3.4、权限一般用注解@requirePermission指定，过滤链中设置的权限比注解设置的优先级高
+   * 3.5、过滤链顺序执行，所以对于认证：一般先设置全部接口需要认证，然后指定认定接口不需要认证；
+   * </pre>
    *
    * @param securityManager 容器中的安全管理器
    * @return shiro过滤器工厂
@@ -177,41 +218,26 @@ public class ShiroConfig {
   @Bean
   public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
     ShiroFilterFactoryBean filterFactory = new ShiroFilterFactoryBean();
+
     // 指定安全管理器
     filterFactory.setSecurityManager(securityManager);
-    /*
-     * 重写默认拦截过滤器，中特定行为的url
-     * 1、setLoginUrl，没有登陆跳转到这个接口
-     * 2、setUnauthorizedUrl，没有权限跳转到这个接口
-     * 2、登录成功调转到这个接口(前后分离不需要这个，登录成功传递给页面session即可)
-     */
-    // filterFactory.setLoginUrl("/shiro-manage/noLogin");
-    // filterFactory.setUnauthorizedUrl("/shiro-manage/unAuth");
-    // filterFactory.setSuccessUrl("/shiro-manage/after-login");
-    /*
-     * 重写默认的拦截过滤器
-     * 1、DefaultFilter中是shiro默认的所有过滤器
-     * 2、自定义登录认证过滤器的行为(重新被authc拦截器的行为)
-     * 3、自定义拦截器的别名和下述拦截规则对应
-     */
-    filterFactory.getFilters().put("authc", new MyFormAuthenticationFilter("/shiro-manage/noLogin"));
+
+    // 重写shiro过滤器，认证过滤器、权限过滤器
+    filterFactory.getFilters().put("authc", new MyFormAuthenticationFilter());
     filterFactory.getFilters().put("perms", new MyPermissionAuthorizationFilter());
-    /*
-     * 拦截规则定义(什么接口走什么过滤器)
-     * 1、chainMap定义拦截规则，authc表示需要通过登录认证过滤器，anon表示需要通过匿名拦截器(即不需要拦截)
-     * 2、perms表示需要通过权限拦截过滤器(需要指定参数，即权限)；权限拦截也可以通过注解的方式进行@RequiresPermissions, 所以权限拦截不需要特殊指定
-     * 3、配置需要拦截的ur(authc需要拦截，anon不需要拦截，需要拦截写在前面)，解释如下：
-     *    拦截规则会按照下述定义依次执行，例如A接口定义为anon->authc，则先走anon然后走authc过滤器，则会被拦截
-     * 4、配置拦截规则和拦截过滤器，和配置注解是通过不同的逻辑进行判断的；优先按照拦截规则进行拦截
-     */
-    // chainMap.put("/shiro-manage/findAllUser", "perms[/shiro-manage/findAllUser]");
-    Map<String, String> chainMap = new HashMap<>(4);
+
+    // 配置需要拦截的url
+    Map<String, String> chainMap = new HashMap<>(8);
+    filterFactory.setFilterChainDefinitionMap(chainMap);
+    // 配置所有接口需要认证，
     chainMap.put("/**", "authc");
+    // 配置接口上的授权，大部分接口授权通过注解配置了，通过注解配置的权限点在项目启动时会被扫描到数据库中
+    chainMap.put("/hello/helloWithShiroRole", "perms[/hello/helloWithShiroRole]");
+    // login、logout不需要认证，不需要授权
     chainMap.put("/shiro-manage/logout", "anon");
     chainMap.put("/shiro-manage/login", "anon");
-    chainMap.put("/shiro-manage/findAllUser", "perms[/shiro-manage/findAllUser]");
-    // chainMap.put("/hello/helloWithoutShiro", "anon");
-    filterFactory.setFilterChainDefinitionMap(chainMap);
+    chainMap.put("/hello/helloWithoutShiro", "anon");
+
     return filterFactory;
   }
 }

@@ -10,7 +10,7 @@ import ink.fujisann.learning.code.repository.GeoRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -117,7 +117,7 @@ public class Hello {
 
   @ApiOperation("测试shiro角色权限")
   @GetMapping("/helloWithShiroRole")
-  @RequiresRoles(value = {"", ""})
+  @RequiresPermissions(value = {"/hello/helloWithShiroRole"})
   public void helloWithShiroRole() {
   }
 
