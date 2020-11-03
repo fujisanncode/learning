@@ -192,7 +192,7 @@ public class ShiroServiceImpl implements ShiroService {
         } else {
             // 如果用户存在，但密码和默认密码不匹配，则更新为默认密码
             User curUser = userRepository.findUserByName(defaultUser);
-            if (defaultUserPwd.equals(curUser.getPassword())) {
+            if (!defaultUserPwd.equals(curUser.getPassword())) {
                 curUser.setPassword(defaultUserPwd);
                 userRepository.save(curUser);
             }
