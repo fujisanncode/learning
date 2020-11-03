@@ -236,6 +236,7 @@ public class ShiroConfig {
     // login、logout不需要认证，不需要授权
     chainMap.put("/shiro-manage/logout", "anon");
     chainMap.put("/shiro-manage/login", "anon");
+    chainMap.put("/admin/findMenu", "anon");
     chainMap.put("/hello/helloWithoutShiro", "anon");
 
     return filterFactory;
