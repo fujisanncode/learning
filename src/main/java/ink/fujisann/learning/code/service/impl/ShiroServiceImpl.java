@@ -9,6 +9,7 @@ import ink.fujisann.learning.code.service.ShiroService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.IterableUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -159,31 +160,42 @@ public class ShiroServiceImpl implements ShiroService {
     /**
      * 内置用户名
      */
-    private static final String DEFAULT_USER = "fujisann";
+    @Value("${fujisann.login.name}")
+    private String defaultUser;
 
     /**
      * 内置用户密码
      */
-    private static final String DEFAULT_USER_PWD = "fujisannTest";
+    @Value("${fujisann.login.password}")
+    private String defaultUserPwd;
 
     /**
      * 内置角色
      */
-    private static final String DEFAULT_ROLE = "admin";
+    @Value("${fujisann.login.role}")
+    private String defaultRole;
 
     @Override
     public void addDefaultUser() {
-        if (!userRepository.existsUserByName(DEFAULT_USER)) {
+        // 如果用户不存在，则保存
+        if (!userRepository.existsUserByName(defaultUser)) {
             User insertUser = new User();
-            insertUser.setName(DEFAULT_USER);
-            insertUser.setPassword(DEFAULT_USER_PWD);
+            insertUser.setName(defaultUser);
+            insertUser.setPassword(defaultUserPwd);
             Role insertRole = new Role();
-            insertRole.setName(DEFAULT_ROLE);
+            insertRole.setName(defaultRole);
             UserRole userRole = new UserRole();
             userRole.setUser(insertUser);
             userRole.setRole(insertRole);
             // 保存userRole，则user和role级联保存
             userRoleRepository.save(userRole);
+        } else {
+            // 如果用户存在，但密码和默认密码不匹配，则更新为默认密码
+            User curUser = userRepository.findUserByName(defaultUser);
+            if (defaultUserPwd.equals(curUser.getPassword())) {
+                curUser.setPassword(defaultUserPwd);
+                userRepository.save(curUser);
+            }
         }
     }
 }
