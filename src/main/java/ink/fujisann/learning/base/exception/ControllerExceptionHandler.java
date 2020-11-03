@@ -14,10 +14,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * @program: sqlleaning
- * @description: 统一处理controller层抛出的异常
- * @author: hulei
- * @create: 2020-03-11 21:16
+ * 统一处理controller层抛出的异常
+ *
+ * @author hulei
+ * @date 2020-03-11 21:16
  */
 @ControllerAdvice
 @ResponseBody

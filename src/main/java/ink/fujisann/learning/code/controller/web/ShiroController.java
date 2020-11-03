@@ -134,14 +134,13 @@ public class ShiroController {
     }
 
     /**
-     * 调用未登录会跳转到这里，统一返回401，然后让异常处理器解析异常返回<br/>
+     * 未登录调用接口会跳转到此处<br/>
      * 不指定get或者post，保证不同的http请求方式都能跳转<br/>
      */
     @RequestMapping("/noLogin")
     @ApiOperation(value = "noLogin", notes = "未登录统一返回")
     public void noLogin() {
-        throw new BusinessException.Builder()
-                .code("401").msg("跳转到未登录接口").build();
+        throw new AuthenticationException("通过/noLogin接口返回");
     }
 
     /**

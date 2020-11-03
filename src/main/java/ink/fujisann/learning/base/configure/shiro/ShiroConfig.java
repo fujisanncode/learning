@@ -103,13 +103,13 @@ public class ShiroConfig {
     DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
     // 指定校验的域
     securityManager.setRealm(customRealm());
-    try (Jedis jedis = new Jedis(redisHost, Integer.parseInt(redisPort));) {
-      jedis.get("");
+    try (Jedis jedis = new Jedis(redisHost, Integer.parseInt(redisPort))) {
+      log.info("redis 连接测试 {}", jedis.get("hello"));
       // 如果配置本机安装了redis，使用redis作为缓存，和会话管理器
       securityManager.setCacheManager(myRedisCacheManager());
       securityManager.setSessionManager(myRedisSessionManager());
     } catch (Exception e) {
-      log.error("连接到redis失败");
+      log.error("连接到redis失败", e);
       // 指定sessionManage
       securityManager.setSessionManager(getMySessionManage());
     }
@@ -160,12 +160,18 @@ public class ShiroConfig {
   }
 
   /**
-   * shiro配置<br/>
+   * shiro过滤器，被注入到filterChain中，接口请求时所有的filter被依次执行<br/>
    * 1、指定安全管理器<br/>
-   * 2、指定未登录时，重定向的接口<br/>
+   * 2、指定自定义过滤器，重写默认过滤器的行为<br/>
+   * 2.1、authc表示登录过滤器，perms表示权限过滤器<br/>
+   * 2.2、登录过滤器中重新登录认证失败的行为，默认未跳转到/login.do，重写为抛出异常，页面捕捉异常发起重新登录<br/>
+   * 2.3、
    * 3、指定特殊接口过滤链<br/>
-   * 3.1、登入、登出、hello的测试接口不需要鉴权<br/>
-   * 3.2、未添加shiro注解的接口不需要鉴权<br/>
+   * 3.1、authc为需要认证、perms为需要授权、anon为不需要认证和授权<br/>
+   * 3.2、authc，"/**"表示所有接口需要认证<br/>
+   * 3.2、perms，perms[/shiro-manage/findAllUser]需要指定权限点名称，也可以在接口上用@requirePermission注解实现<br/>
+   * 3.3、过滤链顺序执行，所以对于认证：一般先设置全部接口需要认证，然后指定认定接口不需要认证；
+   * 3.4、权限一般用注解指定，过滤链中设置的权限比注解设置的优先级高
    *
    * @param securityManager 容器中的安全管理器
    * @return shiro过滤器工厂
@@ -205,7 +211,8 @@ public class ShiroConfig {
     chainMap.put("/**", "authc");
     chainMap.put("/shiro-manage/logout", "anon");
     chainMap.put("/shiro-manage/login", "anon");
-    chainMap.put("/hello/helloWithoutShiro", "anon");
+    chainMap.put("/shiro-manage/findAllUser", "perms[/shiro-manage/findAllUser]");
+    // chainMap.put("/hello/helloWithoutShiro", "anon");
     filterFactory.setFilterChainDefinitionMap(chainMap);
     return filterFactory;
   }
