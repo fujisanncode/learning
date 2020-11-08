@@ -1,0 +1,94 @@
+{
+  "findMenu": {
+    "data": [
+      {
+        "path": "/home",
+        "name": "home",
+        "component": "components/home/home",
+        "meta": {
+          "hidden": "false",
+          "icon": "account_balance",
+          "icon-alt": "account_balance",
+          "text": "主页",
+          "model": "true"
+        }
+      }
+    ]
+  },
+  "findRouterByUserId": {
+    "data": [
+      {
+        "path": "/home",
+        "name": "home",
+        "component": "components/home/home",
+        "meta": {
+          "hidden": "false",
+          "icon": "account_balance",
+          "icon-alt": "account_balance",
+          "text": "主页",
+          "model": "false"
+        }
+      },
+      {
+        "path": "/reader",
+        "name": "reader",
+        "component": "components/reader/reader",
+        "meta": {
+          "hidden": "false",
+          "icon": "shopping_basket",
+          "icon-alt": "shopping_basket",
+          "text": "阅读",
+          "model": "false"
+        },
+        "children": [
+          {
+            "path": "/reader/shelf",
+            "name": "reader-shelf",
+            "component": "components/reader/shelf/shelf",
+            "meta": {
+              "hidden": "false",
+              "icon": "shopping_basket",
+              "icon-alt": "shopping_basket",
+              "text": "书架",
+              "model": "false"
+            }
+          },
+          {
+            "path": "/reader/pdf",
+            "name": "reader-pdf",
+            "component": "components/reader/pdf/pdf",
+            "meta": {
+              "hidden": "false",
+              "icon": "class",
+              "icon-alt": "class",
+              "text": "阅读器",
+              "model": "false"
+            }
+          },
+          {
+            "path": "/reader/view",
+            "name": "reader-view",
+            "component": "components/reader/view/view",
+            "meta": {
+              "hidden": "false",
+              "icon": "web_asset",
+              "icon-alt": "web_asset",
+              "text": "网站",
+              "model": "false"
+            },
+            "children": [
+              {
+                "path": "/reader/view/embed",
+                "name": "reader-view-embed",
+                "component": "components/reader/view/embed/embed",
+                "meta": {
+                  "hidden": "true"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,5 +1,6 @@
 package ink.fujisann.learning.code.controller.web;
 
+import ink.fujisann.learning.base.utils.common.ReadUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ public class AdminController {
     @ApiOperation("查找页面的菜单")
     @GetMapping("/findMenu")
     public String findMenu() {
-        return "{\"data\":[{\"path\":\"/home\",\"name\":\"home\",\"component\":\"components/home/home\",\"meta\":{\"hidden\":\"false\",\"icon\":\"account_balance\",\"icon-alt\":\"account_balance\",\"text\":\"主页\",\"model\":\"false\"}}]}";
+        return ReadUtil.readJson("findMenu");
     }
+    
 }

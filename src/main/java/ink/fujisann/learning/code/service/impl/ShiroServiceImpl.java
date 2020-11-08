@@ -1,13 +1,20 @@
 package ink.fujisann.learning.code.service.impl;
 
 import ink.fujisann.learning.base.utils.common.LambdaUtil;
+import ink.fujisann.learning.base.utils.common.ReadUtil;
 import ink.fujisann.learning.base.utils.common.ScanAnnotation;
-import ink.fujisann.learning.code.controller.web.ShiroController;
 import ink.fujisann.learning.code.pojo.sys.*;
 import ink.fujisann.learning.code.repository.*;
 import ink.fujisann.learning.code.service.ShiroService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.IterableUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.AuthorizationException;
+import org.apache.shiro.authz.UnauthenticatedException;
+import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -43,7 +50,7 @@ public class ShiroServiceImpl implements ShiroService {
     @Override
     public void addExistPermission() {
         // 扫描最新代码获取当前权限点集合A
-        List<String> allPermission = ScanAnnotation.getValueByClass(ShiroController.class);
+        List<String> allPermission = ScanAnnotation.buildPermissionListByPackage("ink.fujisann.learning.code.controller.web");
         // 查询数据库中当前保存的权限点集合B
         List<Permission> existPermission = IterableUtils.toList(permissionRepository.findAll());
 
@@ -197,5 +204,34 @@ public class ShiroServiceImpl implements ShiroService {
                 userRepository.save(curUser);
             }
         }
+    }
+
+    /**
+     * shiro的session超时时间
+     */
+    private static final long SHIRO_TIME_OUT = 30 * 60 * 1000;
+
+    @Override
+    public String login(User user) {
+        try {
+            Subject subject = SecurityUtils.getSubject();
+            // 设置session超时时间
+            subject.getSession().setTimeout(SHIRO_TIME_OUT);
+            // 将请求中用户名、密码传入shiro中进行验证并生成sessionId
+            UsernamePasswordToken token = new UsernamePasswordToken(user.getName(), user.getPassword());
+            subject.login(token);
+            // 登录成功，则响应头中通过set-cookie字段返回生成的sessionId
+            return findRouterByUserName("xxx");
+        } catch (AuthenticationException e) {
+            throw new UnauthenticatedException();
+        } catch (AuthorizationException e) {
+            throw new UnauthorizedException();
+        } catch (Exception e) {
+            throw new RuntimeException("登录接口异常");
+        }
+    }
+
+    private String findRouterByUserName(String userName) {
+        return ReadUtil.readJson("findRouterByUserId");
     }
 }

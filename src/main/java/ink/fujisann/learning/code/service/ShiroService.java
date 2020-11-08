@@ -1,7 +1,6 @@
 package ink.fujisann.learning.code.service;
 
 import ink.fujisann.learning.code.pojo.sys.*;
-import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * shiro权限管理相关接口
@@ -69,4 +68,13 @@ public interface ShiroService {
      * 新增默认用户、角色
      */
     void addDefaultUser();
+
+    /**
+     * 登录接口
+     *
+     * @param user 用户信息
+     * @return 登录成功则查询用户的路由和菜单
+     */
+    String login(User user);
+
 }

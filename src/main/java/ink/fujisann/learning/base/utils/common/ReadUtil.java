@@ -1,5 +1,6 @@
 package ink.fujisann.learning.base.utils.common;
 
+import com.alibaba.fastjson.JSONObject;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
@@ -9,26 +10,44 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 文本那种unicode转为汉字
+ * 读取文本的工具
  *
  * @author hulei
  * @version 2020/10/26
  */
 @Slf4j
+@SuppressWarnings("unused")
 public class ReadUtil {
 
-    public static final String FILE = "application-dev.yml";
-    public static final String FILE_COPY = "application-devcopy.yml";
-
-    private static void unicodeTransfer() {
-        write(read());
+    /**
+     * 从json文件中读取指定字段
+     *
+     * @param key 关键字
+     * @return key对应的value
+     */
+    public static String readJson(String key) {
+        String file = "mock/response.json";
+        JSONObject object = JSONObject.parseObject(read(file));
+        return object.getString(key);
     }
 
-    private static String read() {
+    public static void main(String[] args) {
+        log.info("xxx: {}", readJson("findMenu"));
+    }
+
+    /**
+     * 将properties文件中的unicode注释转为汉字
+     */
+    public static void unicodeTransfer() {
+        String file = "application-dev.yml";
+        write(read(file), file);
+    }
+
+    private static String read(String file) {
         StringBuilder result = new StringBuilder();
         ClassLoader classLoader = ReadUtil.class.getClassLoader();
-        try (InputStream inputStream = Objects.requireNonNull(classLoader.getResourceAsStream(FILE));
-             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));) {
+        try (InputStream inputStream = Objects.requireNonNull(classLoader.getResourceAsStream(file));
+             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
             String s;
             while ((s = reader.readLine()) != null) {
                 result.append(unicodeStr2String(s)).append("\r\n");
@@ -40,17 +59,17 @@ public class ReadUtil {
     }
 
     @SneakyThrows
-    private static void write(String content) {
+    private static void write(String content, String fileName) {
         ClassLoader classLoader = ReadUtil.class.getClassLoader();
-        File file = new File(Objects.requireNonNull(classLoader.getResource(FILE)).getFile());
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));) {
+        File file = new File(Objects.requireNonNull(classLoader.getResource(fileName)).getFile());
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileName))) {
             bufferedWriter.write(content);
         } catch (Exception e) {
             log.error("", e);
         }
     }
 
-    public static String unicode2String(String unicode) {
+    private static String unicode2String(String unicode) {
         StringBuilder string = new StringBuilder();
         String[] hex = unicode.split("\\\\u");
 
@@ -64,7 +83,7 @@ public class ReadUtil {
         return string.toString();
     }
 
-    public static String unicodeStr2String(String unicodeStr) {
+    private static String unicodeStr2String(String unicodeStr) {
         int length = unicodeStr.length();
         int count = 0;
         //正则匹配条件，可匹配“\\u”1到4位，一般是4位可直接使用 String regex = "\\\\u[a-f0-9A-F]{4}";

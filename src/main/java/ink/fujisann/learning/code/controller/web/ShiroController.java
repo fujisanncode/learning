@@ -10,21 +10,14 @@ import ink.fujisann.learning.code.service.ShiroService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.authz.AuthorizationException;
-import org.apache.shiro.authz.UnauthenticatedException;
-import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
-import java.io.Serializable;
 
 /**
  * web页面权限管理
@@ -40,11 +33,6 @@ import java.io.Serializable;
 public class ShiroController {
 
     public static final String SHIRO = "/shiro-manage";
-
-    /**
-     * shiro的session超时时间
-     */
-    private static final long SHIRO_TIME_OUT = 30 * 60 * 1000;
 
     private final UserRepository userRepository;
     private UserRoleRepository userRoleRepository;
@@ -96,23 +84,8 @@ public class ShiroController {
     @PostMapping("/login")
     @ApiOperation(value = "login", notes = "验证登录用户名和密码")
     @ApiOperationSupport(order = 1)
-    public Serializable login(@RequestBody User user) {
-        try {
-            Subject subject = SecurityUtils.getSubject();
-            // 设置session超时时间
-            subject.getSession().setTimeout(SHIRO_TIME_OUT);
-            // 将请求中用户名、密码传入shiro中进行验证并生成sessionId
-            UsernamePasswordToken token = new UsernamePasswordToken(user.getName(), user.getPassword());
-            subject.login(token);
-            // 登录成功，则响应头中通过set-cookie字段返回生成的sessionId
-            return "success";
-        } catch (AuthenticationException e) {
-            throw new UnauthenticatedException();
-        } catch (AuthorizationException e) {
-            throw new UnauthorizedException();
-        } catch (Exception e) {
-            throw new RuntimeException("登录接口异常");
-        }
+    public String login(@RequestBody User user) {
+        return shiroService.login(user);
     }
 
     /**
