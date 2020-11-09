@@ -42,6 +42,18 @@
         },
         "children": [
           {
+            "path": "/reader/markdown",
+            "name": "reader-markdown",
+            "component": "components/reader/markdown/markdown",
+            "meta": {
+              "hidden": "false",
+              "icon": "$vuetify.icons.markdown",
+              "icon-alt": "$vuetify.icons.markdown",
+              "text": "Markdown",
+              "model": "false"
+            }
+          },
+          {
             "path": "/reader/shelf",
             "name": "reader-shelf",
             "component": "components/reader/shelf/shelf",
