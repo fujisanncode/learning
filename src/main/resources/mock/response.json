@@ -23,8 +23,8 @@
         "component": "components/home/home",
         "meta": {
           "hidden": "false",
-          "icon": "account_balance",
-          "icon-alt": "account_balance",
+          "icon": "$vuetify.icons.values.markdown",
+          "icon-alt": "$vuetify.icons.values.markdown",
           "text": "主页",
           "model": "false"
         }
