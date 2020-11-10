@@ -234,4 +234,17 @@ public class ShiroServiceImpl implements ShiroService {
     private String findRouterByUserName(String userName) {
         return ReadUtil.readJson("findRouterByUserId");
     }
+
+    @Override
+    public void defaultRoleBindPermission() {
+        Role definedRole = roleRepository.findRoleByName(this.defaultRole);
+        permissionRepository.findAll().forEach(permission -> {
+            RolePermission insert = new RolePermission();
+            Role role = new Role();
+            role.setId(definedRole.getId());
+            insert.setRole(role);
+            insert.setPermission(permission);
+            rolePermissionRepository.bind(insert);
+        });
+    }
 }

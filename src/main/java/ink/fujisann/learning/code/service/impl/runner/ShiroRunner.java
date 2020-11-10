@@ -1,25 +1,10 @@
 package ink.fujisann.learning.code.service.impl.runner;
 
-import ink.fujisann.learning.base.utils.common.LambdaUtil;
-import ink.fujisann.learning.base.utils.common.ScanAnnotation;
-import ink.fujisann.learning.code.controller.web.ShiroController;
-import ink.fujisann.learning.code.pojo.sys.Permission;
-import ink.fujisann.learning.code.pojo.sys.Role;
-import ink.fujisann.learning.code.pojo.sys.User;
-import ink.fujisann.learning.code.pojo.sys.UserRole;
-import ink.fujisann.learning.code.repository.UserRepository;
 import ink.fujisann.learning.code.service.ShiroService;
-import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * spring启动后<br/>
@@ -46,5 +31,8 @@ public class ShiroRunner implements ApplicationRunner {
 
         // 扫描权限点并保存
         shiroService.addExistPermission();
+
+        // 内置角色绑定全部权限
+        shiroService.defaultRoleBindPermission();
     }
 }

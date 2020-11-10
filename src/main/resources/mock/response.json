@@ -7,8 +7,8 @@
         "component": "components/home/home",
         "meta": {
           "hidden": "false",
-          "icon": "account_balance",
-          "icon-alt": "account_balance",
+          "icon": "mdi-home-assistant",
+          "icon-alt": "mdi-home-assistant",
           "text": "主页",
           "model": "true"
         }
@@ -23,8 +23,8 @@
         "component": "components/home/home",
         "meta": {
           "hidden": "false",
-          "icon": "$vuetify.icons.values.markdown",
-          "icon-alt": "$vuetify.icons.values.markdown",
+          "icon": "mdi-home-assistant",
+          "icon-alt": "mdi-home-assistant",
           "text": "主页",
           "model": "false"
         }
@@ -35,8 +35,8 @@
         "component": "components/reader/reader",
         "meta": {
           "hidden": "false",
-          "icon": "shopping_basket",
-          "icon-alt": "shopping_basket",
+          "icon": "mdi-library",
+          "icon-alt": "mdi-library",
           "text": "阅读",
           "model": "false"
         },
@@ -47,8 +47,8 @@
             "component": "components/reader/markdown/markdown",
             "meta": {
               "hidden": "false",
-              "icon": "$vuetify.icons.markdown",
-              "icon-alt": "$vuetify.icons.markdown",
+              "icon": "mdi-language-markdown-outline",
+              "icon-alt": "mdi-language-markdown-outline",
               "text": "Markdown",
               "model": "false"
             }
@@ -59,8 +59,8 @@
             "component": "components/reader/shelf/shelf",
             "meta": {
               "hidden": "false",
-              "icon": "shopping_basket",
-              "icon-alt": "shopping_basket",
+              "icon": "mdi-bookshelf",
+              "icon-alt": "mdi-bookshelf",
               "text": "书架",
               "model": "false"
             }
@@ -71,8 +71,8 @@
             "component": "components/reader/pdf/pdf",
             "meta": {
               "hidden": "false",
-              "icon": "class",
-              "icon-alt": "class",
+              "icon": "mdi-file-pdf-outline",
+              "icon-alt": "mdi-file-pdf-outline",
               "text": "阅读器",
               "model": "false"
             }
@@ -83,8 +83,8 @@
             "component": "components/reader/view/view",
             "meta": {
               "hidden": "false",
-              "icon": "web_asset",
-              "icon-alt": "web_asset",
+              "icon": "mdi-web",
+              "icon-alt": "mdi-web",
               "text": "网站",
               "model": "false"
             },

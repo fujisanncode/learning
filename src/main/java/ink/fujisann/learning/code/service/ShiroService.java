@@ -77,4 +77,9 @@ public interface ShiroService {
      */
     String login(User user);
 
+    /**
+     * 内置角色绑定全部权限
+     */
+    void defaultRoleBindPermission();
+
 }

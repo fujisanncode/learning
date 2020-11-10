@@ -45,6 +45,12 @@ spring:
   redis:
     timeout: 30s
     host: 39.101.206.66
+  data:
+    mongodb:
+      host: 39.101.206.66
+      port: 7100
+      authentication-database: admin
+      database: fujisann
 
 #=========================================================================================================
 #指定数据源名，多个数据源
