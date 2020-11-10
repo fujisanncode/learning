@@ -238,13 +238,16 @@ public class ShiroServiceImpl implements ShiroService {
     @Override
     public void defaultRoleBindPermission() {
         Role definedRole = roleRepository.findRoleByName(this.defaultRole);
+        ArrayList<RolePermission> insertBatch = new ArrayList<>();
         permissionRepository.findAll().forEach(permission -> {
             RolePermission insert = new RolePermission();
             Role role = new Role();
             role.setId(definedRole.getId());
             insert.setRole(role);
             insert.setPermission(permission);
-            rolePermissionRepository.bind(insert);
+            insertBatch.add(insert);
         });
+        rolePermissionRepository.saveAll(insertBatch);
+
     }
 }
