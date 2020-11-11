@@ -235,7 +235,8 @@ public class ShiroConfig {
     chainMap.put("/hello/helloWithShiroRole", "perms[/hello/helloWithShiroRole]");
     // 放行swagger文档
     chainMap.put("/doc.html", "anon");
-    chainMap.put("/webjars/js/chunk*.js", "anon");
+    chainMap.put("/webjars/js/*.js", "anon");
+    chainMap.put("/webjars/css/*.css", "anon");
     chainMap.put("/swagger-resources/configuration/ui", "anon");
     chainMap.put("/swagger-resources", "anon");
     chainMap.put("/v2/api-docs*", "anon");

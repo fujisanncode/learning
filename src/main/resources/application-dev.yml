@@ -51,6 +51,9 @@ spring:
       port: 7100
       authentication-database: admin
       database: fujisann
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
 
 #=========================================================================================================
 #指定数据源名，多个数据源

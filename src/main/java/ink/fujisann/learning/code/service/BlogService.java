@@ -17,7 +17,7 @@ public interface BlogService {
      *
      * @param mongoBlog 博客
      */
-    void save(MongoBlog mongoBlog);
+    String save(MongoBlog mongoBlog);
 
     /**
      * 查询所有博客
@@ -25,4 +25,19 @@ public interface BlogService {
      * @return 博客列表
      */
     List<MongoBlog> findAll();
+
+    /**
+     * 按id查询博客
+     *
+     * @param id 博客id
+     * @return 博客
+     */
+    MongoBlog findById(String id);
+
+    /**
+     * 更新博客
+     *
+     * @param mongoBlog 更新的请求体
+     */
+    void update(MongoBlog mongoBlog);
 }

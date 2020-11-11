@@ -1,7 +1,6 @@
 package ink.fujisann.learning.code.controller.web;
 
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
-import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import ink.fujisann.learning.code.pojo.MongoBlog;
 import ink.fujisann.learning.code.service.BlogService;
 import io.swagger.annotations.Api;
@@ -36,14 +35,30 @@ public class BlogController {
     @RequiresPermissions({"/blog/save"})
     @ApiOperation("保存博客")
     @PostMapping("/save")
-    private void save(@RequestBody MongoBlog mongoBlog) {
-        blogService.save(mongoBlog);
+    public String save(@RequestBody MongoBlog mongoBlog) {
+        return blogService.save(mongoBlog);
     }
 
     @RequiresPermissions({"/blog/findAll"})
     @ApiOperation("查询全部博客")
     @GetMapping("/findAll")
-    private List<MongoBlog> findAll() {
+    public List<MongoBlog> findAll() {
         return blogService.findAll();
     }
+
+    @RequiresPermissions({"/blog/findById"})
+    @ApiOperation("按id查询博客")
+    @GetMapping("/findById")
+    public MongoBlog findById(@RequestParam("id") String id) {
+        return blogService.findById(id);
+    }
+
+    @RequiresPermissions({"/blog/update"})
+    @ApiOperation("更新指定id的博客")
+    @PostMapping("/update")
+    public void update(@RequestBody MongoBlog mongoBlog) {
+        blogService.update(mongoBlog);
+    }
+
+
 }

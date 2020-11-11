@@ -2,16 +2,13 @@ package ink.fujisann.learning.code.controller.web;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
-import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import ink.fujisann.learning.base.configure.shiro.MyRealm;
-import ink.fujisann.learning.base.exception.BusinessException;
 import ink.fujisann.learning.code.pojo.sys.*;
 import ink.fujisann.learning.code.repository.*;
 import ink.fujisann.learning.code.service.ShiroService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -83,7 +80,7 @@ public class ShiroController {
      * @return 为指定用户生成当前会话的唯一标志服：sessionId
      */
     @PostMapping("/login")
-    @ApiOperation(value = "login", notes = "验证登录用户名和密码")
+    @ApiOperation(value = "登入")
     @ApiOperationSupport(order = 1)
     public String login(@RequestBody User user) {
         return shiroService.login(user);
@@ -95,7 +92,7 @@ public class ShiroController {
      * @param session 当前会话
      */
     @GetMapping("/logout")
-    @ApiOperation(value = "logout", notes = "登出清除session")
+    @ApiOperation(value = "登出", notes = "登出后清除session")
     public void logout(HttpSession session) {
         session.invalidate();
     }

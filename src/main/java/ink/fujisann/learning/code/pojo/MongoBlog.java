@@ -6,6 +6,7 @@ import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Id;
+import java.util.Date;
 
 /**
  * 存储到mongo的blog
@@ -29,5 +30,11 @@ public class MongoBlog {
     private String content;
 
     @ApiModelProperty("博客所有者")
-    private String owner;
+    private String author;
+    
+    @ApiModelProperty("创建时间")
+    private Date createTime;
+
+    @ApiModelProperty("更新时间")
+    private Date updateTime;
 }
