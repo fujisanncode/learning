@@ -22,11 +22,17 @@ public class RolePermission {
     @ApiModelProperty(hidden = true)
     private Integer id;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    /**
+     * 不设置级联操作
+     */
+    @ManyToOne
     @JoinColumn(name = "roleId", nullable = false)
     private Role role;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    /**
+     * 不设置级联操作
+     */
+    @ManyToOne
     @JoinColumn(name = "permissionId", nullable = false)
     private Permission permission;
 }

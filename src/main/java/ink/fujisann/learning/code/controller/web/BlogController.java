@@ -1,10 +1,13 @@
 package ink.fujisann.learning.code.controller.web;
 
+import com.github.xiaoymin.knife4j.annotations.ApiSort;
+import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import ink.fujisann.learning.code.pojo.MongoBlog;
 import ink.fujisann.learning.code.service.BlogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +23,7 @@ import java.util.List;
 @RestController
 @Api(tags = {"博客"})
 @Slf4j
+@ApiSort(3)
 public class BlogController {
 
     private BlogService blogService;
@@ -28,13 +32,15 @@ public class BlogController {
     public void setBlogService(BlogService blogService) {
         this.blogService = blogService;
     }
-    
+
+    @RequiresPermissions({"/blog/save"})
     @ApiOperation("保存博客")
     @PostMapping("/save")
     private void save(@RequestBody MongoBlog mongoBlog) {
         blogService.save(mongoBlog);
     }
 
+    @RequiresPermissions({"/blog/findAll"})
     @ApiOperation("查询全部博客")
     @GetMapping("/findAll")
     private List<MongoBlog> findAll() {

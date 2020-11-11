@@ -1,6 +1,7 @@
 package ink.fujisann.learning.code.repository;
 
 import ink.fujisann.learning.code.pojo.sys.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Component;
  * @date 2020-03-18 20:51:03
  */
 @Component
-public interface UserRepository extends CrudRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<User, Integer> {
 
     /**
      * 根据用户名查询用户信息，登录接口比对登录用户信息使用

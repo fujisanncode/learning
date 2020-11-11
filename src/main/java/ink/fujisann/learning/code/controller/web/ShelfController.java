@@ -26,7 +26,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/shelf")
 @Api(tags = "书架")
-@ApiSort(1)
+@ApiSort(2)
 public class ShelfController {
 
     private ShelfService shelfService;

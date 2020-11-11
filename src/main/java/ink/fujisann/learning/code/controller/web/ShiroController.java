@@ -1,6 +1,7 @@
 package ink.fujisann.learning.code.controller.web;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import ink.fujisann.learning.base.configure.shiro.MyRealm;
 import ink.fujisann.learning.base.exception.BusinessException;
@@ -28,7 +29,7 @@ import javax.servlet.http.HttpSession;
 @RestController
 @RequestMapping(value = ShiroController.SHIRO)
 @Api(tags = "web页面权限管理")
-@ApiSupport(order = 1)
+@ApiSort(1)
 @Slf4j
 public class ShiroController {
 
@@ -98,28 +99,7 @@ public class ShiroController {
     public void logout(HttpSession session) {
         session.invalidate();
     }
-
-    /**
-     * 未登录调用接口会跳转到此处<br/>
-     * 不指定get或者post，保证不同的http请求方式都能跳转<br/>
-     */
-    @RequestMapping("/noLogin")
-    @ApiOperation(value = "noLogin", notes = "未登录统一返回")
-    public void noLogin() {
-        throw new AuthenticationException("通过/noLogin接口返回");
-    }
-
-    /**
-     * 调用接口没有权限时，统一用此接口按照401的状态码返回页面，否则没有权限的接口会按照shiro默认返回<br/>
-     * 不指定get或者post，保证不同的http请求方式都能跳转
-     */
-    @RequestMapping("/unAuth")
-    @ApiOperation(value = "unAuth", notes = "未授权统一返回")
-    public void unAuth() {
-        throw new BusinessException.Builder()
-                .code("403").msg("跳转到未授权接口").build();
-    }
-
+    
     /**
      * 测试前后台cookie交互
      *

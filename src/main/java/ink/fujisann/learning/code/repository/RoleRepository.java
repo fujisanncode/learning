@@ -1,6 +1,7 @@
 package ink.fujisann.learning.code.repository;
 
 import ink.fujisann.learning.code.pojo.sys.Role;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
@@ -14,7 +15,7 @@ import java.util.List;
  * @date 2020/11/3
  */
 @Component
-public interface RoleRepository extends CrudRepository<Role, Integer> {
+public interface RoleRepository extends JpaRepository<Role, Integer> {
 
     /**
      * 通过用户名查询角色信息

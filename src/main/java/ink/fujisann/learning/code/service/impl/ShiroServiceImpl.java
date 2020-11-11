@@ -237,15 +237,26 @@ public class ShiroServiceImpl implements ShiroService {
 
     @Override
     public void defaultRoleBindPermission() {
+        // 找到已经配置的权限点
+        List<RolePermission> exist = rolePermissionRepository.findAll();
+
+        // 找到内置角色、所有的权限点
         Role definedRole = roleRepository.findRoleByName(this.defaultRole);
         ArrayList<RolePermission> insertBatch = new ArrayList<>();
         permissionRepository.findAll().forEach(permission -> {
-            RolePermission insert = new RolePermission();
-            Role role = new Role();
-            role.setId(definedRole.getId());
-            insert.setRole(role);
-            insert.setPermission(permission);
-            insertBatch.add(insert);
+            // 在exist中不存在的，需要添加的权限绑定
+            boolean noneExistFlag = exist.stream().noneMatch(
+                    rolePermission -> rolePermission.getPermission().getId().equals(permission.getId())
+            );
+            // 将失效的权限绑定删除，todo
+            if (noneExistFlag) {
+                RolePermission insert = new RolePermission();
+                Role role = new Role();
+                role.setId(definedRole.getId());
+                insert.setRole(role);
+                insert.setPermission(permission);
+                insertBatch.add(insert);
+            }
         });
         rolePermissionRepository.saveAll(insertBatch);
 

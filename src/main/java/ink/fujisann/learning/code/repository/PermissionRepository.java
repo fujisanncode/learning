@@ -1,6 +1,7 @@
 package ink.fujisann.learning.code.repository;
 
 import ink.fujisann.learning.code.pojo.sys.Permission;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
@@ -14,7 +15,7 @@ import java.util.List;
  * @date 2020-03-18 20:51:58
  */
 @Component
-public interface PermissionRepository extends CrudRepository<Permission, Integer> {
+public interface PermissionRepository extends JpaRepository<Permission, Integer> {
 
     /**
      * 根据用户名查询所有的接口权限点信息<br/>

@@ -1,6 +1,7 @@
 package ink.fujisann.learning.code.repository;
 
 import ink.fujisann.learning.code.pojo.sys.UserRole;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +12,6 @@ import org.springframework.stereotype.Component;
  * @date 2020-03-18 20:52:20
  */
 @Component
-public interface UserRoleRepository extends CrudRepository<UserRole, Integer> {
+public interface UserRoleRepository extends JpaRepository<UserRole, Integer> {
 
 }

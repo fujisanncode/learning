@@ -30,11 +30,7 @@ public class ReadUtil {
         JSONObject object = JSONObject.parseObject(read(file));
         return object.getString(key);
     }
-
-    public static void main(String[] args) {
-        log.info("xxx: {}", readJson("findMenu"));
-    }
-
+    
     /**
      * 将properties文件中的unicode注释转为汉字
      */

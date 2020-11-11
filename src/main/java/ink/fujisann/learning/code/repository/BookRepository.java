@@ -1,6 +1,7 @@
 package ink.fujisann.learning.code.repository;
 
 import ink.fujisann.learning.code.pojo.shelf.Book;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * @date 2020-10-24 18:12:18:12
  */
 @Repository
-public interface BookRepository extends CrudRepository<Book, String> {
+public interface BookRepository extends JpaRepository<Book, String> {
     /**
      * 查找用户的书籍列表
      *
