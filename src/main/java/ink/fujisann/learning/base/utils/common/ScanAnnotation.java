@@ -6,9 +6,12 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 
 import java.io.File;
 import java.lang.reflect.Method;
+import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.*;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 
 /**
@@ -58,6 +61,11 @@ public class ScanAnnotation {
     private static final String FILE_RESOURCE = "file";
 
     /**
+     * Jar包类型的资源
+     */
+    private static final String JAR_RESOURCE = "jar";
+
+    /**
      * 字节码文件的后缀
      */
     private static final String CLASS_SUFFIX = ".class";
@@ -80,6 +88,7 @@ public class ScanAnnotation {
             URL url = resources.nextElement();
             String protocol = url.getProtocol();
             log.info("protocol ======> {}", protocol);
+            log.info("path ======> {}", url.getPath());
             // jar包方式启动，protocol为jar
             if (protocol.equals(FILE_RESOURCE)) {
                 // 获取资源绝对路径，后面使用绝对路径创建文件
@@ -93,6 +102,24 @@ public class ScanAnnotation {
                 // 遍历根目录下全部文件
                 for (File file : rootDir.listFiles()) {
                     buildAllClasses(file.getAbsolutePath(), packageName, result);
+                }
+            } else if (protocol.equals(JAR_RESOURCE)) {
+                JarURLConnection connection = (JarURLConnection) url.openConnection();
+                JarFile jarFile = connection.getJarFile();
+                Enumeration<JarEntry> entries = jarFile.entries();
+                while (entries.hasMoreElements()) {
+                    JarEntry jarEntry = entries.nextElement();
+                    String jarEntryName = jarEntry.getName();
+
+                    // 如果是目录或者不是.class文件，跳过
+                    if (jarEntry.isDirectory() || jarEntryName.endsWith(CLASS_SUFFIX)) {
+                        continue;
+                    }
+                    log.info("jarName ======> {}", jarEntryName);
+                    jarEntryName = jarEntryName.replace(".class", "")
+                            .replaceAll("/", ".");
+                    log.info("jarName replace =======> {}", jarEntryName);
+                    result.add(Class.forName(jarEntryName));
                 }
             }
         }
