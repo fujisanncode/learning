@@ -74,10 +74,12 @@ public class ScanAnnotation {
         String packageDir = packageName.replace(".", "/");
         // 加载资源使用文件绝对路径，即加载packageDir这个文件，此文件是一个目录
         Enumeration<URL> resources = Thread.currentThread().getContextClassLoader().getResources(packageDir);
+        log.info("resources ======> {}", resources.hasMoreElements());
         LinkedHashSet<Class<?>> result = new LinkedHashSet<>();
         while (resources.hasMoreElements()) {
             URL url = resources.nextElement();
             String protocol = url.getProtocol();
+            log.info("resources ======> {}", protocol);
             if (protocol.equals(FILE_RESOURCE)) {
                 // 获取资源绝对路径，后面使用绝对路径创建文件
                 String filePath = URLDecoder.decode(url.getFile(), "utf-8");
