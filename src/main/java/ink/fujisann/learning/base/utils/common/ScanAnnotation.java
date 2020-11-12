@@ -107,6 +107,7 @@ public class ScanAnnotation {
                 JarURLConnection connection = (JarURLConnection) url.openConnection();
                 JarFile jarFile = connection.getJarFile();
                 Enumeration<JarEntry> entries = jarFile.entries();
+                // entries会递归扫描jar中所有的文件
                 while (entries.hasMoreElements()) {
                     JarEntry jarEntry = entries.nextElement();
                     String jarEntryName = jarEntry.getName();
@@ -115,10 +116,19 @@ public class ScanAnnotation {
                     if (jarEntry.isDirectory() || !jarEntryName.endsWith(CLASS_SUFFIX)) {
                         continue;
                     }
+                    // 如果当前遍历项不是目标包下的文件，则跳过
+                    if (!jarEntryName.startsWith(packageName)) {
+                        continue;
+                    }
                     jarEntryName = jarEntryName.replace(".class", "")
                             .replaceAll("/", ".");
                     log.info("jarName replace =======> {}", jarEntryName);
-                    result.add(Class.forName(jarEntryName));
+                    Class<?> aClass = Class.forName(jarEntryName);
+                    // 跳过注解、枚举、接口、基本类型
+                    if (aClass.isAnnotation() || aClass.isEnum() || aClass.isInterface() || aClass.isPrimitive()) {
+                        continue;
+                    }
+                    result.add(aClass);
                 }
             }
         }
