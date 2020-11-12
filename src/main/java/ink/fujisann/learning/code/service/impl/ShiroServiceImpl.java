@@ -63,6 +63,11 @@ public class ShiroServiceImpl implements ShiroService {
 
         // 如果B中权限点在A中不存在，则将这些废弃的权限点从数据库中删除掉
         existPermission.removeIf(b -> allPermission.contains(b.getName()));
+        // 先删除角色权限绑定关系
+        existPermission.forEach(permission -> {
+            rolePermissionRepository.deleteRolePermissionByPermissionId(permission.getId());
+        });
+        // 然后删除权限，delete参数为对象时，对象不能是new的（未持久化），必须是查询出来的
         permissionRepository.deleteAll(existPermission);
     }
 

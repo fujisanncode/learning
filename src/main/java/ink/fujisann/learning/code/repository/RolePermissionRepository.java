@@ -2,7 +2,6 @@ package ink.fujisann.learning.code.repository;
 
 import ink.fujisann.learning.code.pojo.sys.RolePermission;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -13,4 +12,10 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface RolePermissionRepository extends JpaRepository<RolePermission, Integer> {
+    /**
+     * 按permissionId删除role-permission绑定
+     *
+     * @param permissionId 权限主键
+     */
+    void deleteRolePermissionByPermissionId(Integer permissionId);
 }

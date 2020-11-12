@@ -1,0 +1,20 @@
+[
+  "/blog/update",
+  "/blog/save",
+  "/blog/findAll",
+  "/blog/findById",
+  "/shiro-manage/index",
+  "/shiro-manage/addRoleSingle",
+  "/shiro-manage/trunkTable",
+  "/shiro-manage/findAllRole",
+  "/shiro-manage/addUserSingle",
+  "/shiro-manage/findAllUser",
+  "/shiro-manage/addUserRoleBatch",
+  "/shiro-manage/findRoleByUser",
+  "/shiro-manage/findNonPermissionByRole",
+  "/shiro-manage/addExistPermission",
+  "/shiro-manage/addRolePermissionBatch",
+  "/shiro-manage/findPermissionByRole",
+  "/shiro-manage/findAllPermission",
+  "/shiro-manage/findNonRoleByUser"
+]
