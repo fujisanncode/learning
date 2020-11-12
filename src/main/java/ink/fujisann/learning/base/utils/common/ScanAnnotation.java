@@ -80,6 +80,7 @@ public class ScanAnnotation {
             URL url = resources.nextElement();
             String protocol = url.getProtocol();
             log.info("protocol ======> {}", protocol);
+            // jar包方式启动，protocol为jar
             if (protocol.equals(FILE_RESOURCE)) {
                 // 获取资源绝对路径，后面使用绝对路径创建文件
                 String filePath = URLDecoder.decode(url.getFile(), "utf-8");
