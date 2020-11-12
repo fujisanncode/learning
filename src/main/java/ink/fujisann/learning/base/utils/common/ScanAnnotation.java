@@ -110,12 +110,11 @@ public class ScanAnnotation {
                 while (entries.hasMoreElements()) {
                     JarEntry jarEntry = entries.nextElement();
                     String jarEntryName = jarEntry.getName();
-
+                    log.info("jarName ======> {}", jarEntryName);
                     // 如果是目录或者不是.class文件，跳过
-                    if (jarEntry.isDirectory() || jarEntryName.endsWith(CLASS_SUFFIX)) {
+                    if (jarEntry.isDirectory() || !jarEntryName.endsWith(CLASS_SUFFIX)) {
                         continue;
                     }
-                    log.info("jarName ======> {}", jarEntryName);
                     jarEntryName = jarEntryName.replace(".class", "")
                             .replaceAll("/", ".");
                     log.info("jarName replace =======> {}", jarEntryName);
