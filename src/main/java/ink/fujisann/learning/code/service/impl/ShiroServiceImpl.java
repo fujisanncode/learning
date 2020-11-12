@@ -1,5 +1,6 @@
 package ink.fujisann.learning.code.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import ink.fujisann.learning.base.utils.common.LambdaUtil;
 import ink.fujisann.learning.base.utils.common.ReadUtil;
 import ink.fujisann.learning.base.utils.common.ScanAnnotation;
@@ -51,6 +52,7 @@ public class ShiroServiceImpl implements ShiroService {
     public void addExistPermission() {
         // 扫描最新代码获取当前权限点集合A
         List<String> allPermission = ScanAnnotation.buildPermissionListByPackage("ink.fujisann.learning.code.controller.web");
+        log.info("scanned ======> {}", JSONArray.toJSONString(allPermission));
         // 查询数据库中当前保存的权限点集合B
         List<Permission> existPermission = IterableUtils.toList(permissionRepository.findAll());
 
