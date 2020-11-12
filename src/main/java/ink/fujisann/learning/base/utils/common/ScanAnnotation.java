@@ -79,7 +79,7 @@ public class ScanAnnotation {
         while (resources.hasMoreElements()) {
             URL url = resources.nextElement();
             String protocol = url.getProtocol();
-            log.info("resources ======> {}", protocol);
+            log.info("protocol ======> {}", protocol);
             if (protocol.equals(FILE_RESOURCE)) {
                 // 获取资源绝对路径，后面使用绝对路径创建文件
                 String filePath = URLDecoder.decode(url.getFile(), "utf-8");
