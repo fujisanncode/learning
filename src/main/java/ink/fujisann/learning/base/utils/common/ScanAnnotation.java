@@ -117,7 +117,7 @@ public class ScanAnnotation {
                         continue;
                     }
                     // 如果当前遍历项不是目标包下的文件，则跳过
-                    if (!jarEntryName.startsWith(packageName)) {
+                    if (!jarEntryName.startsWith(packageDir + "/")) {
                         continue;
                     }
                     jarEntryName = jarEntryName.replace(".class", "")
