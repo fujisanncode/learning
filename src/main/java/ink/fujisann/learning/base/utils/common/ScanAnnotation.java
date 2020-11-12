@@ -117,6 +117,7 @@ public class ScanAnnotation {
                         continue;
                     }
                     // 如果当前遍历项不是目标包下的文件，则跳过
+                    log.info("====> {}", packageDir + "/");
                     if (!jarEntryName.startsWith(packageDir + "/")) {
                         continue;
                     }
@@ -133,6 +134,11 @@ public class ScanAnnotation {
             }
         }
         return result;
+    }
+
+
+    public static void main(String[] args) {
+        log.info("===> {}", "ink/fujisann/learning/code/controller/web/MapController.class ".startsWith("ink/fujisann/learning/code/controller/web" + "/"));
     }
 
     /**
