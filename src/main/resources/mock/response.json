@@ -1,6 +1,6 @@
 {
   "findMenu": {
-    "data": [
+    "menu": [
       {
         "path": "/home",
         "name": "home",
@@ -16,7 +16,10 @@
     ]
   },
   "findRouterByUserId": {
-    "data": [
+    "user": {
+      "name": "fujisann"
+    },
+    "menu": [
       {
         "path": "/home",
         "name": "home",
@@ -42,15 +45,23 @@
         },
         "children": [
           {
-            "path": "/reader/markdown",
-            "name": "reader-markdown",
-            "component": "components/reader/markdown/markdown",
+            "path": "/reader/markdown/list",
+            "name": "reader-markdown-list",
+            "component": "components/reader/markdown/list",
             "meta": {
               "hidden": "false",
               "icon": "mdi-language-markdown-outline",
               "icon-alt": "mdi-language-markdown-outline",
               "text": "Markdown",
               "model": "false"
+            }
+          },
+          {
+            "path": "/reader/markdown/detail",
+            "name": "reader-markdown-detail",
+            "component": "components/reader/markdown/detail",
+            "meta": {
+              "hidden": "true"
             }
           },
           {
