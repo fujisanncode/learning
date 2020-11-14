@@ -21,6 +21,13 @@
     </properties>
 
     <dependencies>
+        <!--邮件客户端-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+            <version>${spring.boot.version}</version>
+        </dependency>
+
         <!--mongodb-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
