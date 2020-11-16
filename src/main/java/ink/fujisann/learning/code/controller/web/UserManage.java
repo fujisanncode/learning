@@ -45,11 +45,6 @@ public class UserManage {
         customer.setId(Integer.valueOf(firstRow.get(0)));
         customer.setUserNum(firstRow.get(1));
         customer.setUserName(firstRow.get(2));
-        customer.setUserPassword(firstRow.get(3));
-        customer.setSex(firstRow.get(5));
-        customer.setMobile(firstRow.get(7));
-        customer.setUpdateDate(DateUtil.parse(firstRow.get(9), DateUtil.dateFormat1));
-        customer.setLan(firstRow.get(11));
         return customer;
     }
 }
