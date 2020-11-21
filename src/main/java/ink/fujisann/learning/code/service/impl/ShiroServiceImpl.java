@@ -18,6 +18,7 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -228,7 +229,7 @@ public class ShiroServiceImpl implements ShiroService {
             UsernamePasswordToken token = new UsernamePasswordToken(user.getName(), user.getPassword());
             subject.login(token);
             // 登录成功，则响应头中通过set-cookie字段返回生成的sessionId
-            return findRouterByUserName("xxx");
+            return findRouterByRedis("xxx");
         } catch (AuthenticationException e) {
             throw new UnauthenticatedException();
         } catch (AuthorizationException e) {
@@ -238,8 +239,21 @@ public class ShiroServiceImpl implements ShiroService {
         }
     }
 
+    private RedisTemplate<String, String> redisTemplate;
+
+    @Autowired
+    public void setRedisTemplate(RedisTemplate<String, String> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
+
     private String findRouterByUserName(String userName) {
         return ReadUtil.readJson("findRouterByUserId");
+    }
+
+    private String findRouterByRedis(String name) {
+        String result = redisTemplate.opsForValue().get("findRouterByUserId");
+        log.info("========> {}", result);
+        return result;
     }
 
     @Override

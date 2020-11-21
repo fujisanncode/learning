@@ -45,6 +45,18 @@
         },
         "children": [
           {
+            "path": "/reader/blog/blog",
+            "name": "reader-blog-blog",
+            "component": "components/reader/blog/blog",
+            "meta": {
+              "hidden": "false",
+              "icon": "mdi-blogger",
+              "icon-alt": "mdi-blogger",
+              "text": "Blog",
+              "model": "false"
+            }
+          },
+          {
             "path": "/reader/markdown/list",
             "name": "reader-markdown-list",
             "component": "components/reader/markdown/list",
