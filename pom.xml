@@ -70,11 +70,11 @@
             <artifactId>jsoup</artifactId>
             <version>1.13.1</version>
         </dependency>
-        <!--引入netty-all，nio框架-->
+        <!--引入netty-all，nio框架 和spring-redis中netty版本匹配-->
         <!--<dependency>-->
         <!--    <groupId>io.netty</groupId>-->
         <!--    <artifactId>netty-all</artifactId>-->
-        <!--    <version>4.1.50.Final</version>-->
+        <!--    <version>4.1.33.Final</version>-->
         <!--</dependency>-->
         <!--shiro的缓存从ehcache改成redis-->
         <dependency>
