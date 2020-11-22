@@ -19,6 +19,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -239,11 +240,11 @@ public class ShiroServiceImpl implements ShiroService {
         }
     }
 
-    private RedisTemplate<String, String> redisTemplate;
+    private StringRedisTemplate stringRedisTemplate;
 
     @Autowired
-    public void setRedisTemplate(RedisTemplate<String, String> redisTemplate) {
-        this.redisTemplate = redisTemplate;
+    public void setStringRedisTemplate(StringRedisTemplate stringRedisTemplate) {
+        this.stringRedisTemplate = stringRedisTemplate;
     }
 
     private String findRouterByUserName(String userName) {
@@ -251,7 +252,7 @@ public class ShiroServiceImpl implements ShiroService {
     }
 
     private String findRouterByRedis(String name) {
-        String result = redisTemplate.opsForValue().get("findRouterByUserId");
+        String result = stringRedisTemplate.opsForValue().get("findRouterByUserId");
         log.info("========> {}", result);
         return result;
     }
