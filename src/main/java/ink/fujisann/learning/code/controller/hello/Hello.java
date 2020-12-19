@@ -1,12 +1,10 @@
 package ink.fujisann.learning.code.controller.hello;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import ink.fujisann.learning.base.designPattern.observer.springlistener.UserRegisterService;
 import ink.fujisann.learning.base.utils.common.SpringContextHolder;
-import ink.fujisann.learning.code.dao.CustomerDao;
+import ink.fujisann.learning.code.dao.CustomerMapper;
 import ink.fujisann.learning.code.dao.RegionLv1Mapper;
 import ink.fujisann.learning.code.pojo.PageReq;
 import ink.fujisann.learning.code.pojo.mybatis.Customer;
@@ -18,14 +16,12 @@ import io.swagger.annotations.ApiOperation;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.omg.CORBA.INTERNAL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -117,13 +113,6 @@ public class Hello {
     return "hello world";
   }
 
-  private CustomerDao customerDao;
-
-  @Autowired
-  public void setCustomerDao(CustomerDao customerDao) {
-    this.customerDao = customerDao;
-  }
-
   private ApplicationContext context;
 
   @Autowired
@@ -131,23 +120,27 @@ public class Hello {
     this.context = context;
   }
 
-  @SneakyThrows
-  @ApiOperation("测试shiro过滤")
-  @GetMapping("/helloWithoutShiro")
-  public void helloWithoutShiro() {
-    PageHelper.startPage(1, 10);
-    customerDao.findCustomerAll();
+  private CustomerMapper customerMapper;
+
+  @Autowired
+  public void setCustomerMapper(CustomerMapper customerMapper) {
+    this.customerMapper = customerMapper;
   }
 
-  private void test() {
-    customerDao.findCustomerAll();
+  @SneakyThrows
+  @ApiOperation("无shiro权限控制")
+  @GetMapping("/helloWithoutShiro")
+  public PageInfo<Customer> helloWithoutShiro() {
+    PageHelper.startPage(1, 10);
+    List<Customer> list = customerMapper.selectList(null);
+    return new PageInfo<>(list);
   }
 
   @ApiOperation("测试shiro角色权限")
   @GetMapping("/helloWithShiroRole")
   @RequiresPermissions(value = {"/hello/helloWithShiroRole"})
   public void helloWithShiroRole() {
-    customerDao.findCustomerAll();
+
   }
 
   @PostMapping("/insert-region")

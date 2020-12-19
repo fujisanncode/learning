@@ -18,23 +18,47 @@
         <java.version>1.8</java.version>
         <knife4j.version>2.0.5</knife4j.version>
         <spring.boot.version>2.1.3.RELEASE</spring.boot.version>
+        <mybaits.plus.version>3.4.1</mybaits.plus.version>
+        <mybatis.spring.version>2.1.2</mybatis.spring.version>
+        <common.langs.version>3.11</common.langs.version>
+        <apache.poi.version>4.1.0</apache.poi.version>
+        <project.lombok.version>1.18.10</project.lombok.version>
+        <jetbrain.annotation.version>20.0.0</jetbrain.annotation.version>
+        <spring.test.version>5.3.0</spring.test.version>
+        <mysql.connector.version>8.0.22</mysql.connector.version>
+        <pagehelper.spring.version>1.2.5</pagehelper.spring.version>
     </properties>
 
     <dependencies>
+        <!--全局排除spring-boot-starter-logging内的所有依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--mybatis-plus-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mybaits.plus.version}</version>
+        </dependency>
         <!--邮件客户端-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
             <version>${spring.boot.version}</version>
         </dependency>
-
         <!--mongodb-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
             <version>${spring.boot.version}</version>
         </dependency>
-
         <!-- 引入swagger-ui增强版本，支持微服务系统进行接口测试、生成接口文档 -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
@@ -45,11 +69,6 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-config</artifactId>
-            <version>${spring.boot.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
             <version>${spring.boot.version}</version>
         </dependency>
         <!--redis-->
@@ -93,6 +112,7 @@
 	    <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
+            <version>${spring.boot.version}</version>
             <optional>true</optional>
         </dependency>
 	    <!-- smb/cifs 协议访问共享文件 1.3.3版本不支持老的smb-server-->
@@ -105,6 +125,7 @@
 	    <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3.version}</version>
         </dependency>
 	    <!--alibaba fast-json-->
 	    <dependency>
@@ -124,136 +145,115 @@
             <artifactId>shiro-spring</artifactId>
             <version>1.4.0</version>
         </dependency>
-	    <!--websocket协议，http协议只能client推送给serve-->
+        <!--websocket协议，http协议只能client推送给serve-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
             <version>${spring.boot.version}</version>
         </dependency>
-	    <!--multipartFile-->
-	    <dependency>
+        <!--multipartFile-->
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
+            <version>${spring.test.version}</version>
         </dependency>
-	    <!--xls-->
-	    <dependency>
+        <!--xls-->
+        <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
-            <version>4.1.0</version>
+            <version>${apache.poi.version}</version>
         </dependency>
-	    <!--xlsx-->
-	    <dependency>
+        <!--xlsx-->
+        <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
-            <version>4.1.0</version>
+            <version>${apache.poi.version}</version>
         </dependency>
-	    <!--rabbitmq-->
-	    <dependency>
+        <!--rabbitmq-->
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
             <version>${spring.boot.version}</version>
         </dependency>
-	    <!-- 早期版本的httpclient -->
-	    <dependency>
+        <!-- 早期版本的httpclient -->
+        <dependency>
             <groupId>commons-httpclient</groupId>
             <artifactId>commons-httpclient</artifactId>
             <version>3.0.1</version>
         </dependency>
-	    <!--处理文件流的工具-->
-	    <dependency>
+        <!--处理文件流的工具-->
+        <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.6</version>
         </dependency>
-	    <!--ftp文件服务器-->
-	    <dependency>
+        <!--ftp文件服务器-->
+        <dependency>
             <groupId>commons-net</groupId>
             <artifactId>commons-net</artifactId>
             <version>3.6</version>
         </dependency>
-	    <!--分页插件-->
-	    <dependency>
+        <!--分页插件-->
+        <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
-            <version>1.2.5</version>
+            <version>${pagehelper.spring.version}</version>
         </dependency>
-	    <!--记录sql日志-->
-	    <!--<dependency>-->
-	    <!--    <groupId>org.apache.logging.log4j</groupId>-->
-	    <!--    <artifactId>log4j-1.2-api</artifactId>-->
-	    <!--    <version>2.6.2</version>-->
-	    <!--</dependency>-->
-	    <!--全局排除spring-boot-starter-logging内的所有依赖-->
-	    <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-logging</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>*</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-	    <!--增加log4j2依赖↓-->
-	    <dependency>
+        <!--增加log4j2依赖↓-->
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>
+            <version>${spring.boot.version}</version>
         </dependency>
-	    <!-- swagger 后台 -->
-	    <!--<dependency>-->
-        <!--    <groupId>io.springfox</groupId>-->
-        <!--    <artifactId>springfox-swagger2</artifactId>-->
-        <!--    <version>2.9.2</version>-->
-        <!--</dependency>-->
-	    <!-- swagger-ui 页面 -->
-	    <!--<dependency>-->
-	    <!--    <groupId>io.springfox</groupId>-->
-	    <!--    <artifactId>springfox-swagger-ui</artifactId>-->
-	    <!--    <version>2.9.2</version>-->
-	    <!--</dependency>-->
         <!-- spring核心依赖，包括auto-config等 -->
-	    <dependency>
-	        <groupId>org.springframework.boot</groupId>
-	        <artifactId>spring-boot-starter</artifactId>
-	    </dependency>
-	    <!-- spring-web插件-->
-	    <dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <version>${spring.boot.version}</version>
+        </dependency>
+        <!-- spring-web插件-->
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <version>${spring.boot.version}</version>
         </dependency>
-	    <!--  暴露接口-->
-	    <dependency>
+        <!--  暴露接口-->
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+            <version>${spring.boot.version}</version>
         </dependency>
-	    <!-- MyBatis 启动器 -->
-	    <dependency>
+        <!--MyBatis 启动器 -->
+        <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>2.0.0</version>
+            <version>${mybatis.spring.version}</version>
         </dependency>
-	    <!--热部署-->
-	    <dependency>
+        <!--热部署-->
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
+            <version>${spring.boot.version}</version>
             <scope>runtime</scope>
         </dependency>
-	    <!--mysql-->
-	    <dependency>
+        <!--mysql-->
+        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.22</version>
+            <version>${mysql.connector.version}</version>
         </dependency>
-	    <!--lombook-->
-	    <dependency>
+        <!--lombok-->
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>${project.lombok.version}</version>
             <optional>true</optional>
         </dependency>
-	    <!--test-->
-	    <dependency>
+        <!--test-->
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <version>${spring.boot.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -265,7 +265,7 @@
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>RELEASE</version>
+            <version>${jetbrain.annotation.version}</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

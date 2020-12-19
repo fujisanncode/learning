@@ -1,74 +1,60 @@
 package ink.fujisann.learning.code.pojo.mybatis;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import org.springframework.stereotype.Component;
-
 import java.util.Date;
+import lombok.Data;
 
 /**
  * 客户表
- *
- * @author raiRezon
- * @version 2020/11/16
  */
-//@Data
-@ApiModel(description = "客户表")
+@ApiModel(value = "ink-fujisann-learning-code-pojo-mybatis-Customer")
+@Data
+@TableName(value = "learning.customer_t")
 public class Customer {
-
-    @ApiModelProperty("主键")
+    /**
+     * 主键
+     */
+    @TableId(value = "id", type = IdType.AUTO)
+    @ApiModelProperty(value = "主键")
     private Integer id;
 
-    @ApiModelProperty("编号")
+    /**
+     * 编号
+     */
+    @TableField(value = "userNum")
+    @ApiModelProperty(value = "编号")
     private String userNum;
 
-    @ApiModelProperty("姓名")
+    /**
+     * 姓名
+     */
+    @TableField(value = "userName")
+    @ApiModelProperty(value = "姓名")
     private String userName;
 
-    @ApiModelProperty("创建时间")
+    /**
+     * 客户类型id
+     */
+    @TableField(value = "customerTypeId")
+    @ApiModelProperty(value = "客户类型id")
+    private String customerTypeId;
+
+    /**
+     * 创建时间
+     */
+    @TableField(value = "createTime")
+    @ApiModelProperty(value = "创建时间")
     private Date createTime;
 
-    @ApiModelProperty("更新时间")
+    /**
+     * 更新时间
+     */
+    @TableField(value = "updateTime")
+    @ApiModelProperty(value = "更新时间")
     private Date updateTime;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getUserNum() {
-        return userNum;
-    }
-
-    public void setUserNum(String userNum) {
-        this.userNum = userNum;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
 }
