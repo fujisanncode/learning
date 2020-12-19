@@ -15,13 +15,17 @@ import ink.fujisann.learning.code.pojo.plan.Plan;
 import ink.fujisann.learning.code.repository.GeoRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.omg.CORBA.INTERNAL;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -120,20 +124,30 @@ public class Hello {
     this.customerDao = customerDao;
   }
 
+  private ApplicationContext context;
+
+  @Autowired
+  public void setContext(ApplicationContext context) {
+    this.context = context;
+  }
+
+  @SneakyThrows
   @ApiOperation("测试shiro过滤")
   @GetMapping("/helloWithoutShiro")
   public void helloWithoutShiro() {
-    PageHelper.startPage(1, 1);
-    List<Customer> list = customerDao.findCustomerAll();
-    PageInfo<Customer> pageInfo = new PageInfo<>(list);
-    String s = JSONObject.toJSONString(pageInfo);
-    log.info("==========> {}", s);
+    PageHelper.startPage(1, 10);
+    customerDao.findCustomerAll();
+  }
+
+  private void test() {
+    customerDao.findCustomerAll();
   }
 
   @ApiOperation("测试shiro角色权限")
   @GetMapping("/helloWithShiroRole")
   @RequiresPermissions(value = {"/hello/helloWithShiroRole"})
   public void helloWithShiroRole() {
+    customerDao.findCustomerAll();
   }
 
   @PostMapping("/insert-region")

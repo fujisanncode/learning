@@ -3,7 +3,7 @@ package ink.fujisann.learning.code.dao;
 import ink.fujisann.learning.code.pojo.mybatis.Customer;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public interface UserMapper {
 
     int deleteByPrimaryKey(Integer id);

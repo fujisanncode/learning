@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.executor.resultset.DefaultResultSetHandler;
 import org.apache.ibatis.executor.resultset.ResultSetHandler;
@@ -21,6 +22,8 @@ import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
+import sun.rmi.runtime.Log;
+import sun.security.krb5.internal.TGSRep;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
@@ -37,24 +40,9 @@ import java.util.*;
  * @author raiRezon
  * @date 2020/11/16
  */
+@Slf4j
 @Intercepts({
-        //@Signature(
-        //        type = Executor.class,
-        //        method = "query",
-        //        args = {
-        //                MappedStatement.class,
-        //                Object.class,
-        //                RowBounds.class,
-        //                ResultHandler.class
-        //        }
-        //),
-        @Signature(
-                type = ResultSetHandler.class,
-                method = "handleResultSets",
-                args = {
-                        Statement.class
-                }
-        )
+        @Signature(type = ResultSetHandler.class, method = "handleResultSets", args = {Statement.class})
 })
 @Component
 public class MybatisResult implements Interceptor {
@@ -68,11 +56,11 @@ public class MybatisResult implements Interceptor {
      */
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
-        // 被拦截的方法执行前
-        Object result = invocation.proceed();
-        // 被拦截的方法执行后
-        modifyResult(result);
-        return result;
+        log.debug("进入mybatis拦截器");
+        ResultSetHandler target = (ResultSetHandler) invocation.getTarget();
+        Object[] args = invocation.getArgs();
+        Statement statement = (Statement) args[0];
+        return target.handleResultSets(statement);
     }
 
     @SneakyThrows
