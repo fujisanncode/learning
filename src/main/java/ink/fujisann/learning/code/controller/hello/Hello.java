@@ -7,10 +7,10 @@ import ink.fujisann.learning.base.utils.common.SpringContextHolder;
 import ink.fujisann.learning.code.dao.CustomerMapper;
 import ink.fujisann.learning.code.dao.RegionLv1Mapper;
 import ink.fujisann.learning.code.pojo.PageReq;
-import ink.fujisann.learning.code.pojo.mybatis.Customer;
 import ink.fujisann.learning.code.pojo.mybatis.RegionLv1;
 import ink.fujisann.learning.code.pojo.plan.Plan;
 import ink.fujisann.learning.code.repository.GeoRepository;
+import ink.fujisann.learning.code.resp.CustomerResp;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.SneakyThrows;
@@ -130,10 +130,10 @@ public class Hello {
   @SneakyThrows
   @ApiOperation("无shiro权限控制")
   @GetMapping("/helloWithoutShiro")
-  public PageInfo<Customer> helloWithoutShiro() {
+  public PageInfo<CustomerResp> helloWithoutShiro() {
     PageHelper.startPage(1, 10);
-    List<Customer> list = customerMapper.selectList(null);
-    return new PageInfo<>(list);
+    List<CustomerResp> resp = customerMapper.listCustomer();
+    return new PageInfo<>(resp);
   }
 
   @ApiOperation("测试shiro角色权限")

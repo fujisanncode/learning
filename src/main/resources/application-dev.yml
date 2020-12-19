@@ -69,10 +69,12 @@ management:
         include: '*'
 
 #========================================================================================================
-#classpath: class路径下 config-location 指定mybatis配置文件的路径，配置文件中指定mapper的路径
-#mybatis.config-location=classpath*:mybatis-mapper/*.xml
+# mybatis的mapper文件路径
 mybatis:
   mapper-locations: classpath*:mybatis-mapper/*.xml
+# mybatis plus的mapper文件路径
+mybatis-plus:
+  mapper-locations: classpath:/mybatis-mapper/*.xml
 
 #=======================================================================================================
 #分页, mybatis需要使用
