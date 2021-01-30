@@ -35,7 +35,7 @@ public class ReadUtil {
      * 将properties文件中的unicode注释转为汉字
      */
     public static void unicodeTransfer() {
-        String file = "application-dev.yml";
+        String file = "config/application-dev.yml";
         write(read(file), file);
     }
 

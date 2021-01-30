@@ -22,7 +22,8 @@
     <!--Appender 1. 输出到Console控制台，指定输出格式和过滤器等级为INFO -->
     <Console name="Console" target="SYSTEM_OUT">
       <!--ThresholdFilter指定日志消息的输出最低层次-->
-      <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level [%t] %class{36} %L %M - %msg%xEx%n"/>
+      <PatternLayout
+              pattern="%highlight{%d{yyyy-MM-dd HH:mm:ss.SSS}} %highlight{%-5level} %highlight{[%t]} %highlight{%c{1.}.%M(%L)}%highlight{: %msg%n}"/>
       <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
     </Console>
 
@@ -44,7 +45,7 @@
   -->
   <loggers>
     <!--记录sql日志 dao层 debug级别-->
-    <logger level="debug" name="ink.fujisann.learning.code.dao" additivity="true">
+    <logger level="debug" name="ink.fujisann.learning" additivity="true">
     </logger>
     <!--项目下所有包的日志-->
     <root level="warn">

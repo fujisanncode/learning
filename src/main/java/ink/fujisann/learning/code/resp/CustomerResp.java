@@ -40,4 +40,5 @@ public class CustomerResp {
 
     @ApiModelProperty(value = "更新时间")
     private Date updateTime;
+
 }
