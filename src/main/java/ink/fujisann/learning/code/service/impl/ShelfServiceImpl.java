@@ -2,9 +2,9 @@ package ink.fujisann.learning.code.service.impl;
 
 import ink.fujisann.learning.base.exception.BusinessException;
 import ink.fujisann.learning.base.utils.common.SystemUtil;
-import ink.fujisann.learning.code.pojo.PageReq;
-import ink.fujisann.learning.code.pojo.shelf.Book;
-import ink.fujisann.learning.code.pojo.shelf.Web;
+import ink.fujisann.learning.code.req.PageReq;
+import ink.fujisann.learning.code.pojo.Book;
+import ink.fujisann.learning.code.pojo.Web;
 import ink.fujisann.learning.code.repository.BookRepository;
 import ink.fujisann.learning.code.repository.WebRepository;
 import ink.fujisann.learning.code.service.ShelfService;

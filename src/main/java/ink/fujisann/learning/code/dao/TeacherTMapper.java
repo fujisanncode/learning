@@ -1,8 +1,7 @@
 package ink.fujisann.learning.code.dao;
 
-import ink.fujisann.learning.code.pojo.mybatis.ArticleT;
-import ink.fujisann.learning.code.pojo.mybatis.StuTeaT;
-import org.springframework.stereotype.Component;
+import ink.fujisann.learning.code.mybatis.ArticleT;
+import ink.fujisann.learning.code.mybatis.StuTeaT;
 
 import java.util.List;
 

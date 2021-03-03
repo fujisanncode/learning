@@ -1,6 +1,6 @@
 package ink.fujisann.learning.code.service;
 
-import ink.fujisann.learning.code.pojo.sys.*;
+import ink.fujisann.learning.code.pojo.*;
 
 /**
  * shiro权限管理相关接口

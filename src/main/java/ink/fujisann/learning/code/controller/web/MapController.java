@@ -6,7 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Iterables;
 import ink.fujisann.learning.base.exception.BusinessException.Builder;
 import ink.fujisann.learning.base.utils.common.ApiUrl;
-import ink.fujisann.learning.code.pojo.data.Geo;
+import ink.fujisann.learning.code.pojo.Geo;
 import ink.fujisann.learning.code.repository.GeoRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

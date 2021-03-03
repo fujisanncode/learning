@@ -1,8 +1,8 @@
 package ink.fujisann.learning.base.configure.shiro;
 
-import ink.fujisann.learning.code.pojo.sys.Permission;
-import ink.fujisann.learning.code.pojo.sys.Role;
-import ink.fujisann.learning.code.pojo.sys.User;
+import ink.fujisann.learning.code.pojo.Permission;
+import ink.fujisann.learning.code.pojo.Role;
+import ink.fujisann.learning.code.pojo.User;
 import ink.fujisann.learning.code.repository.PermissionRepository;
 import ink.fujisann.learning.code.repository.RoleRepository;
 import ink.fujisann.learning.code.repository.UserRepository;

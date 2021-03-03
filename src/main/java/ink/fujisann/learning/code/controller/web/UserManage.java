@@ -1,9 +1,8 @@
 package ink.fujisann.learning.code.controller.web;
 
 import ink.fujisann.learning.base.utils.MessageUtil;
-import ink.fujisann.learning.base.utils.common.DateUtil;
 import ink.fujisann.learning.code.dao.UserMapper;
-import ink.fujisann.learning.code.pojo.mybatis.Customer;
+import ink.fujisann.learning.code.mybatis.Customer;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;

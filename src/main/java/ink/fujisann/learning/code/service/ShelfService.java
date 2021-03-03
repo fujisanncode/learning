@@ -1,8 +1,8 @@
 package ink.fujisann.learning.code.service;
 
-import ink.fujisann.learning.code.pojo.PageReq;
-import ink.fujisann.learning.code.pojo.shelf.Book;
-import ink.fujisann.learning.code.pojo.shelf.Web;
+import ink.fujisann.learning.code.req.PageReq;
+import ink.fujisann.learning.code.pojo.Book;
+import ink.fujisann.learning.code.pojo.Web;
 import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 

@@ -6,9 +6,9 @@ import ink.fujisann.learning.base.designPattern.observer.springlistener.UserRegi
 import ink.fujisann.learning.base.utils.common.SpringContextHolder;
 import ink.fujisann.learning.code.dao.CustomerMapper;
 import ink.fujisann.learning.code.dao.RegionLv1Mapper;
-import ink.fujisann.learning.code.pojo.PageReq;
-import ink.fujisann.learning.code.pojo.mybatis.RegionLv1;
-import ink.fujisann.learning.code.pojo.plan.Plan;
+import ink.fujisann.learning.code.req.PageReq;
+import ink.fujisann.learning.code.mybatis.RegionLv1;
+import ink.fujisann.learning.code.pojo.Plan;
 import ink.fujisann.learning.code.repository.GeoRepository;
 import ink.fujisann.learning.code.resp.CustomerResp;
 import io.swagger.annotations.Api;

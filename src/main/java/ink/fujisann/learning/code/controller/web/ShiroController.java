@@ -3,7 +3,7 @@ package ink.fujisann.learning.code.controller.web;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import ink.fujisann.learning.base.configure.shiro.MyRealm;
-import ink.fujisann.learning.code.pojo.sys.*;
+import ink.fujisann.learning.code.pojo.*;
 import ink.fujisann.learning.code.repository.*;
 import ink.fujisann.learning.code.service.ShiroService;
 import io.swagger.annotations.Api;

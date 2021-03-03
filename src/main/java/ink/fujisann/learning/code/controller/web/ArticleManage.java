@@ -5,7 +5,7 @@ import com.github.pagehelper.PageInfo;
 import ink.fujisann.learning.base.exception.BusinessException.Builder;
 import ink.fujisann.learning.base.exception.BusinessExceptionEnum;
 import ink.fujisann.learning.code.dao.ArticleTMapper;
-import ink.fujisann.learning.code.pojo.mybatis.ArticleT;
+import ink.fujisann.learning.code.mybatis.ArticleT;
 import ink.fujisann.learning.code.service.ITransactionalService;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;

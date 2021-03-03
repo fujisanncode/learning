@@ -1,7 +1,7 @@
 package ink.fujisann.learning.code.service.impl;
 
 import ink.fujisann.learning.code.dao.ArticleTMapper;
-import ink.fujisann.learning.code.pojo.mybatis.ArticleT;
+import ink.fujisann.learning.code.mybatis.ArticleT;
 import ink.fujisann.learning.code.service.ITransactionalService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

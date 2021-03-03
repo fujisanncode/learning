@@ -1,7 +1,7 @@
 package ink.fujisann.learning.code.controller.web;
 
 import ink.fujisann.learning.code.dao.PersonMapper;
-import ink.fujisann.learning.code.pojo.mybatis.Person;
+import ink.fujisann.learning.code.mybatis.Person;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;

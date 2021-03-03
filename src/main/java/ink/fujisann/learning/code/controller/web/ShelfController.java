@@ -2,9 +2,9 @@ package ink.fujisann.learning.code.controller.web;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
-import ink.fujisann.learning.code.pojo.PageReq;
-import ink.fujisann.learning.code.pojo.shelf.Book;
-import ink.fujisann.learning.code.pojo.shelf.Web;
+import ink.fujisann.learning.code.req.PageReq;
+import ink.fujisann.learning.code.pojo.Book;
+import ink.fujisann.learning.code.pojo.Web;
 import ink.fujisann.learning.code.service.ShelfService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

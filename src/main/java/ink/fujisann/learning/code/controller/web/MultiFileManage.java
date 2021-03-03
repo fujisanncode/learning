@@ -5,7 +5,7 @@ import ink.fujisann.learning.base.utils.ftp.FtpClientImpl;
 import ink.fujisann.learning.base.utils.office.ParseExcelUtil;
 import ink.fujisann.learning.base.utils.smb.SmbUtil;
 import ink.fujisann.learning.code.dao.PersonMapper;
-import ink.fujisann.learning.code.pojo.mybatis.Person;
+import ink.fujisann.learning.code.mybatis.Person;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jcifs.smb.SmbFile;

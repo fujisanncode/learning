@@ -1,7 +1,6 @@
 package ink.fujisann.learning.code.dao;
 
-import ink.fujisann.learning.code.pojo.mybatis.Customer;
-import org.springframework.stereotype.Component;
+import ink.fujisann.learning.code.mybatis.Customer;
 
 //@Component
 public interface UserMapper {

@@ -1,9 +1,8 @@
 package ink.fujisann.learning.code.repository;
 
-import ink.fujisann.learning.code.pojo.sys.Role;
+import ink.fujisann.learning.code.pojo.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

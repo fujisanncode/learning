@@ -1,6 +1,6 @@
 package ink.fujisann.learning.code.service;
 
-import ink.fujisann.learning.code.pojo.MongoBlog;
+import ink.fujisann.learning.code.mongo.MongoBlog;
 
 import java.util.List;
 

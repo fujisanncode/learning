@@ -1,6 +1,6 @@
 package ink.fujisann.learning.code.repository;
 
-import ink.fujisann.learning.code.pojo.shelf.Web;
+import ink.fujisann.learning.code.pojo.Web;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;

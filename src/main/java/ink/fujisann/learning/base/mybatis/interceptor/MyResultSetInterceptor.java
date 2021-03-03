@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import ink.fujisann.learning.base.mybatis.annotation.DictValue;
 import ink.fujisann.learning.base.mybatis.annotation.NeedDict;
 import ink.fujisann.learning.code.dao.CommonDictMapper;
-import ink.fujisann.learning.code.pojo.mybatis.CommonDict;
+import ink.fujisann.learning.code.mybatis.CommonDict;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.resultset.ResultSetHandler;
 import org.apache.ibatis.plugin.*;

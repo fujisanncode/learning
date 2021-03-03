@@ -1,7 +1,7 @@
 package ink.fujisann.learning.designPattern;
 
 import ink.fujisann.learning.code.controller.web.PlanController;
-import ink.fujisann.learning.code.pojo.plan.Plan;
+import ink.fujisann.learning.code.pojo.Plan;
 import ink.fujisann.learning.code.repository.PlanRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;

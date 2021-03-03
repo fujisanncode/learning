@@ -1,6 +1,6 @@
 package ink.fujisann.learning.code.dao;
 
-import ink.fujisann.learning.code.pojo.mybatis.TourDiaryT;
+import ink.fujisann.learning.code.mybatis.TourDiaryT;
 
 import java.util.List;
 

@@ -1,18 +1,15 @@
 package ink.fujisann.learning.stock.controller;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.thread.ThreadUtil;
 import ink.fujisann.learning.stock.constant.TongHuaShun;
+import ink.fujisann.learning.stock.dto.ProxyServer;
+import ink.fujisann.learning.stock.job.ippool.GetIpJob;
+import ink.fujisann.learning.stock.job.ippool.IpPool;
 import ink.fujisann.learning.stock.util.JsEngine;
 import io.swagger.annotations.Api;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -22,9 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.Proxy;
 import java.util.concurrent.DelayQueue;
 
 @Slf4j
@@ -41,10 +35,7 @@ public class DataController {
     @SneakyThrows
     public static void main(String[] args) {
         //从快代理网站获取免费代理
-        //getFreeIp();
-
-        //测试代理
-        testProxy();
+        getFreeIp();
 
         //log.debug(DateUtil.now());
         //
@@ -57,40 +48,11 @@ public class DataController {
         //}
     }
 
-    private static void getFreeIp() throws IOException {
-        String kdl = "https://www.kuaidaili.com/free/inha/3/";
-        Document document = Jsoup.connect(kdl).get();
-        Element list = document.getElementById("list");
-        Element tbody = list.select("table").select("tbody").get(0);
-        Elements trList = tbody.select("tr");
-        for (Element tr : trList) {
-            Elements tdList = tr.select("td");
-            String ip = tdList.get(0).text();
-            int port = Integer.parseInt(tdList.get(1).text());
-            log.debug("{}:{}", ip, port);
-        }
-    }
-
-    private static void testProxy() throws IOException {
-        //访问此网站，网站会返回访问端的ip，用于测试请求是否经过代理
-        String targetUrl = "http://myip.ipip.net";
-
-        // 代理服务器IP
-        String ip = "146.56.227.20";
-        int port = 8081;
-
-        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(ip, port));
-
-        OkHttpClient client = new OkHttpClient.Builder()
-                .proxy(proxy)
-                .build();
-
-        Request request = new Request.Builder()
-                .url(targetUrl)
-                .build();
-
-        Response response = client.newCall(request).execute();
-        System.out.println(response.body().string());
+    @SneakyThrows
+    private static void getFreeIp() {
+        ProxyServer httpDefaultProxy = new ProxyServer("146.56.227.20", 8081);
+        //ProxyServer httpsDefaultProxy = new ProxyServer("146.56.227.20", 8082);
+        ThreadUtil.execAsync(new GetIpJob(IpPool.PAGE_NUM.getAndIncrement(), httpDefaultProxy));
     }
 
     private static void getData() {

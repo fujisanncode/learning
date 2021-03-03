@@ -1,7 +1,7 @@
 package ink.fujisann.learning.code.controller.web;
 
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
-import ink.fujisann.learning.code.pojo.MongoBlog;
+import ink.fujisann.learning.code.mongo.MongoBlog;
 import ink.fujisann.learning.code.service.BlogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

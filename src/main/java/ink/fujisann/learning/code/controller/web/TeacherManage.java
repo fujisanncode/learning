@@ -5,7 +5,7 @@ import com.github.pagehelper.PageInfo;
 import ink.fujisann.learning.base.exception.BusinessException.Builder;
 import ink.fujisann.learning.base.exception.BusinessExceptionEnum;
 import ink.fujisann.learning.code.dao.TeacherTMapper;
-import ink.fujisann.learning.code.pojo.mybatis.StuTeaT;
+import ink.fujisann.learning.code.mybatis.StuTeaT;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

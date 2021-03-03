@@ -1,6 +1,6 @@
 package ink.fujisann.learning.code.repository;
 
-import ink.fujisann.learning.code.pojo.sys.RolePermission;
+import ink.fujisann.learning.code.pojo.RolePermission;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

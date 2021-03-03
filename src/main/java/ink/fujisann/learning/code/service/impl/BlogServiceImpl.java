@@ -1,6 +1,6 @@
 package ink.fujisann.learning.code.service.impl;
 
-import ink.fujisann.learning.code.pojo.MongoBlog;
+import ink.fujisann.learning.code.mongo.MongoBlog;
 import ink.fujisann.learning.code.service.BlogService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

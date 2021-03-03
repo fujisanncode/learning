@@ -1,6 +1,6 @@
 package ink.fujisann.learning.code.service;
 
-import ink.fujisann.learning.code.pojo.mybatis.ArticleT;
+import ink.fujisann.learning.code.mybatis.ArticleT;
 
 public interface ITransactionalService {
 

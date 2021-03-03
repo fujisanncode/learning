@@ -1,9 +1,9 @@
 package ink.fujisann.learning.designPattern;
 
 import ink.fujisann.learning.LearningApplication;
-import ink.fujisann.learning.code.pojo.test.Book;
-import ink.fujisann.learning.code.pojo.test.Chapter;
-import ink.fujisann.learning.code.pojo.test.Paragraph;
+import ink.fujisann.learning.code.test.Book;
+import ink.fujisann.learning.code.test.Chapter;
+import ink.fujisann.learning.code.test.Paragraph;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
