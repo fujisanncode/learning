@@ -230,7 +230,8 @@ public class ShiroConfig {
     Map<String, String> chainMap = new HashMap<>(8);
     filterFactory.setFilterChainDefinitionMap(chainMap);
     // 配置所有接口需要认证，
-    chainMap.put("/**", "authc");
+    //chainMap.put("/**", "authc");
+    chainMap.put("/**", "anon");
     // 配置接口上的授权，大部分接口授权通过注解配置了，通过注解配置的权限点在项目启动时会被扫描到数据库中
     chainMap.put("/hello/helloWithShiroRole", "perms[/hello/helloWithShiroRole]");
     // 放行swagger文档

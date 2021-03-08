@@ -1,0 +1,128 @@
+#=========================================================================================================
+#数据库配置
+spring:
+  datasource:
+    learning:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      # 但数据源为url， 多数据源为jdbc-url
+      jdbc-url: jdbc:mysql://146.56.227.20:3306/learning?useUnicode=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+    #      hikari: # hikari数据库连接池配置
+    #        idle-timeout: 10000 #空闲连接释放时间，默认600s，必须小于mysql的空闲连接释放时间
+    #        max-lifetime: 30000 #一个连接的生命时长，默认30分钟，必须比mysql设置的超时回收时间短
+    #        connection-test-query: SELECT 1
+    #        minimum-idle: 10
+    #        maximum-pool-size: 12
+    #        connection-timeout: 10000 # 连接到数据库的超时时间，默认30s，不小于250ms
+    stock:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://146.56.227.20:3306/stock?useUnicode=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+  servlet:
+    multipart:
+      max-file-size: 5000MB #设置上传下载文件大小  单文件大小 总文件大小
+      max-request-size: 5000MB
+  messages:
+    basename: i18n/message #设置国际化文件目录 classpath的相对路径(多个文件用分号分割) 默认文件必须配置(找不到语言则读取默认文件)
+  jpa:
+    database: mysql #选择数据库
+    show-sql: true #打印sql
+    open-in-view: false # 事务外不可以访问懒加载的数据
+    hibernate:
+      ddl-auto: update #update仅更新表结构不清空数据， create重新建表，create-drop关闭程序删除表，validate对象改变报错
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl #数据库字段命名策略为驼峰式, ImprovedNamingStrategy下划线命名
+    properties:
+      hibernate:
+        dialect: ink.fujisann.learning.base.configure.mysql.mysqlConfig #使用自定义配置
+        enable_lazy_load_no_trans: true #懒加载配置
+        order_inserts: false # 批量插入
+        order_updates: false # 批量更新
+        jdbc:
+          batch_size: 500 #批量写入数据库
+          batch_versioned_data: false
+  rabbitmq:
+    host: 39.101.206.66
+    port: 5672 #后台端口5672，页面端口15672
+    listener:
+      direct:
+        auto-startup: false #禁止应用启动时开启自动监听，需要配置否则Starting ProtocolHandler ["http-nio-8081"] 不能走到，即不能启动
+      simple:
+        auto-startup: false
+  redis:
+    timeout: 30s
+    host: 39.101.206.66
+  data:
+    mongodb:
+      host: 39.101.206.66
+      port: 7100
+      authentication-database: admin
+      database: fujisann
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  mail:
+    host: smtp.qq.com
+    protocol: smtp
+    default-encoding: utf-8
+
+#=========================================================================================================
+#指定数据源名，多个数据源
+#端点暴露
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+#========================================================================================================
+# mybatis的mapper文件路径
+mybatis:
+  mapper-locations: classpath*:mybatis-mapper/*.xml
+# mybatis plus的mapper文件路径
+mybatis-plus:
+  mapper-locations: classpath:/mybatis-mapper/*.xml
+
+#=======================================================================================================
+#分页, mybatis需要使用
+pagehelper:
+  helper-dialect: mysql
+  params: count=countSql
+  reasonable: true
+  support-methods-arguments: true
+
+#========================================================================================================
+#ftp 配置ftp服务的变量
+#192.168.3.4的登录密码 访问192.168.3.4需要其密码
+#通过http方式 访问ftp文件服务器
+ftp:
+  host: 192.168.3.4
+  port: 21
+  filepath: /
+  web:
+    host: 192.168.3.4
+    port: 8090
+
+#=======================================================================================================
+#smb/cifs访问共享文件夹配置
+#smb.uri=smb://192.168.3.1/Seagate-0BC278QJ_usb1_3/photo-temp
+smb:
+  uri: smb://192.168.3.1/USB-13FE0002_usb1_4/photo-temp/
+  ip: 192.168.3.1
+
+local:
+  redis:
+    host: 39.101.206.66
+    port: 6379
+
+netty:
+  server:
+    host: 192.168.3.3
+    port: 9000
+
+#feign同名url
+#spring.main.allow-bean-definition-overriding=true
+
+#waning
+#spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+#Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@5af197c8 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value
+#Using org.hibernate.id.UUIDHexGenerator which does not generate IETF RFC 4122 compliant UUID values; consider using org.hibernate.id.UUIDGenerator instead
+#HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m44s539ms138µs).

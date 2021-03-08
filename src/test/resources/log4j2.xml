@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  1、日志优先级从高到低：OFF、FATAL、ERROR、WARN、INFO、DEBUG、TRACE、 ALL
+  2、即设置为error，会忽略低优先级例如warn等日志，只显示高优先级日志例如fatal
+  3、status：用来指定log4j本身的打印日志级别,
+  4、monitorInterval:指定log4j自动重新配置的监测间隔时间
+-->
+<configuration monitorInterval="30" status="INFO">
+  <!--
+    自己设置属性，后面通过${}来访问
+  -->
+  <properties>
+    <property name="LOG_HOME">log/logs</property>
+  </properties>
+
+  <!--
+    指定日志输出位置，例如输出到控制台，输出到文件等
+    输出到文件可以指定文件存档策略
+  -->
+  <appenders>
+    <!--Appender 1. 输出到Console控制台，指定输出格式和过滤器等级为INFO -->
+    <Console name="Console" target="SYSTEM_OUT">
+      <!--ThresholdFilter指定日志消息的输出最低层次-->
+      <PatternLayout
+              pattern="%highlight{%d{yyyy-MM-dd HH:mm:ss.SSS}} %highlight{%-5level} %highlight{[%t]} %highlight{%c{1.}.%M(%L)}%highlight{: %msg%n}"/>
+      <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
+    </Console>
+
+    <!--Appender 3. 输出到滚动保存的文件, 触发保存日志文件的条件是日志文件大于3KB，只保存最新的10个日志-->
+    <RollingFile fileName="log/debug.log" filePattern="log/debug-%i.log" name="debugLog">
+      <!-- DefaultRolloverStrategy 中的参数max，可以限制 SizeBasedTriggeringPolicy中size超出后，只保留max个存档-->
+      <DefaultRolloverStrategy max="1"/>
+      <PatternLayout charset="UTF-8" pattern="[%-5level][%d{yyyy-MM-dd HH:mm:ss}][%F:%L] - %m%n"/>
+      <SizeBasedTriggeringPolicy size="100MB"/>
+      <ThresholdFilter level="all" onMatch="ACCEPT" onMismatch="DENY"/>
+    </RollingFile>
+  </appenders>
+
+  <!--
+      1、指定不同包的日志输出策略，root必须配置，即项目下所有包的日志策略
+      2、项目外三方包的日志输出策略通过logger配置，也可以为项目下包日志单独配置一个logger
+      3、例如需要打印sql日志，则将dao下的日志配置为debugger，日志输出位置用appender-ref指定
+      4、如果additivity为true，则除了给logger下的appender输出，还会输出到root下的appender
+  -->
+  <loggers>
+    <!--记录sql日志 dao层 debug级别-->
+    <logger level="debug" name="ink.fujisann.learning" additivity="true">
+    </logger>
+    <!--项目下所有包的日志-->
+    <root level="warn">
+      <appender-ref ref="debugLog"/>
+      <appender-ref ref="Console"/>
+    </root>
+  </loggers>
+</configuration>

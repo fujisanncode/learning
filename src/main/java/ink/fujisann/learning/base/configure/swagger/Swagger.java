@@ -29,19 +29,21 @@ public class Swagger {
 
   @Bean
   public Docket swaggerSpringMvcPlugin() {
-    List<Parameter> pars = new ArrayList<Parameter>();
     ParameterBuilder lanPara = new ParameterBuilder();
     lanPara
-        .name("Accept-Language")
-        .description("use lan")
-        .modelRef(new ModelRef("string"))
-        .parameterType("header")
-        .required(false);
+            .name("Accept-Language")
+            .description("use lan")
+            .modelRef(new ModelRef("string"))
+            .parameterType("header")
+            .required(false);
+
+    List<Parameter> pars = new ArrayList<Parameter>();
     pars.add(lanPara.build());
+
     return new Docket(DocumentationType.SWAGGER_2)
-        .select()
-        .apis(RequestHandlerSelectors.basePackage("ink.fujisann.learning.code.controller"))
-        .build()
-        .globalOperationParameters(pars);
+            .select()
+            .apis(RequestHandlerSelectors.basePackage("ink.fujisann.learning"))
+            .build()
+            .globalOperationParameters(pars);
   }
 }

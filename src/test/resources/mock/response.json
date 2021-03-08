@@ -1,0 +1,129 @@
+{
+  "findMenu": {
+    "menu": [
+      {
+        "path": "/home",
+        "name": "home",
+        "component": "components/home/home",
+        "meta": {
+          "hidden": "false",
+          "icon": "mdi-home-assistant",
+          "icon-alt": "mdi-home-assistant",
+          "text": "主页",
+          "model": "true"
+        }
+      }
+    ]
+  },
+  "findRouterByUserId": {
+    "user": {
+      "name": "fujisann"
+    },
+    "menu": [
+      {
+        "path": "/home",
+        "name": "home",
+        "component": "components/home/home",
+        "meta": {
+          "hidden": "false",
+          "icon": "mdi-home-assistant",
+          "icon-alt": "mdi-home-assistant",
+          "text": "主页",
+          "model": "false"
+        }
+      },
+      {
+        "path": "/reader",
+        "name": "reader",
+        "component": "components/reader/reader",
+        "meta": {
+          "hidden": "false",
+          "icon": "mdi-library",
+          "icon-alt": "mdi-library",
+          "text": "阅读",
+          "model": "false"
+        },
+        "children": [
+          {
+            "path": "/reader/blog/blog",
+            "name": "reader-blog-blog",
+            "component": "components/reader/blog/blog",
+            "meta": {
+              "hidden": "false",
+              "icon": "mdi-blogger",
+              "icon-alt": "mdi-blogger",
+              "text": "Blog",
+              "model": "false"
+            }
+          },
+          {
+            "path": "/reader/markdown/list",
+            "name": "reader-markdown-list",
+            "component": "components/reader/markdown/list",
+            "meta": {
+              "hidden": "false",
+              "icon": "mdi-language-markdown-outline",
+              "icon-alt": "mdi-language-markdown-outline",
+              "text": "Markdown",
+              "model": "false"
+            }
+          },
+          {
+            "path": "/reader/markdown/detail",
+            "name": "reader-markdown-detail",
+            "component": "components/reader/markdown/detail",
+            "meta": {
+              "hidden": "true"
+            }
+          },
+          {
+            "path": "/reader/shelf",
+            "name": "reader-shelf",
+            "component": "components/reader/shelf/shelf",
+            "meta": {
+              "hidden": "false",
+              "icon": "mdi-bookshelf",
+              "icon-alt": "mdi-bookshelf",
+              "text": "书架",
+              "model": "false"
+            }
+          },
+          {
+            "path": "/reader/pdf",
+            "name": "reader-pdf",
+            "component": "components/reader/pdf/pdf",
+            "meta": {
+              "hidden": "false",
+              "icon": "mdi-file-pdf-outline",
+              "icon-alt": "mdi-file-pdf-outline",
+              "text": "阅读器",
+              "model": "false"
+            }
+          },
+          {
+            "path": "/reader/view",
+            "name": "reader-view",
+            "component": "components/reader/view/view",
+            "meta": {
+              "hidden": "false",
+              "icon": "mdi-web",
+              "icon-alt": "mdi-web",
+              "text": "网站",
+              "model": "false"
+            },
+            "children": [
+              {
+                "path": "/reader/view/embed",
+                "name": "reader-view-embed",
+                "component": "components/reader/view/embed/embed",
+                "meta": {
+                  "hidden": "true"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

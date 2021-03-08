@@ -1,49 +1,78 @@
-EXPLAIN SELECT * FROM article_t;
-SELECT * FROM empinfo;
-SELECT * FROM tb_user ORDER BY update_date DESC;
-INSERT INTO tb_user(user_name,update_date) VALUES('tom', SYSDATE());
-INSERT INTO tb_user(user_name,user_password) SELECT user_name,user_password FROM tb_user u WHERE u.id = 13295;
+EXPLAIN
+SELECT *
+FROM article_t;
+SELECT *
+FROM empinfo;
+SELECT *
+FROM tb_user
+ORDER BY update_date DESC;
+INSERT INTO tb_user(user_name, update_date)
+VALUES ('tom', SYSDATE());
+INSERT INTO tb_user(user_name, user_password)
+SELECT user_name, user_password
+FROM tb_user u
+WHERE u.id = 13295;
 
 # 修改列
-ALTER TABLE tb_user MODIFY COLUMN id INT AUTO_INCREMENT=1;
-ALTER TABLE tb_user MODIFY COLUMN update_date TIMESTAMP DEFAULT now();
+ALTER TABLE tb_user
+    MODIFY COLUMN id INT AUTO_INCREMENT=1;
+ALTER TABLE tb_user
+    MODIFY COLUMN update_date TIMESTAMP DEFAULT now();
 # 修改自增列
-ALTER TABLE tb_user auto_increment=1000;
+ALTER TABLE tb_user
+    auto_increment = 1000;
 -- 修改表名称
 ALTER TABLE tb_user RENAME TO user_t;
-ALTER TABLE user_t COMMENT '用户登录表';
+ALTER TABLE user_t
+    COMMENT '用户登录表';
 -- 查看表状态
 SHOW TABLE STATUS WHERE NAME = 'user_t';
-SELECT * FROM user_t;
-INSERT INTO user_t(user_name, user_password) VALUES('root', '123');
+SELECT *
+FROM user_t;
+INSERT INTO user_t(user_name, user_password)
+VALUES ('root', '123');
 -- 从表中查询数据插入表中
-INSERT INTO user_t(user_name, user_password) SELECT user_name,user_password FROM user_t u WHERE u.id=1000;
+INSERT INTO user_t(user_name, user_password)
+SELECT user_name, user_password
+FROM user_t u
+WHERE u.id = 1000;
 -- 复制表
-CREATE TABLE copy_user_t AS SELECT * FROM user_t;
-SELECT * FROM copy_user_t;
+CREATE TABLE copy_user_t AS
+SELECT *
+FROM user_t;
+SELECT *
+FROM copy_user_t;
 
-UPDATE user_t u SET u.sex = 'boy' WHERE u.id = 1000; 
+UPDATE user_t u
+SET u.sex = 'boy'
+WHERE u.id = 1000;
 
 -- 设置数据库安全更新 只能通过主键更新或者删除
 SHOW VARIABLES LIKE 'sql_safe_updates';
 SET sql_safe_updates = 1;
-UPDATE user_t u SET u.sex = 'boy' WHERE u.sex= 'boy';
-DELETE FROM user_t WHERE id = 1001;
+UPDATE user_t u
+SET u.sex = 'boy'
+WHERE u.sex = 'boy';
+DELETE
+FROM user_t
+WHERE id = 1001;
 
 -- 记录文章 浏览次数 点赞次数 等统计数据
-CREATE TABLE IF NOT EXISTS article_scan_t (
-	id 						INT 					PRIMARY KEY auto_increment COMMENT '浏览记录的id',
-	article_id 		INT 					NOT NULL COMMENT '浏览记录关联文章id 一对一',
-	scans					INT 					DEFAULT 0 COMMENT '文章浏览次数',
-	votes					INT    				DEFAULT 0 COMMENT '文章被点赞次数',
-	update_time 	TIMESTAMP 		DEFAULT now() COMMENT '浏览记录最后更新时间',
-	update_by 		CHAR(100) 		DEFAULT 'sys' COMMENT '浏览记录最后更新人'
+CREATE TABLE IF NOT EXISTS article_scan_t
+(
+    id          INT PRIMARY KEY auto_increment COMMENT '浏览记录的id',
+    article_id  INT NOT NULL COMMENT '浏览记录关联文章id 一对一',
+    scans       INT       DEFAULT 0 COMMENT '文章浏览次数',
+    votes       INT       DEFAULT 0 COMMENT '文章被点赞次数',
+    update_time TIMESTAMP DEFAULT now() COMMENT '浏览记录最后更新时间',
+    update_by   CHAR(100) DEFAULT 'sys' COMMENT '浏览记录最后更新人'
 ) auto_increment = 5 COMMENT '文章浏览记录';
 
 -- 记录回复文章的数据
-CREATE TABLE IF NOT EXISTS article_repley_t(
-                                               id      INT PRIMARY KEY auto_increment COMMENT '回复表的id',
-                                               content VARCHAR(1000) DEFAULT ' COMMENT ' 回复内容 ',
+CREATE TABLE IF NOT EXISTS article_repley_t
+(
+    id      INT PRIMARY KEY auto_increment COMMENT '回复表的id',
+    content VARCHAR(1000) DEFAULT ' COMMENT ' 回复内容 ',
 	article_id		INT						NOT NULL COMMENT ' 关联文章表 多对一 ',
 	replay_id			INT						COMMENT ' 关联回复记录 可以为null ',
 	votes					INT    				DEFAULT 0 COMMENT ' 回复被点赞次数 ',
@@ -63,17 +92,17 @@ SELECT * FROM empinfo;
 DROP TABLE empinfo;
 
 SELECT * FROM article_t ORDER BY update_time DESC;
-INSERT INTO article_reply_t(content, article_id) VALUES('ok', 'fede0fecf4ae485a93f590f949048364');
-INSERT INTO article_reply_t(content, article_id) VALUES('ok1', '13d9cfc450a844a88cb28648e3f42b00');
+INSERT INTO article_reply_t(content, article_id) VALUES(' ok ', ' fede0fecf4ae485a93f590f949048364 ');
+INSERT INTO article_reply_t(content, article_id) VALUES(' ok1 ', ' 13d9cfc450a844a88cb28648e3f42b00 ');
 ALTER TABLE article_repley_t RENAME TO article_reply_t;
 ALTER TABLE article_reply_t MODIFY COLUMN article_id CHAR(32);
 SELECT * FROM article_reply_t;
 
 -- 给回复表的article_id字段增加外键约束
 ALTER TABLE article_reply_t ADD FOREIGN KEY f_article_id(article_id) REFERENCES article_t(article_id);
-DELETE FROM article_reply_t WHERE article_id = 'fede0fecf4ae485a93f590f949048364'; 
+DELETE FROM article_reply_t WHERE article_id = ' fede0fecf4ae485a93f590f949048364 ';
 -- 因为从表存在外键约束 导致主表的记录无法删除(删除主表记录 需先删除从表记录)
-DELETE FROM article_t WHERE article_id = 'fede0fecf4ae485a93f590f949048364';
+DELETE FROM article_t WHERE article_id = ' fede0fecf4ae485a93f590f949048364 ';
 
 -- 创建视图
 CREATE VIEW article_scan_v AS
@@ -103,7 +132,7 @@ CREATE PROCEDURE article_update_p(
 	OUT max TIMESTAMP, 
 	OUT min TIMESTAMP,
 	OUT max_p TIMESTAMP
-) COMMENT '通过存储过程统计出符合条件的更新时间'
+) COMMENT ' 通过存储过程统计出符合条件的更新时间 '
 BEGIN
 	-- 	申明局部变量
 	DECLARE time_temp TIMESTAMP;
@@ -117,7 +146,7 @@ BEGIN
 END//
 delimiter ;
 
-SHOW PROCEDURE STATUS LIKE 'article_update_p';
+SHOW PROCEDURE STATUS LIKE 'article_update_p ';
 
 SHOW CREATE PROCEDURE article_update_p;
 -- 2、调用存储过程 保存结果为变量 mysql中变量必须@开头  调用时需保证参数顺序相同
@@ -131,11 +160,11 @@ SHOW CREATE TABLE article_t;
 ALTER TABLE article_t MODIFY update_time TIMESTAMP DEFAULT now();
 ALTER TABLE article_t MODIFY update_time TIMESTAMP DEFAULT now();
 DESC article_t;
-SELECT * FROM article_t WHERE article_id = '5865d982b5aa4fab801f5009eb3068f6';
-UPDATE article_t t SET t.update_by = 'tom' WHERE t.article_id = '5865d982b5aa4fab801f5009eb3068f6';
-INSERT INTO article_t(article_id,article_title, article_content, article_author,article_tag1,article_status) VALUES('test1', 'title', 'content', 'hulei','transaction',1);
+SELECT * FROM article_t WHERE article_id = '5865d982b5aa4fab801f5009eb3068f6 ';
+UPDATE article_t t SET t.update_by = ' tom ' WHERE t.article_id = ' 5865d982b5aa4fab801f5009eb3068f6 ';
+INSERT INTO article_t(article_id,article_title, article_content, article_author,article_tag1,article_status) VALUES(' test1 ', ' title ', ' content ', ' hulei ',' transaction ',1);
 -- 行记录被锁定 for update 会等待 nowait则抛出异常
-SELECT * FROM article_t WHERE article_id = '5865d982b5aa4fab801f5009eb3068f6' FOR UPDATE nowait;
+SELECT * FROM article_t WHERE article_id = ' 5865d982b5aa4fab801f5009eb3068f6 ' FOR UPDATE nowait;
 
 SHOW ENGINE INNODB STATUS;
 SELECT * FROM information_schema.data_lock;
@@ -176,43 +205,67 @@ DROP PROCEDURE cursor_p;
 delimiter //
 CREATE PROCEDURE cursor_p()
 BEGIN
-	DECLARE save_id, save_title CHAR; -- 申明变量保存游标(变量必须申明在游标之前)
-	DECLARE active_article_c CURSOR FOR 
-		SELECT t.article_id, t.article_title FROM leaning_db_t.article_t t WHERE t.article_status = 1;  -- 声明游标
-	OPEN active_article_c; -- 打开游标
-	FETCH active_article_c INTO save_id, save_title; -- 取出游标中的数据
-	CLOSE active_article_c; -- 关闭游标
+    DECLARE save_id, save_title CHAR; -- 申明变量保存游标(变量必须申明在游标之前)
+    DECLARE active_article_c CURSOR FOR
+        SELECT t.article_id, t.article_title FROM leaning_db_t.article_t t WHERE t.article_status = 1; -- 声明游标
+    OPEN active_article_c; -- 打开游标
+    FETCH active_article_c INTO save_id, save_title; -- 取出游标中的数据
+    CLOSE active_article_c; -- 关闭游标
 END//
 delimiter ;
 
 DESC leaning_db_t.article_t;
 DESC leaning_db_t.article_reply_t;
 -- 文章回复表 增加关联外部的键
-ALTER TABLE leaning_db_t.article_reply_t ADD CONSTRAINT FOREIGN KEY (article_id) REFERENCES leaning_db_t.article_t(article_id);
+ALTER TABLE leaning_db_t.article_reply_t
+    ADD CONSTRAINT FOREIGN KEY (article_id) REFERENCES leaning_db_t.article_t (article_id);
 -- 因为外面表存在一个键值约束，因此不能删除主表的数据
-DELETE FROM article_t WHERE article_id = 'fede0fecf4ae485a93f590f949048364';
-SELECT * FROM article_reply_t;
-SELECT * FROM article_t;
+DELETE
+FROM article_t
+WHERE article_id = 'fede0fecf4ae485a93f590f949048364';
+SELECT *
+FROM article_reply_t;
+SELECT *
+FROM article_t;
 SELECT a.article_title articleTitle, a.article_content articleContent, ar.content replayContent
-	FROM article_t a, article_reply_t ar
-	WHERE a.article_id = ar.article_id
-	AND a.article_id = 'fede0fecf4ae485a93f590f949048364';
-INSERT INTO article_reply_t(content, article_id, replay_id) VALUES('replay to 2', 'fede0fecf4ae485a93f590f949048364', '2');
-INSERT INTO article_reply_t(content, article_id, replay_id) VALUES('replay to 2 copy', 'fede0fecf4ae485a93f590f949048364', '2')
-INSERT INTO article_reply_t(content, article_id, replay_id) VALUES('replay to 5', 'fede0fecf4ae485a93f590f949048364', '5')
-INSERT INTO article_reply_t(content, article_id, replay_id, votes) VALUES('replay to 5', 'fede0fecf4ae485a93f590f949048364', '5', -1)
-SELECT ar.content FROM article_reply_t ar
-	WHERE ar.replay_id = '2';
+FROM article_t a,
+     article_reply_t ar
+WHERE a.article_id = ar.article_id
+  AND a.article_id = 'fede0fecf4ae485a93f590f949048364';
+INSERT INTO article_reply_t(content, article_id, replay_id)
+VALUES ('replay to 2', 'fede0fecf4ae485a93f590f949048364', '2');
+INSERT INTO article_reply_t(content, article_id, replay_id)
+VALUES ('replay to 2 copy', 'fede0fecf4ae485a93f590f949048364', '2')
+INSERT INTO article_reply_t(content, article_id, replay_id)
+VALUES ('replay to 5', 'fede0fecf4ae485a93f590f949048364', '5')
+INSERT INTO article_reply_t(content, article_id, replay_id, votes)
+VALUES ('replay to 5', 'fede0fecf4ae485a93f590f949048364', '5', -1)
+SELECT ar.content
+FROM article_reply_t ar
+WHERE ar.replay_id = '2';
 -- 业务id是业务上的主键 表id是表的主键 (表id不适合作为业务id时，需要设置业务id)
-ALTER TABLE article_reply_t ADD CONSTRAINT CHECK (votes >= 0);
+ALTER TABLE article_reply_t
+    ADD CONSTRAINT CHECK (votes >= 0);
 -- 文章回复表 article_id 字段增加索引
-CREATE INDEX article_inx ON article_reply_t(article_id);
+CREATE INDEX article_inx ON article_reply_t (article_id);
 -- 解释查询
-EXPLAIN SELECT * FROM article_reply_t ar WHERE ar.id = '5';
-EXPLAIN SELECT * FROM article_reply_t ar WHERE ar.article_id = 'fede0fecf4ae485a93f590f949048364';
-EXPLAIN SELECT * FROM article_reply_t ar WHERE ar.replay_id = '5';
+EXPLAIN
+SELECT *
+FROM article_reply_t ar
+WHERE ar.id = '5';
+EXPLAIN
+SELECT *
+FROM article_reply_t ar
+WHERE ar.article_id = 'fede0fecf4ae485a93f590f949048364';
+EXPLAIN
+SELECT *
+FROM article_reply_t ar
+WHERE ar.replay_id = '5';
 -- 查询索引
-SELECT * FROM mysql.innodb_index_stats WHERE database_name = 'leaning_db_t' AND table_name = 'article_reply_t';
+SELECT *
+FROM mysql.innodb_index_stats
+WHERE database_name = 'leaning_db_t'
+  AND table_name = 'article_reply_t';
 -- 通过触发器 在文章回复表插入数据的时候 自动插入主键
 -- AFTER 类型触发器 后面不能更新数据  (更新数据的操作只能在BEFORE类型的触发器中)
 -- INSERT 或者 UPDATE 类型的触发器中 不能插入数据(触发器中INSERT语句会不断引起触发器的触发，陷入死循环) 所以只能使用SET代替

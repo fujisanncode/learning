@@ -1,36 +1,62 @@
 -- 连接到aliyun服务器
-EXPLAIN SELECT * FROM test_data_s.plan_t;
-EXPLAIN SELECT * FROM test_data_s.plan_t pt WHERE pt.title LIKE '%redis%';
+EXPLAIN
+SELECT *
+FROM test_data_s.plan_t;
+EXPLAIN
+SELECT *
+FROM test_data_s.plan_t pt
+WHERE pt.title LIKE '%redis%';
 -- 枚举类型实际存储的是正数，查询的时候从映射表中查询字符串
-CREATE TABLE test_enum(
-	e enum('dog', 'cat', 'mouse') not null
+CREATE TABLE test_enum
+(
+    e enum ('dog', 'cat', 'mouse') not null
 )
-INSERT INTO test_data_s.test_enum(e) VALUES('dog'),('cat');
-INSERT INTO test_data_s.test_enum(e) VALUES('do');
-INSERT INTO test_data_s.test_enum(e) VALUES('mouse');
+INSERT INTO test_data_s.test_enum(e)
+VALUES ('dog'),
+       ('cat');
+INSERT INTO test_data_s.test_enum(e)
+VALUES ('do');
+INSERT INTO test_data_s.test_enum(e)
+VALUES ('mouse');
 -- 默认按照存储的整数排序
-EXPLAIN SELECT e+0, e FROM test_data_s.test_enum e ORDER BY e DESC;
+EXPLAIN
+SELECT e + 0, e
+FROM test_data_s.test_enum e
+ORDER BY e DESC;
 -- 通过filed函数，指定按照字符串排序，会导致索引失效
-EXPLAIN SELECT e+0, e FROM test_data_s.test_enum e ORDER BY FIELD(e, 'cat','dog', 'mouse');
+EXPLAIN
+SELECT e + 0, e
+FROM test_data_s.test_enum e
+ORDER BY FIELD(e, 'cat', 'dog', 'mouse');
 
-SELECT * FROM test_data_s.plan_t pt;
-SELECT COUNT(1) FROM test_data_s.plan_t pt;
+SELECT *
+FROM test_data_s.plan_t pt;
+SELECT COUNT(1)
+FROM test_data_s.plan_t pt;
 WHERE pt.create_time > CONCAT(LEFT(now(),14) , '00:00');
 -- 查詢最近一小時數據
-SELECT CONCAT(LEFT(now(),14) , '00:00') FROM DUAL;
+SELECT CONCAT(LEFT(now(), 14), '00:00')
+FROM DUAL;
 
 -- 定期生成新表（影子表），然后修改新表为当前使用表
 CREATE TABLE test_data_s.plan_t_new LIKE test_data_s.plan_t;
-INSERT INTO test_data_s.plan_t SELECT * FROM test_data_s.plan_t_old;
+INSERT INTO test_data_s.plan_t
+SELECT *
+FROM test_data_s.plan_t_old;
 RENAME TABLE test_data_s.plan_t TO test_data_s.plan_t_old, test_data_s.plan_t_new to test_data_s.plan_t;
 
-SELECT DATE_FORMAT(pt.create_time,'%Y-%m') ym, COUNT(1) ct FROM test_data_s.plan_t pt 
-GROUP BY DATE_FORMAT(pt.create_time,'%Y-%m') ORDER BY DATE_FORMAT(pt.create_time,'%Y-%m') DESC;
+SELECT DATE_FORMAT(pt.create_time, '%Y-%m') ym, COUNT(1) ct
+FROM test_data_s.plan_t pt
+GROUP BY DATE_FORMAT(pt.create_time, '%Y-%m')
+ORDER BY DATE_FORMAT(pt.create_time, '%Y-%m') DESC;
 
-ALTER TABLE plan_t MODIFY COLUMN update_by VARCHAR(50) DEFAULT 'sys3' COMMENT '最后更新人';
-ALTER TABLE plan_t ALTER COLUMN update_by SET DEFAULT 'system';
+ALTER TABLE plan_t
+    MODIFY COLUMN update_by VARCHAR(50) DEFAULT 'sys3' COMMENT '最后更新人';
+ALTER TABLE plan_t
+    ALTER COLUMN update_by SET DEFAULT 'system';
 
-SELECT COUNT(1) FROM plan_t;
+SELECT COUNT(1)
+FROM plan_t;
 
 -- 删除存储过程
 DROP PROCEDURE if EXISTS insert_plan_proc;
@@ -38,26 +64,32 @@ DROP PROCEDURE if EXISTS insert_plan_proc;
 delimiter $$ -- 设置语句结束符
 CREATE PROCEDURE insert_plan_proc(in insert_count int)
 BEGIN
-	WHILE insert_count > 0 DO
-		INSERT INTO plan_t_old(title, start_time, end_time, create_time, update_time, id)
-		VALUES('title', NOW(), NOW(), NOW(), NOW(), UUID()); -- 逐条自动提交
-		SET insert_count = insert_count-1; -- 循环结束条件
-	END WHILE;
-	COMMIT;
+    WHILE insert_count > 0
+        DO
+            INSERT INTO plan_t_old(title, start_time, end_time, create_time, update_time, id)
+            VALUES ('title', NOW(), NOW(), NOW(), NOW(), UUID()); -- 逐条自动提交
+            SET insert_count = insert_count - 1; -- 循环结束条件
+        END WHILE;
+    COMMIT;
 END $$
 delimiter ;
 -- 关闭自动提交
 SHOW VARIABLES LIKE 'autocommit';
-SET autocommit='OFF'; -- 关闭会话级别的自动提交 
+SET autocommit = 'OFF';
+-- 关闭会话级别的自动提交
 -- 调用存储过程
 CALL insert_plan_proc(500000); -- 关闭自动提交后，每秒插入约一万次; 分多次提交(例如一万条数据提交一次)可以提高效率
 
-SELECT COUNT(1) FROM test_data_s.plan_t pt;
+SELECT COUNT(1)
+FROM test_data_s.plan_t pt;
 FLUSH TABLES WITH READ LOCK; -- 关闭所有表，并加全局读锁
 
-SELECT * FROM test_data_s.knowlege_tag;
-SELECT * FROM test_data_s.knowlege_point;
-INSERT INTO test_data_s.knowlege_tag VALUES(1,'mysql',NOW(),NOW());
+SELECT *
+FROM test_data_s.knowlege_tag;
+SELECT *
+FROM test_data_s.knowlege_point;
+INSERT INTO test_data_s.knowlege_tag
+VALUES (1, 'mysql', NOW(), NOW());
 INSERT INTO test_data_s.knowlege_point
 VALUES (UUID(), '共享锁和排他锁', '2', '1', ','1',', ',NOW(),NOW());
 
