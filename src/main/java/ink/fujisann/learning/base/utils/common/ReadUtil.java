@@ -30,7 +30,7 @@ public class ReadUtil {
         JSONObject object = JSONObject.parseObject(read(file));
         return object.getString(key);
     }
-    
+
     /**
      * 将properties文件中的unicode注释转为汉字
      */
@@ -39,7 +39,13 @@ public class ReadUtil {
         write(read(file), file);
     }
 
-    private static String read(String file) {
+    /**
+     * 将指定json文件读取为字符串
+     *
+     * @param file 文件路径，例如mock/response.json
+     * @return 字符串
+     */
+    public static String read(String file) {
         StringBuilder result = new StringBuilder();
         ClassLoader classLoader = ReadUtil.class.getClassLoader();
         try (InputStream inputStream = Objects.requireNonNull(classLoader.getResourceAsStream(file));

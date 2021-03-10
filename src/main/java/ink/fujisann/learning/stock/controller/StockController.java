@@ -35,4 +35,21 @@ public class StockController {
         method.invoke(stockService);
     }
 
+    @ApiOperation("插入指定日期的数据")
+    @GetMapping("/tradeDate")
+    public void tradeDate(@RequestParam String date) {
+        stockService.todayTrade(date);
+    }
+
+    @ApiOperation("查询新股票")
+    @GetMapping("/addNewStock")
+    public void addNewStock() {
+        stockService.addNewStock();
+    }
+
+    @ApiOperation("添加假期")
+    @GetMapping("/addHoliday")
+    public void addHoliday() {
+        stockService.addHoliday();
+    }
 }
