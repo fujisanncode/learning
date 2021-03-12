@@ -4,8 +4,8 @@ import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import ink.fujisann.learning.base.utils.common.ReadUtil;
-import ink.fujisann.learning.stock.pojo.Daily;
-import ink.fujisann.learning.stock.pojo.Holiday;
+import ink.fujisann.learning.stock.pojo.StockDaily;
+import ink.fujisann.learning.stock.pojo.StockHoliday;
 import ink.fujisann.learning.stock.pojo.StockBasic;
 import ink.fujisann.learning.stock.repository.DailyRepository;
 import ink.fujisann.learning.stock.repository.HolidayRepository;
@@ -65,7 +65,7 @@ public class StockServiceImpl implements StockService {
         body.put("fields", "ts_code,name,area,industry,list_date");
 
         // 调用tushare.pro接口获取股票数据
-        JSONArray jsonArray = getObjects(url, body);
+        JSONArray jsonArray = fetchDataFromTuShare(url, body);
         ArrayList<StockBasic> insertBatch = new ArrayList<>();
         jsonArray.forEach(o -> {
             List o1 = (List) o;
@@ -75,7 +75,7 @@ public class StockServiceImpl implements StockService {
             stockBasic.setName((String) o1.get(1));
             stockBasic.setArea((String) o1.get(2));
             stockBasic.setIndustry((String) o1.get(3));
-            stockBasic.setListDate(DateUtil.parse((String) o1.get(4), "yyyyMMdd"));
+            stockBasic.setListDate(DateUtil.parse((String) o1.get(4), TU_SHARE_DATE_FORMAT));
         });
         return insertBatch;
     }
@@ -124,15 +124,15 @@ public class StockServiceImpl implements StockService {
 
         body.put("params", params);
         body.put("fields", "ts_code,trade_date,open,high,low,close,pre_close,change,pct_chg,vol,amount");
-        JSONArray jsonArray = getObjects(url, body);
+        JSONArray jsonArray = fetchDataFromTuShare(url, body);
 
-        List<Daily> insertBatch = new ArrayList<>();
+        List<StockDaily> insertBatch = new ArrayList<>();
         jsonArray.forEach(o -> {
             List o1 = (List) o;
-            Daily daily = new Daily();
+            StockDaily daily = new StockDaily();
             insertBatch.add(daily);
             daily.setTsCode((String) o1.get(0));
-            daily.setTradeDate(DateUtil.parse((String) o1.get(1), "yyyyMMdd"));
+            daily.setTradeDate(DateUtil.parse((String) o1.get(1), TU_SHARE_DATE_FORMAT));
             daily.setOpen(BigDecimal.valueOf((Double) o1.get(2)));
             daily.setHigh(BigDecimal.valueOf((Double) o1.get(3)));
             daily.setLow(BigDecimal.valueOf((Double) o1.get(4)));
@@ -150,7 +150,7 @@ public class StockServiceImpl implements StockService {
         log.info("{} 数据插入完毕 {} 行", tsCode, insertBatch.size());
     }
 
-    private JSONArray getObjects(String url, JSONObject body) {
+    private JSONArray fetchDataFromTuShare(String url, JSONObject body) {
         // 调用tushare.pro接口获取股票数据
         HttpEntity<JSONObject> entity = new HttpEntity<>(body, new HttpHeaders());
         ResponseEntity<JSONObject> postForEntity = restTemplate.postForEntity(url, entity, JSONObject.class);
@@ -162,6 +162,8 @@ public class StockServiceImpl implements StockService {
                 .getJSONArray("items");
     }
 
+    public static final String TU_SHARE_DATE_FORMAT = "yyyyMMdd";
+
     /**
      * tsCode最大数量为100
      */
@@ -170,7 +172,7 @@ public class StockServiceImpl implements StockService {
     private void addToday(String date) {
         // 如果没有传入date，则使用当前时间
         String tradeDate = Optional.ofNullable(date)
-                .orElse(DateUtil.format(new Date(), "yyyy-MM-dd"));
+                .orElse(DateUtil.format(new Date(), TU_SHARE_DATE_FORMAT));
 
         List<StockBasic> all = stockBasicRepository.findAll();
 
@@ -187,6 +189,11 @@ public class StockServiceImpl implements StockService {
                 }
                 StockBasic stockBasic = all.get(index);
                 builder.append(stockBasic.getTsCode()).append(",");
+            }
+
+            // 全部插入完毕
+            if (builder.length() == 0) {
+                break;
             }
             String substring = builder.substring(0, builder.length() - 1);
             dailyByTsCode(substring, tradeDate);
@@ -223,7 +230,7 @@ public class StockServiceImpl implements StockService {
         JSONObject jsonObject = JSONObject.parseObject(str);
         JSONObject data = jsonObject.getJSONObject("data");
         Set<String> keySet = data.keySet();
-        List<Holiday> insert = new ArrayList<>();
+        List<StockHoliday> insert = new ArrayList<>();
         for (String s : keySet) {
             JSONObject object = data.getJSONObject(s);
             Set<String> strings = object.keySet();
@@ -231,10 +238,10 @@ public class StockServiceImpl implements StockService {
                 JSONObject object1 = object.getJSONObject(string);
                 String name = object1.getString("name");
                 String dateStr = object1.getString("date");
-                Holiday holiday = new Holiday();
-                insert.add(holiday);
-                holiday.setName(name);
-                holiday.setDate(DateUtil.parse(dateStr, "yyyy-MM-dd"));
+                StockHoliday stockHoliday = new StockHoliday();
+                insert.add(stockHoliday);
+                stockHoliday.setName(name);
+                stockHoliday.setDate(DateUtil.parse(dateStr, "yyyy-MM-dd"));
             }
 
         }

@@ -2,7 +2,7 @@ package ink.fujisann.learning.stock.job.tushare;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.Week;
-import ink.fujisann.learning.stock.pojo.Holiday;
+import ink.fujisann.learning.stock.pojo.StockHoliday;
 import ink.fujisann.learning.stock.repository.HolidayRepository;
 import ink.fujisann.learning.stock.service.StockService;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
@@ -35,25 +34,24 @@ public class StockScheduler {
     /**
      * 每天15点30分执行一次
      */
-    @Transactional(rollbackFor = Exception.class)
-    @Scheduled(cron = "0 30 15 * * ?")
+    @Scheduled(cron = "0 53 15 * * ?")
     public void todayInsert() {
         // 如果周六周日不执行
-        int i = DateUtil.weekOfMonth(new Date());
-        if (Week.SATURDAY.getValue() == i || Week.SUNDAY.getValue() == i) {
+        Week week = DateUtil.dayOfWeekEnum(new Date());
+        if (Week.SATURDAY.equals(week) || Week.SUNDAY.equals(week)) {
             log.info("今天是周末，不开盘");
             return;
         }
 
         // 非开盘日不执行
-        Example<Holiday> example = Example.of(new Holiday() {{
-            setDate(new Date());
-        }});
+        StockHoliday stockHoliday = new StockHoliday();
+        stockHoliday.setDate(new Date());
+        Example<StockHoliday> example = Example.of(stockHoliday);
         if (holidayRepository.findOne(example).isPresent()) {
             log.info("今天是节假日，不开盘");
             return;
         }
-        
+
         // 当日新股, 日k入库
         stockService.todayTrade(null);
     }

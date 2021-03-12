@@ -12,16 +12,17 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "stock_basic")
-@org.hibernate.annotations.Table(appliesTo = "stock_basic", comment = "A股基础数据")
+@Table(name = "stock_score_detail")
+@org.hibernate.annotations.Table(appliesTo = "stock_score_detail", comment = "股票评分明细")
+
 @DynamicInsert
 @DynamicUpdate
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class StockBasic extends BaseInfo {
+public class StockScoreDetail extends BaseInfo {
     @Id
-    @GenericGenerator(name = "stock_id", strategy = "org.hibernate.id.UUIDGenerator")
-    @GeneratedValue(generator = "stock_id")
+    @GenericGenerator(name = "stock_score_detail_id", strategy = "org.hibernate.id.UUIDGenerator")
+    @GeneratedValue(generator = "stock_score_detail_id")
     @ApiModelProperty("主键")
     private String id;
 
@@ -29,13 +30,13 @@ public class StockBasic extends BaseInfo {
     @ApiModelProperty("股票编码")
     private String tsCode;
 
-    @Column(columnDefinition = "varchar(32) default null comment '股票名称'")
-    @ApiModelProperty("股票名称")
-    private String name;
+    @Column(columnDefinition = "varchar(255) default null comment '评分因子Id'")
+    @ApiModelProperty("评分因子Id")
+    private String criteriaId;
 
     @Column(columnDefinition = "varchar(16) default null comment '上市地点'")
     @ApiModelProperty("上市地点")
-    private String area;
+    private String individualScore;
 
     @Column(columnDefinition = "varchar(32) default null comment '所属行业'")
     @ApiModelProperty("所属行业")

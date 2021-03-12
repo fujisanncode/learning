@@ -13,12 +13,13 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
-@Table(name = "daily")
+@Table(name = "stock_daily")
+@org.hibernate.annotations.Table(appliesTo = "stock_daily", comment = "A股日k行情")
 @DynamicInsert
 @DynamicUpdate
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Daily extends BaseInfo {
+public class StockDaily extends BaseInfo {
     @Id
     @GenericGenerator(name = "daily_id", strategy = "org.hibernate.id.UUIDGenerator")
     @GeneratedValue(generator = "daily_id")

@@ -12,12 +12,13 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "holiday")
+@Table(name = "stock_holiday")
+@org.hibernate.annotations.Table(appliesTo = "stock_holiday", comment = "A股假期")
 @DynamicInsert
 @DynamicUpdate
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Holiday extends BaseInfo {
+public class StockHoliday extends BaseInfo {
     @Id
     @GenericGenerator(name = "holiday_id", strategy = "org.hibernate.id.UUIDGenerator")
     @GeneratedValue(generator = "holiday_id")
