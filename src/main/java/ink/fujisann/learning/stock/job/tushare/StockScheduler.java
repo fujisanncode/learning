@@ -34,7 +34,7 @@ public class StockScheduler {
     /**
      * 每天15点30分执行一次
      */
-    @Scheduled(cron = "0 53 15 * * ?")
+    @Scheduled(cron = "0 30 15 * * ?")
     public void todayInsert() {
         // 如果周六周日不执行
         Week week = DateUtil.dayOfWeekEnum(new Date());
