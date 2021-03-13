@@ -13,8 +13,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "stock_score_detail")
-@org.hibernate.annotations.Table(appliesTo = "stock_score_detail", comment = "股票评分明细")
-
+@org.hibernate.annotations.Table(appliesTo = "stock_score_detail", comment = "股票各项得分明细")
 @DynamicInsert
 @DynamicUpdate
 @Data
@@ -32,19 +31,14 @@ public class StockScoreDetail extends BaseInfo {
 
     @Column(columnDefinition = "varchar(255) default null comment '评分因子Id'")
     @ApiModelProperty("评分因子Id")
-    private String criteriaId;
+    private String factorId;
 
-    @Column(columnDefinition = "varchar(16) default null comment '上市地点'")
-    @ApiModelProperty("上市地点")
-    private String individualScore;
-
-    @Column(columnDefinition = "varchar(32) default null comment '所属行业'")
-    @ApiModelProperty("所属行业")
-    private String industry;
+    @Column(columnDefinition = "decimal(10, 2) default null comment '得分系数(最大1)'")
+    @ApiModelProperty("得分系数(最大1)")
+    private String scoreCoefficient;
 
     @Temporal(TemporalType.DATE)
-    @Column(columnDefinition = "date default null comment '上市日期'")
-    @ApiModelProperty("上市日期")
-    private Date listDate;
-
+    @Column(columnDefinition = "date default null comment '计算日期(计算结果用于预测下一个交易日涨跌)'")
+    @ApiModelProperty("计算日期(计算结果用于预测下一个交易日涨跌)")
+    private Date calculatorDate;
 }

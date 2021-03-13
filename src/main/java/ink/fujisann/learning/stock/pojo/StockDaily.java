@@ -14,15 +14,15 @@ import java.util.Date;
 
 @Entity
 @Table(name = "stock_daily")
-@org.hibernate.annotations.Table(appliesTo = "stock_daily", comment = "A股日k行情")
+@org.hibernate.annotations.Table(appliesTo = "stock_daily", comment = "A股日K行情")
 @DynamicInsert
 @DynamicUpdate
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class StockDaily extends BaseInfo {
     @Id
-    @GenericGenerator(name = "daily_id", strategy = "org.hibernate.id.UUIDGenerator")
-    @GeneratedValue(generator = "daily_id")
+    @GenericGenerator(name = "stock_daily_id", strategy = "org.hibernate.id.UUIDGenerator")
+    @GeneratedValue(generator = "stock_daily_id")
     @ApiModelProperty("主键")
     private String id;
 

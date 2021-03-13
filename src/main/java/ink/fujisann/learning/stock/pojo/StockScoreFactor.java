@@ -9,6 +9,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "stock_score_factor")
@@ -19,8 +20,8 @@ import javax.persistence.*;
 @EqualsAndHashCode(callSuper = true)
 public class StockScoreFactor extends BaseInfo {
     @Id
-    @GenericGenerator(name = "stock_id", strategy = "org.hibernate.id.UUIDGenerator")
-    @GeneratedValue(generator = "stock_id")
+    @GenericGenerator(name = "stock_score_factor_id", strategy = "org.hibernate.id.UUIDGenerator")
+    @GeneratedValue(generator = "stock_score_factor_id")
     @ApiModelProperty("主键")
     private String id;
 
@@ -28,9 +29,9 @@ public class StockScoreFactor extends BaseInfo {
     @ApiModelProperty("评分因子名称")
     private String factorName;
 
-    @Column(columnDefinition = "varchar(32) default null comment '评分因子分数'")
-    @ApiModelProperty("评分因子比重")
-    private String factorWeight;
+    @Column(columnDefinition = "decimal(10, 2) default null comment '评分因子比重(评分因子最大分值)'")
+    @ApiModelProperty("评分因子比重(评分因子最大分值)")
+    private BigDecimal factorWeight;
 
     @Column(columnDefinition = "text default null comment '评分因子描述'")
     @ApiModelProperty("评分因子描述")

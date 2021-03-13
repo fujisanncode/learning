@@ -3,7 +3,7 @@ package ink.fujisann.learning.stock.job.tushare;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.Week;
 import ink.fujisann.learning.stock.pojo.StockHoliday;
-import ink.fujisann.learning.stock.repository.HolidayRepository;
+import ink.fujisann.learning.stock.repository.StockHolidayRepository;
 import ink.fujisann.learning.stock.service.StockService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +24,11 @@ public class StockScheduler {
         this.stockService = stockService;
     }
 
-    private HolidayRepository holidayRepository;
+    private StockHolidayRepository stockHolidayRepository;
 
     @Autowired
-    public void setHolidayRepository(HolidayRepository holidayRepository) {
-        this.holidayRepository = holidayRepository;
+    public void setHolidayRepository(StockHolidayRepository stockHolidayRepository) {
+        this.stockHolidayRepository = stockHolidayRepository;
     }
 
     /**
@@ -47,7 +47,7 @@ public class StockScheduler {
         StockHoliday stockHoliday = new StockHoliday();
         stockHoliday.setDate(new Date());
         Example<StockHoliday> example = Example.of(stockHoliday);
-        if (holidayRepository.findOne(example).isPresent()) {
+        if (stockHolidayRepository.findOne(example).isPresent()) {
             log.info("今天是节假日，不开盘");
             return;
         }

@@ -20,8 +20,8 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 public class StockHoliday extends BaseInfo {
     @Id
-    @GenericGenerator(name = "holiday_id", strategy = "org.hibernate.id.UUIDGenerator")
-    @GeneratedValue(generator = "holiday_id")
+    @GenericGenerator(name = "stock_holiday_id", strategy = "org.hibernate.id.UUIDGenerator")
+    @GeneratedValue(generator = "stock_holiday_id")
     @ApiModelProperty("主键")
     private String id;
 

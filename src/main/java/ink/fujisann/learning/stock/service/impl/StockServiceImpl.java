@@ -7,8 +7,8 @@ import ink.fujisann.learning.base.utils.common.ReadUtil;
 import ink.fujisann.learning.stock.pojo.StockDaily;
 import ink.fujisann.learning.stock.pojo.StockHoliday;
 import ink.fujisann.learning.stock.pojo.StockBasic;
-import ink.fujisann.learning.stock.repository.DailyRepository;
-import ink.fujisann.learning.stock.repository.HolidayRepository;
+import ink.fujisann.learning.stock.repository.StockDailyRepository;
+import ink.fujisann.learning.stock.repository.StockHolidayRepository;
 import ink.fujisann.learning.stock.repository.StockBasicRepository;
 import ink.fujisann.learning.stock.service.StockService;
 import lombok.extern.slf4j.Slf4j;
@@ -80,11 +80,11 @@ public class StockServiceImpl implements StockService {
         return insertBatch;
     }
 
-    private DailyRepository dailyRepository;
+    private StockDailyRepository stockDailyRepository;
 
     @Autowired
-    public void setDailyRepository(DailyRepository dailyRepository) {
-        this.dailyRepository = dailyRepository;
+    public void setDailyRepository(StockDailyRepository stockDailyRepository) {
+        this.stockDailyRepository = stockDailyRepository;
     }
 
     @Override
@@ -146,7 +146,7 @@ public class StockServiceImpl implements StockService {
         });
 
         // 批量寫數據
-        dailyRepository.saveAll(insertBatch);
+        stockDailyRepository.saveAll(insertBatch);
         log.info("{} 数据插入完毕 {} 行", tsCode, insertBatch.size());
     }
 
@@ -217,11 +217,11 @@ public class StockServiceImpl implements StockService {
         stockBasicRepository.saveAll(list);
     }
 
-    private HolidayRepository holidayRepository;
+    private StockHolidayRepository stockHolidayRepository;
 
     @Autowired
-    public void setHolidayRepository(HolidayRepository holidayRepository) {
-        this.holidayRepository = holidayRepository;
+    public void setHolidayRepository(StockHolidayRepository stockHolidayRepository) {
+        this.stockHolidayRepository = stockHolidayRepository;
     }
 
     @Override
@@ -245,7 +245,7 @@ public class StockServiceImpl implements StockService {
             }
 
         }
-        holidayRepository.saveAll(insert);
+        stockHolidayRepository.saveAll(insert);
     }
 
 

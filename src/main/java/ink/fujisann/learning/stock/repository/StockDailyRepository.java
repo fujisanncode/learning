@@ -1,9 +1,9 @@
 package ink.fujisann.learning.stock.repository;
 
-import ink.fujisann.learning.stock.pojo.StockHoliday;
+import ink.fujisann.learning.stock.pojo.StockDaily;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface HolidayRepository extends JpaRepository<StockHoliday, String> {
+public interface StockDailyRepository extends JpaRepository<StockDaily, String> {
 }
