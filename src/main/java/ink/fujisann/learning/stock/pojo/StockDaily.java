@@ -50,8 +50,8 @@ public class StockDaily extends BaseInfo {
     @ApiModelProperty("昨日收盘价")
     private BigDecimal preClose;
 
-    @Column(name = "\"change\"", columnDefinition = "decimal(10,2) default null comment '昨日收盘价'")
-    @ApiModelProperty("昨日收盘价")
+    @Column(name = "\"change\"", columnDefinition = "decimal(10,2) default null comment '涨跌额'")
+    @ApiModelProperty("涨跌额")
     private BigDecimal change;
 
     @Column(columnDefinition = "decimal(10,2) default null comment '涨跌额(未复权)'")

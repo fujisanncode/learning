@@ -1,5 +1,7 @@
 package ink.fujisann.learning.stock.controller;
 
+import ink.fujisann.learning.stock.resp.DayIncomeResp;
+import ink.fujisann.learning.stock.service.MyIncomeService;
 import ink.fujisann.learning.stock.service.StockService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.lang.reflect.Method;
+import java.util.List;
 
 @RequestMapping("/stock")
 @RestController
@@ -51,5 +54,18 @@ public class StockController {
     @GetMapping("/addHoliday")
     public void addHoliday() {
         stockService.addHoliday();
+    }
+
+    private MyIncomeService myIncomeService;
+
+    @Autowired
+    public void setMyIncomeService(MyIncomeService myIncomeService) {
+        this.myIncomeService = myIncomeService;
+    }
+
+    @ApiOperation("我的每日收入")
+    @GetMapping("/myIncome")
+    public List<DayIncomeResp> myIncome() {
+        return myIncomeService.myIncome();
     }
 }
